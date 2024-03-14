@@ -1,0 +1,67 @@
+.syllabus__header{
+    font-weight: normal;
+    color: #47505f;
+    margin: 8px 0;
+    font-size: x-large;
+    margin-left: 20px;
+}
+
+.header__title{
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__div{
+    display: flex;
+}
+
+.active{
+    background: #47505f;
+    height: 19px;
+    color: white;
+    border-radius: 10px;
+    width: 54px;
+    text-align: center;
+}
+
+.header__icon{
+    margin-right: 20px;
+    width: 50px;
+}
+
+.syllabus__title{
+    margin-left: 20px;
+    color: #47505f;
+}
+.title__info{
+    color: #47505f;
+    margin: 8px 20px;
+    font-weight: bold;
+    font-size: large;
+}
+
+.info__solid{
+    border-bottom: 1px solid #47505f;
+}
+
+.syllabus__time{
+    display: flex;
+}
+
+.date__span{
+    color: #47505f;
+    margin: 14px 0px;
+}
+
+.syllabus__date{
+    color: #47505f;
+    font-weight: bold;
+    margin: 10px 0px 10px 20px;
+    font-size: 20px;
+}
+
+.info__detail{
+    margin-left: 20px;
+    color: #47505f;
+}
+

@@ -1,0 +1,111 @@
+.import__container{
+    width: 450px;
+    height: 320px;
+    background-color: #FFF;
+    border-radius: 11px 11px 10px 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.setting__content{
+    background-color: #47505f;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.import__title{
+    color: #FFF;
+    text-align: center;
+    padding: 6px 0px;
+    font-size: 16px;
+    
+}
+.import__setting,
+.import__setting{
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0px;
+    color: black;
+    border-bottom: 1px solid #47505f;
+}
+
+.setting__title{
+    color: black;
+}
+
+.setting__detail{
+    margin-bottom: 20px;
+}
+
+.action__info{
+    margin-bottom: 14px;
+}
+
+.btn__action{
+    border: none;
+    width: 60px;
+    height: 24px;
+    border-radius: 10px;
+    background-color: #47505f;
+    color: #FFF;
+}
+
+select{
+    border: none;
+    border-radius: 5px;
+    width: 102px;
+    height: 21px;
+}
+
+.link{
+    color: blue;
+}
+
+.duplicate__control{
+    display: flex;
+    color: black;
+    justify-content: space-around;
+    border-bottom: 1px solid #47505f;
+}
+
+.scan__title{
+    margin-bottom: 5px;
+}
+
+.code{
+    margin-bottom: 5px;
+}
+
+.label__title{
+    margin-left: 5px;
+}
+
+.input__radio{
+    margin-left: 8px;
+}
+
+.title__header{
+    color: black;
+}
+
+.btn__active{
+    display: flex;
+    justify-content: end;
+    margin: 5px 8px;
+}
+
+.btn__cancel{
+    color: red;
+    margin: 5px 8px;
+    font-weight: bold;
+}
+
+.btn__import{
+    background-color: #47505f;
+    color: #FFF;
+    border-radius: 6px;
+    width: 60px;
+    height: 27px;
+}
+

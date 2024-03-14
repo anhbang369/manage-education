@@ -1,0 +1,126 @@
+import { useState } from 'react';
+import React from 'react';
+import "./view.css";
+import Data from './Data';
+import ReactPaginate from 'react-paginate';
+import Popup from '../popup/Popup';
+import Import from '../import/Import';
+
+const View = () => {
+
+    const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+
+    // Số lượng dòng dữ liệu trên mỗi trang
+    const itemsPerPage = 9;
+
+    // Tính tổng số trang
+    const totalPages = Math.ceil(Data.length / itemsPerPage);
+
+    // Lấy dữ liệu cho trang hiện tại
+    const currentData = Data.slice(
+        currentPage * itemsPerPage,
+        (currentPage + 1) * itemsPerPage
+    );
+
+    // Xử lý khi chuyển trang
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+
+    //import
+    const [importOpen, setImportOpen] = useState(false);
+
+
+
+    return (
+        <div className='syllabus__container'>
+            <h1 className="syllabus__head">S y l l a b u s </h1>
+            <div className="syllabus__underline"></div>
+            <div className="syllabus__func">
+                <div className="syllabus__search">
+                    <div className="input-with-icon">
+                        <i class="bi bi-search"></i>
+                        <input type="text" className="search__by" placeholder='Search by ...' />
+                    </div>
+                    <div className="input-with-icon">
+                        <i class="bi bi-calendar"></i>
+                        <input type="text" className="search__date" placeholder='Created date' />
+                    </div>
+                </div>
+
+                <div className="syllabus__import">
+                    <button className="import" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
+                    <button className="syllabus__add"><i class="bi bi-plus-circle"></i> Add syllabus</button>
+                </div>
+            </div>
+            <div className="syllabus__enter">
+                <p className="enter__search">foundation <i class="bi bi-x-lg"></i></p>
+                <p className="enter__search">HaNTT <i class="bi bi-x-lg"></i></p>
+            </div>
+
+            <div className="syllabus__table">
+                <table>
+                    <thead>
+                        <tr className='table__header'>
+                            <th>Syllabus<i class="bi bi-filter-left"></i></th>
+                            <th>Code<i class="bi bi-filter-left"></i></th>
+                            <th>Created on<i class="bi bi-filter-left"></i></th>
+                            <th>Created by<i class="bi bi-filter-left"></i></th>
+                            <th>Duration<i class="bi bi-filter-left"></i></th>
+                            <th>Output standard</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {currentData.map((item) => (
+                            <tr key={item.id}>
+                                <td className='table__syllabus'>{item.sullabus}</td>
+                                <td className='table__syllabus'>{item.code}</td>
+                                <td className='table__syllabus'>{item.created}</td>
+                                <td className='table__syllabus'>{item.createBy}</td>
+                                <td className='table__syllabus'>{item.duration}</td>
+                                <td className='table__syllabus'>
+                                    <div className="standard__info">
+                                        {/* Sử dụng map để lặp qua các output standard */}
+                                        {Object.values(item.output).map((output, index) => (
+                                            <p key={index} className="syllabus__standard">{output}</p>
+                                        ))}
+                                    </div>
+                                </td>
+                                <td className='table__syllabus'><i className="bi bi-three-dots"></i></td>
+                            </tr>
+                        ))}
+                    </tbody>
+
+                </table>
+            </div>
+            <ReactPaginate
+                nextLabel=">"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={3}
+                marginPagesDisplayed={2}
+                pageCount={totalPages}
+                previousLabel="<"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination"
+                activeClassName="active"
+                renderOnZeroPageCount={null}
+            />
+
+            <Popup isOpen={false} onClose={false} selectedItem={false} />
+
+            <Import property={importOpen} />
+        </div>
+
+    )
+}
+
+export default View

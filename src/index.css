@@ -1,13 +1,95 @@
-body {
+*{
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html, body{
+  height: 100vh;
+}
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #668cb7;
+}
+
+.main{
+  display: flex;
+  height: 83vh;
+}
+
+.container{
+  flex-grow: 1;
+}
+
+.sidebar{
+  width: 220px;
+  flex-shrink: 0;
+  background-color: #edf2f7;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none; 
+}
+
+.sidebar-item{
+  padding: .75em 1em;
+  display: block;
+  transition: background-color .15s;
+  border-radius: 5px;
+}
+
+.sidebar-item:hover{
+  background-color: #f1f1f1;
+}
+
+.sidebar-title{
+  display: flex;
+  font-size: 1.2em;
+  justify-content: space-between;
+}
+
+.sidebar-title span i{
+  display: inline-block;
+  width: 1.5em;
+}
+
+.sidebar-title .toggle-btn{
+  cursor: pointer;
+  transition: transform .3s;
+}
+
+.sidebar-item.open > .sidebar-title .toggle-btn{
+  transform: rotate(180deg);
+}
+
+.sidebar-content{
+  padding: .25em;
+  height: 0;
+  overflow: hidden;
+}
+
+.sidebar-item.open > .sidebar-content{
+  height: auto;
+}
+
+.sidebar-item.plain{
+  color: #668cb7;
+  text-decoration: none;
+}
+
+.sidebar-item.plain:hover{
+  text-decoration: underline;
+
+}
+
+.sidebar-item.plain i{
+  display: inline-block;
+  width: 1.7em;
 }
