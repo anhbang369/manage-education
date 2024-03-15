@@ -1,0 +1,151 @@
+.tabs__outline{
+    border: none;
+    color: #FFF;
+    background-color: #6d7684;
+    margin-top: 15px;
+    border-radius: 16px 16px 0px 0px;
+    width: 180px;
+    height: 24px;
+}
+.tabs{
+    border-bottom: none;
+    margin-right: 20px;
+}
+
+.outline__container{
+    display: flex;
+    justify-content: space-around;
+    height: 300px;
+}
+
+.outline__content{
+    height: 56vh;
+    overflow-y: auto;
+    width: 66%;
+    border: 1px solid black;
+    border-radius: 0px 0px 11px 11px;
+}
+
+.outline__chart{
+    width: 25%;
+    height: 70%;
+    border: 1px solid black;
+    margin-right: 20px;
+    border-radius: 11px 11px 11px 11px;
+}
+
+.outline__location{
+    background-color: #6d7684;
+    color: #FFF;
+    border-radius: 10px 10px 0px 0px;
+    text-align: center;
+    padding: 4px;
+}
+
+
+
+
+
+.accordion{
+    width: 100%;
+}
+
+.item{
+    background: white;
+    margin-bottom: 1px;
+}
+
+.title{
+    color: yellow;
+}
+
+.content{
+    color: gray;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0,1,0,1);
+}
+
+.content.show{
+    height: auto;
+    max-height: 999px;
+    transition: all 0.5s cubic-bezier(1,0,1,0);
+
+}
+
+.outline__days{
+    color: #FFF;
+    background-color: #6d7684;
+    padding: 6px;
+    width: 100%;
+    padding-left: 20px;
+}
+
+.unit{
+    justify-content: space-between;
+    margin: 6px 20px;
+    color: black;
+}
+
+.unit__number{
+    font-weight: bold;
+}
+
+.unit__com{
+    display: flex;
+    margin-right: 10px;
+}
+
+.unit__title{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.title__div{
+    margin-left: 50px;
+}
+
+.unit__details{
+    color: black;
+    display: flex;
+    background-color: #f1f1f1;
+    padding: 5px;
+    margin-left: 55px;
+    margin-right: 20px;
+    border-radius: 10px;
+    justify-content: space-around;
+    margin-bottom: 5px;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0,1,0,1);
+    transform: scaleY(0);
+    transform-origin: top;
+}
+
+.unit__details.show{
+    height: auto;
+    transform: scaleY(1);
+    transition: all 0.3s cubic-bezier(1,0,1,0);
+
+}
+
+.unit__component{
+    display: flex;
+    justify-content: space-between;
+}
+
+.details__title{
+    color: black;
+}
+
+.details__mins{
+    color: black;
+}
+
+.details__onl{
+    border: 1px solid red;
+    border-radius: 8px;
+    padding: 1px;
+    width: 54px;
+    text-align: center;
+}

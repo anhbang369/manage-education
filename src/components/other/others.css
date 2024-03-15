@@ -7,14 +7,18 @@
     border: none;
     color: #FFF;
     background-color: #6d7684;
-    margin-top: 15px;
+    margin-top: 6px;
     border-radius: 16px 16px 0px 0px;
     width: 180px;
     height: 24px;
 }
 
-.btn__tabs:first-child{
+.btn__tabs:last-child{
     background-color: #47505f;
+}
+
+.btn__tabs:first-child{
+    background-color: #6d7684;
 }
 
 .general__content{
@@ -76,9 +80,16 @@
 
 .other__trainning{
     border: 1px solid #47505f;
-    margin-top: 20px;
+    margin-top: 10px;
     width: 98%;
     margin-left: 20px;
+    height: 40%;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar{
+    display: none;
 }
 
 .tranning_component{

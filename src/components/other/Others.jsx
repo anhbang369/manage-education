@@ -14,12 +14,6 @@ export const data = [
 const Others = () => {
     return (
         <>
-            <div className='tabs'>
-                <button className="btn__tabs">General</button>
-                <button className="btn__tabs">Outline</button>
-                <button className="btn__tabs">Others</button>
-            </div>
-
             <div className="general__content">
                 <div className="other__scheme">
                     <h4 className="other__location">Time Location</h4>
@@ -27,7 +21,7 @@ const Others = () => {
                         chartType="PieChart"
                         data={data}
                         width={"100%"}
-                        height={"180px"}
+                        height={"120px"}
                     />
                 </div>
                 <div className="other__scheme">

@@ -1,8 +1,8 @@
 .syllabus__header{
     font-weight: normal;
     color: #47505f;
-    margin: 8px 0;
-    font-size: x-large;
+    margin: 1px 0;
+    font-size: 15px;
     margin-left: 20px;
 }
 
@@ -33,12 +33,13 @@
 .syllabus__title{
     margin-left: 20px;
     color: #47505f;
+    font-size: 18px;
 }
 .title__info{
     color: #47505f;
-    margin: 8px 20px;
+    margin: 2px 20px;
     font-weight: bold;
-    font-size: large;
+    font-size: small;
 }
 
 .info__solid{
@@ -51,14 +52,14 @@
 
 .date__span{
     color: #47505f;
-    margin: 14px 0px;
+    margin: 6px 0px 0px 6px;
 }
 
 .syllabus__date{
     color: #47505f;
     font-weight: bold;
-    margin: 10px 0px 10px 20px;
-    font-size: 20px;
+    margin: 5px 0px 10px 20px;
+    font-size: 16px;
 }
 
 .info__detail{
@@ -66,3 +67,6 @@
     color: #47505f;
 }
 
+.tabs__outline.active {
+    background-color: #2e3848;
+}

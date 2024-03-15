@@ -4,12 +4,6 @@ import "./general.css";
 const General = () => {
     return (
         <>
-            <div className='tabs'>
-                <button className="btn__tabs">General</button>
-                <button className="btn__tabs">Outline</button>
-                <button className="btn__tabs">Others</button>
-            </div>
-
             <div className="general__content">
                 <div className="general__technical">
                     <div className='level__content'>
