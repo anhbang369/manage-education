@@ -1,0 +1,120 @@
+.tabs{
+    border-bottom: 1px solid #f5f5f5;
+    margin-right: 20px;
+}
+
+.btn__tabs{
+    border: none;
+    color: #FFF;
+    background-color: #6d7684;
+    margin-top: 6px;
+    border-radius: 16px 16px 0px 0px;
+    width: 180px;
+    height: 24px;
+}
+
+.btn__tabs:last-child{
+    background-color: #47505f;
+}
+
+.btn__tabs:first-child{
+    background-color: #6d7684;
+}
+
+.general__content{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5px;
+    box-shadow: #47505f;
+    color: black;
+}
+
+.other__scheme{
+    border-radius: 8px ;
+    border: none 1px 1px 1px solid;
+    box-shadow: 0px 1px 1px 1px #888888;
+    width: 48%;
+
+}
+
+.other__scheme:first-child{
+    margin-left: 20px;
+}
+
+.other__component-create{
+    display: flex;
+    justify-content: start;
+    border-bottom: 1px solid black;
+    margin: 0px 10px;
+}
+
+.quiz__q{
+    padding: 5px 0px;
+}
+.quiz__input{
+    width: 20%;
+    border-radius: 8px;
+    margin: 5px 0px;
+}
+
+.other__component-create{
+    display: flex;
+    padding: 4px;
+}
+
+.p__criterial{
+    margin: 5px 0px;
+}
+
+.criterial__create{
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.theory__input{
+    width: 20%;
+    border-radius: 8px;
+}
+.other__location{
+    background-color: #47505f;
+    text-align: center;
+    padding: 4px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.other__trainning{
+    border: 1px solid #47505f;
+    margin-top: 10px;
+    width: 98%;
+    margin-left: 20px;
+    height: 23%;
+    overflow-y: auto;
+    border-radius: 8px;
+    color: black;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.train__title{
+    background-color: #47505f;
+    padding: 4px;
+    color: #FFF;
+    border-radius: 6px 6px 0px 0px;
+}
+
+.save__general{
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.general__pre{
+    background-color: #47505f;
+    border: none;
+    color: #FFF;
+    border-radius: 8px;
+    padding: 8px;
+    margin-left: 20px;
+}
