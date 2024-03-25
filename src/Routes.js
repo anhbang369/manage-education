@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SyllabusView from "./Page/SyllabusView";
 import SyllabusCreate from "./Page/SyllabusCreate";
 import SyllabusList from "./Page/SyllabusList";
+import Login from "./components/googleSignIn/Login";
 
 export const Routes = () => {
     return (
@@ -14,7 +15,7 @@ export const Routes = () => {
                     <SyllabusView></SyllabusView>
                 </Route>
                 <Route>
-                    <SyllabusCreate></SyllabusCreate>
+                    <Login></Login>
                 </Route>
             </Switch>
         </Router>
