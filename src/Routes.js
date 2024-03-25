@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import SyllabusView from "./Page/SyllabusView";
 import SyllabusCreate from "./Page/SyllabusCreate";
 import SyllabusList from "./Page/SyllabusList";
@@ -8,15 +8,9 @@ export const Routes = () => {
     return (
         <Router>
             <Switch>
-                <Route path="/" exact>
-                    <SyllabusList></SyllabusList>
-                </Route>
-                <Route path="/syllabus">
-                    <SyllabusView></SyllabusView>
-                </Route>
-                <Route>
-                    <Login></Login>
-                </Route>
+                <Route path="/login" component={Login} />
+                <Route path="/syllabus" component={() => <SyllabusList />} />
+                <Redirect from="/" to="/login" />
             </Switch>
         </Router>
     )

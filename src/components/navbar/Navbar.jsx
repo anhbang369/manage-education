@@ -1,8 +1,17 @@
 import React from 'react';
 import "./navbar.css";
-import Image from "../assets/cat.jpg"
+import Image from "../assets/cat.jpg";
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Navbar = () => {
+    const history = useHistory();
+
+    const handleLogout = () => {
+        localStorage.removeItem('email');
+        history.push("/login");
+    };
+
     return (
         <nav className="nav">
             <div className='nav__container'>
@@ -19,7 +28,7 @@ const Navbar = () => {
                                 <img src={Image} alt="" className="nav__img" />
                                 <div className="nav_content">
                                     <h4 className="nav__name">Anh Bang</h4><br />
-                                    <a href="//#endregion" className="nav__func">Logout</a>
+                                    <a href="#endregion" className="nav__func" onClick={handleLogout}>Logout</a>
                                 </div>
                             </div>
                         </li>

@@ -1,0 +1,97 @@
+.login__container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: #30344c;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+.login__content{
+    width: 65%;
+    height: 75%;
+    background-color: #FFF;
+    border-radius: 28px;
+    display: flex;
+}
+
+.login__welcome{
+    width: 50%;
+    height: 80%;
+    margin-top: 7%;
+}
+
+.image__welcome{
+    width: 100%;
+    height: 100%;
+}
+
+.login__title{
+    text-align: center;
+    font-weight: bold;
+    font-size: 60px;
+}
+
+.login__sologan{
+    font-weight: normal;
+    text-align: center;
+    padding: 8px;
+}
+
+.login__input{
+    border-radius: 8px;
+    padding: 10px;
+    width: 60%;
+    margin: 14px 20%;
+}
+
+.login__btn{
+    border-radius: 8px;
+    padding: 10px;
+    width: 60%;
+    margin: 20px 20%;
+    border: none;
+    background-color: #000;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.login__choice{
+    font-weight: normal;
+    color: #000;
+    text-align: center;
+}
+
+.login__btn-choice{
+    border-radius: 8px;
+    padding: 10px;
+    width: 60%;
+    margin: 20px 20%;
+    border: none;
+}
+
+.login__remember{
+    width: 80%;
+    display: flex;
+    font-weight: normal;
+    justify-content: space-evenly;
+    margin-left: 10%;
+}
+
+.login__remember p{
+    font-weight: normal;
+}
+
+.login__signup{
+    width: 80%;
+    display: flex;
+    justify-content: start;
+    margin-left: 20%;
+    margin-bottom: 20px;
+
+}
+
+.login__signup p{
+    font-weight: normal;
+}
