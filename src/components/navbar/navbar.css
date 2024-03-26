@@ -1,7 +1,8 @@
 body {
-    overflow: hidden; /* Ẩn thanh cuộn của toàn bộ trang */
+    overflow: auto; /* Ẩn thanh cuộn của toàn bộ trang */
 }
 .nav__container{
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;

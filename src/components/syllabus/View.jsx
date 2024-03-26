@@ -5,29 +5,26 @@ import Data from './Data';
 import ReactPaginate from 'react-paginate';
 import Popup from '../popup/Popup';
 import Import from '../import/Import';
+import ActionMenu from '../action/ActionMenu';
+
 
 const View = () => {
 
-    const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
+    const [currentPage, setCurrentPage] = useState(0);
 
-    // Số lượng dòng dữ liệu trên mỗi trang
     const itemsPerPage = 9;
 
-    // Tính tổng số trang
     const totalPages = Math.ceil(Data.length / itemsPerPage);
 
-    // Lấy dữ liệu cho trang hiện tại
     const currentData = Data.slice(
         currentPage * itemsPerPage,
         (currentPage + 1) * itemsPerPage
     );
 
-    // Xử lý khi chuyển trang
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
     };
 
-    //import
     const [importOpen, setImportOpen] = useState(false);
 
 
@@ -88,7 +85,9 @@ const View = () => {
                                         ))}
                                     </div>
                                 </td>
-                                <td className='table__syllabus'><i className="bi bi-three-dots"></i></td>
+                                <td className='table__syllabus'>
+                                    <ActionMenu />
+                                </td>
                             </tr>
                         ))}
                     </tbody>

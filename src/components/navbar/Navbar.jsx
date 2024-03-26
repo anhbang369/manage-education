@@ -13,7 +13,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="nav">
+        <nav className="nav__header">
             <div className='nav__container'>
                 <div>
                     <ul className='nav__list'>

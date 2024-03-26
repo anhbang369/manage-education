@@ -10,6 +10,7 @@ export const Routes = () => {
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/syllabus" component={() => <SyllabusList />} />
+                <Route path="/view" component={() => <SyllabusView />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>
