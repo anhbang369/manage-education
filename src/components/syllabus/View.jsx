@@ -11,7 +11,7 @@ const View = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
 
-    const itemsPerPage = 9;
+    const itemsPerPage = 10;
 
     const totalPages = Math.ceil(Data.length / itemsPerPage);
 
@@ -30,7 +30,7 @@ const View = () => {
 
     return (
         <div className='syllabus__container'>
-            <h1 className="syllabus__head">S y l l a b u s </h1>
+            <h4 className="syllabus__head">S y l l a b u s </h4>
             <div className="syllabus__underline"></div>
             <div className="syllabus__func">
                 <div className="syllabus__search">
