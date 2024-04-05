@@ -3,7 +3,6 @@ import React from 'react';
 import "./view.css";
 import Data from './Data';
 import ReactPaginate from 'react-paginate';
-import Popup from '../popup/Popup';
 import Import from '../import/Import';
 import ActionMenu from '../action/ActionMenu';
 
@@ -79,14 +78,13 @@ const View = () => {
                                 <td className='table__syllabus'>{item.duration}</td>
                                 <td className='table__syllabus'>
                                     <div className="standard__info">
-                                        {/* Sử dụng map để lặp qua các output standard */}
                                         {Object.values(item.output).map((output, index) => (
                                             <p key={index} className="syllabus__standard">{output}</p>
                                         ))}
                                     </div>
                                 </td>
                                 <td className='table__syllabus'>
-                                    <ActionMenu />
+                                    <ActionMenu></ActionMenu>
                                 </td>
                             </tr>
                         ))}
@@ -113,8 +111,6 @@ const View = () => {
                 activeClassName="active"
                 renderOnZeroPageCount={null}
             />
-
-            <Popup isOpen={false} onClose={false} selectedItem={false} />
 
             <Import property={importOpen} />
         </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./actionMenu.css";
 
 const ActionMenu = () => {
     return (
@@ -14,13 +15,14 @@ const ActionMenu = () => {
                             id={`dropdown-button-drop-${direction}`}
                             drop={direction}
                             variant="secondary"
-                            title={` Drop ${direction} `}
+                            title={<i className="bi bi-three-dots"></i>}
+                            toggle={false}
                         >
-                            <Dropdown.Item eventKey="1">Action</Dropdown.Item>
-                            <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-                            <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
+                            <Dropdown.Item eventKey="1"><i className="bi bi-plus-circle"></i> Add training program</Dropdown.Item>
+                            <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit syllabus</Dropdown.Item>
+                            <Dropdown.Item eventKey="3"><i className="bi bi-copy"></i> Duplicate</Dropdown.Item>
                             <Dropdown.Divider />
-                            <Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+                            <Dropdown.Item eventKey="4"><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
                         </DropdownButton>
                     ),
                 )}
