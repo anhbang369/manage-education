@@ -61,7 +61,7 @@ const GeneralCreate = () => {
                     </div>
                 </div>
                 <div className='create__time'>
-                    <h4 className="time__header">Time allocation</h4>
+                    <h6 className="time__header">Time allocation</h6>
                     <div className="time__container">
                         <div className="time_div">
                             <p className="time__p">Assignmant/Lab</p>
@@ -81,10 +81,13 @@ const GeneralCreate = () => {
                 </div>
             </div>
 
-            <div className="save__general">
-                <a href="#" className="link__cancal">Cancal</a>
-                <button className="general__draft">Save as draft</button>
-                <button className="general__next">Next</button>
+            <div className="row">
+                <div className="col-md-9"></div>
+                <div className="col-md-3 row">
+                    <div className="col-md-4"><button className="general__cancel"><a href="#" className="link__cancal">Cancal</a></button></div>
+                    <div className="col-md-6"><button className="general__draft">Save as draft</button></div>
+                    <div className="col-md-2"><button className="general__next">Next</button></div>
+                </div>
             </div>
         </>
     )

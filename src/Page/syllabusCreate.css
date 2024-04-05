@@ -1,7 +1,7 @@
 .syllabus__header{
     display: flex;
     color: black;
-    margin-left: 0px;
+    margin: 0px;
 }
 
 .header__title{
@@ -9,6 +9,7 @@
     margin-top: 16px;
     margin-right: 56px;
     margin-left: 20px;
+    margin-bottom: 0px;
 }
 
 .syllabus__header{
@@ -29,8 +30,8 @@
 
 .option__input{
     border-radius: 8px;
-    padding: 4px;
     margin-left: 10px;
+    height: 65%;
 }
 
 .option__title{
@@ -42,13 +43,23 @@
 
 .option__code{
     padding: 4px;
+    font-weight: normal;
 }
 
 .option__version{
     padding: 4px;
+    font-weight: normal;
 }
 
 .css-1aznpnh-MuiSlider-root{
     height: 17px !important;
     color: #47505f !important;
+}
+
+.css-1aznpnh-MuiSlider-root{
+    padding: 6px !important;
+}
+
+.tabs__outline{
+    margin-top: 0px;
 }

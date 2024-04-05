@@ -67,7 +67,6 @@
 
 .level__input-create{
     margin-left: 6px;
-    padding: 2px;
     border-radius: 8px;
     width: 53px;
 }
@@ -96,7 +95,7 @@
 
 .create__syllabus-input{
     width: 74%;
-    height: 336px;
+    height: 100%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -143,6 +142,14 @@
     color: black;
 }
 
+.time__p{
+    font-weight: normal;
+}
+
+.time__per{
+    font-weight: normal;
+}
+
 .time_div{
     margin: 10px 20px;
 }
@@ -166,11 +173,6 @@
     border-radius: 8px 8px 0px 0px;
 }
 
-.save__general{
-    display: flex;
-    justify-content: end;
-}
-
 .link__cancal{
     color: red;
     font-weight: bold;
@@ -183,7 +185,14 @@
     color: #FFF;
     border-radius: 8px;
     padding: 8px;
-    margin: 0px 10px;
+}
+
+.general__cancel{
+    background-color: transparent;
+    border: none;
+    color: #FFF;
+    border-radius: 8px;
+    padding: 8px;
 }
 
 .general__next{
@@ -192,5 +201,4 @@
     color: #FFF;
     border-radius: 8px;
     padding: 8px;
-    margin-right: 20px;
 }

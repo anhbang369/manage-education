@@ -57,7 +57,7 @@ const SyllabusCreate = () => {
                 <Sidebar></Sidebar>
                 <div className="container">
                     <div className='syllabus__header'>
-                        <h4 className='header__title'>S y l l a b u s</h4>
+                        <h5 className='header__title'>S y l l a b u s</h5>
                         <Box sx={{ width: 300 }}>
                             <Slider
                                 aria-label="Custom marks"
@@ -71,7 +71,7 @@ const SyllabusCreate = () => {
                     </div>
                     <div className='syllabus__option'>
                         <div className='option_div'>
-                            <h4 className='option__title'>Syllabus Name*</h4>
+                            <h6 className='option__title'>Syllabus Name*</h6>
                             <input type='text' className='option__input' />
                         </div>
                         <p className='option__code'><b>Code:</b>  NLP</p>
