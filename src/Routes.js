@@ -3,6 +3,7 @@ import SyllabusView from "./Page/SyllabusView";
 import SyllabusCreate from "./Page/SyllabusCreate";
 import SyllabusList from "./Page/SyllabusList";
 import Login from "./components/googleSignIn/Login";
+import TrainingProgramList from "./Page/TrainingProgramList";
 
 export const Routes = () => {
     return (
@@ -12,6 +13,7 @@ export const Routes = () => {
                 <Route path="/syllabus" component={() => <SyllabusList />} />
                 <Route path="/view" component={() => <SyllabusView />} />
                 <Route path="/lp" component={() => <SyllabusCreate />} />
+                <Route path="/training" component={() => <TrainingProgramList />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>
