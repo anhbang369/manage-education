@@ -18,7 +18,7 @@ const OthersCreate = () => {
         <>
             <div className="general__content">
                 <div className="other__scheme">
-                    <h4 className="other__location">Time Location</h4>
+                    <h6 className="other__location">Time Location</h6>
                     <Chart
                         chartType="PieChart"
                         data={data}
@@ -27,7 +27,7 @@ const OthersCreate = () => {
                     />
                 </div>
                 <div className="other__scheme">
-                    <h4 className="other__location">Assessment scheme</h4>
+                    <h6 className="other__location">Assessment scheme</h6>
                     <div className="other__component-create">
                         <div className="quiz__create">
                             <p className='quiz__p'>Quiz*</p>
@@ -58,7 +58,7 @@ const OthersCreate = () => {
             </div>
 
             <div className="other__trainning">
-                <h4 className="train__title">Trainning delivery priciple</h4>
+                <h6 className="train__title">Trainning delivery priciple</h6>
                 <CKEditor
                     editor={ClassicEditor}
                     data="<p>Hello from CKEditor&nbsp;5!</p>"
@@ -78,12 +78,13 @@ const OthersCreate = () => {
                 />
             </div>
 
-            <div className="save__general">
-                <button className="general__pre">Previous</button>
-                <div>
-                    <a href="#" className="link__cancal">Cancal</a>
-                    <button className="general__draft">Save as draft</button>
-                    <button className="general__next">Next</button>
+            <div className="row save__general">
+                <div className="col-md-1"><button className="general__pre">Previous</button></div>
+                <div className="col-md-7"></div>
+                <div className="row col-md-4">
+                    <div className="col-md-3"><button className="general__cancel"><a href="#" className="link__cancal">Cancal</a></button></div>
+                    <div className="col-md-6"><button className="general__draft">Save as draft</button></div>
+                    <div className="col-md-2"><button className="general__next">Next</button></div>
                 </div>
             </div>
         </>

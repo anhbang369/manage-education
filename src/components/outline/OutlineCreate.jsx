@@ -165,9 +165,6 @@ const OutlineCreate = () => {
                     <div className="col-md-3"><button className="general__cancel"><a href="#" className="link__cancal">Cancal</a></button></div>
                     <div className="col-md-6"><button className="general__draft">Save as draft</button></div>
                     <div className="col-md-2"><button className="general__next">Next</button></div>
-
-
-
                 </div>
             </div>
 
