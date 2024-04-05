@@ -53,7 +53,7 @@ const Outline = () => {
                             {data1.map((item, i) => (
                                 <div className='item'>
                                     <div className='title' onClick={() => toggle(i)}>
-                                        <h4 className='outline__days'>{item.day}</h4>
+                                        <h6 className='outline__days'>{item.day}</h6>
                                     </div>
                                     <div className={selected === i ? 'content show' : 'content'}>
                                         {item.units.map((unit, index) => (
@@ -72,7 +72,7 @@ const Outline = () => {
 
                                                 {unit.details.map((detail, idx) => (
                                                     <div className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}>
-                                                        <h4 className='details__title'>{detail.title}</h4>
+                                                        <h6 className='details__title'>{detail.title}</h6>
                                                         <p className='details__stanrd'>{detail.standard}</p>
                                                         <p className='details__mins'>{detail.duration}</p>
                                                         <p className='details__onl'>{detail.type}</p>
@@ -90,7 +90,7 @@ const Outline = () => {
                     </div>
                 </div>
                 <div className="outline__chart">
-                    <h4 className="outline__location">Time allocation</h4>
+                    <h5 className="outline__location">Time allocation</h5>
                     <Chart
                         chartType="PieChart"
                         data={data}
@@ -139,8 +139,6 @@ const data1 = [
                     },
                 ]
             },
-            // Thêm unit thứ hai của ngày 1 ở đây
         ]
     },
-    // Thêm các ngày và unit khác ở đây
 ];

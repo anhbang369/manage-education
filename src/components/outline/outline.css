@@ -39,7 +39,6 @@
     color: #FFF;
     border-radius: 10px 10px 0px 0px;
     text-align: center;
-    padding: 4px;
 }
 
 
@@ -136,10 +135,20 @@
 
 .details__title{
     color: black;
+    font-weight: bold;
+}
+
+.details__stanrd{
+    background-color: #2d3748;
+    border-radius: 8px;
+    color: white;
+    padding: 1px 3px;
+    font-weight: normal;
 }
 
 .details__mins{
     color: black;
+    font-weight: normal;
 }
 
 .details__onl{
@@ -148,4 +157,5 @@
     padding: 1px;
     width: 54px;
     text-align: center;
+    font-weight: normal;
 }
