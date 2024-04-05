@@ -64,7 +64,7 @@ p {
   .input__edit-title{
     border-radius: 10px;
     height: 27px;
-    width: 85%;
+    width: 55%;
   }
 
   .input__mi-enter{
@@ -143,6 +143,10 @@ p {
 
   .outline__content{
     height: 54vh;
+  }
+
+  .outline__container{
+    height: 66%;
   }
 
   .save__general-ouline{

@@ -53,7 +53,7 @@ const OutlineCreate = () => {
                             {data1.map((item, i) => (
                                 <div className='item'>
                                     <div className='title' onClick={() => toggle(i)}>
-                                        <h4 className='outline__days'>{item.day} <i class="bi bi-dash-circle red"></i> <i class="bi bi-exclamation-triangle red"></i></h4>
+                                        <h6 className='outline__days'>{item.day} <i class="bi bi-dash-circle red"></i> <i class="bi bi-exclamation-triangle red"></i></h6>
                                     </div>
                                     <div className={selected === i ? 'content show' : 'content'}>
                                         {item.units.map((unit, index) => (
@@ -75,7 +75,7 @@ const OutlineCreate = () => {
 
                                                 {unit.details.map((detail, idx) => (
                                                     <div className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}>
-                                                        <h4 className='details__title'>{detail.title}</h4>
+                                                        <h6 className='details__title'>{detail.title}</h6>
                                                         <p className='details__stanrd'>{detail.standard}</p>
                                                         <p className='details__mins'>{detail.duration}</p>
                                                         <p className='details__onl'>{detail.type}</p>
@@ -147,7 +147,7 @@ const OutlineCreate = () => {
                     </div>
                 </div>
                 <div className="outline__chart">
-                    <h4 className="outline__location">Time allocation</h4>
+                    <h6 className="outline__location">Time allocation</h6>
                     <Chart
                         chartType="PieChart"
                         data={data}
@@ -158,12 +158,16 @@ const OutlineCreate = () => {
                 </div>
             </div>
 
-            <div className="save__general">
-                <button className="general__pre">Previous</button>
-                <div>
-                    <a href="#" className="link__cancal">Cancal</a>
-                    <button className="general__draft">Save as draft</button>
-                    <button className="general__next">Next</button>
+            <div className="row save__general">
+                <div className="col-md-1"><button className="general__pre">Previous</button></div>
+                <div className="col-md-7"></div>
+                <div className="row col-md-4">
+                    <div className="col-md-3"><button className="general__cancel"><a href="#" className="link__cancal">Cancal</a></button></div>
+                    <div className="col-md-6"><button className="general__draft">Save as draft</button></div>
+                    <div className="col-md-2"><button className="general__next">Next</button></div>
+
+
+
                 </div>
             </div>
 
