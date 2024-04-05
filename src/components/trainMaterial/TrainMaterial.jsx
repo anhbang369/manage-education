@@ -18,12 +18,12 @@ const TrainMaterial = ({ property }) => {
         <>
             <div style={{ display: importOpen ? 'block' : 'none' }} className="material__container">
                 <div className="material__header">
-                    <h4 className="material__title">Day 1</h4>
+                    <h5 className="material__title">Day 1</h5>
                     <i class="bi bi-x-circle title__icon" onClick={handleClose}></i>
                 </div>
                 <div className="material__unit">
-                    <h4 className="material__info">Unit 5</h4>
-                    <h4 className="material__info">.NET Introduction</h4>
+                    <h5 className="material__info">Unit 5</h5>
+                    <h5 className="material__info">.NET Introduction</h5>
                 </div>
                 <div className="material__content">
                     <p className="material__intro">.NET Introduction</p>
