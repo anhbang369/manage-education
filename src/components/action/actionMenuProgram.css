@@ -1,0 +1,10 @@
+#dropdown-button-drop-start{
+    background-color: #2d3748;
+    color: black;
+    border: none;
+    padding: 0px;
+}
+
+.bi-three-dots::before{
+    color: white;
+}

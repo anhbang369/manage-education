@@ -1,0 +1,55 @@
+.container__header{
+    background-color: #2d3748;
+    border: 1px solid #FFF;
+    color: #FFF;
+    padding: 4px;
+    padding-left: 20px;
+}
+
+.program__title-action{
+    border: 1px solid #FFF;
+    color: #FFF;
+    border-radius: 8px;
+    padding: 2px;
+    text-align: center;
+}
+
+.info__detail{
+    border-bottom: 1px solid #2d3748;
+}
+
+.content__component{
+    display: flex;
+    padding: 8px;
+}
+
+.content__component-div p{
+    background-color: #2d3748;
+    padding: 4px;
+    text-align: center;
+    border: none;
+    color: #FFF;
+    border-radius: 8px;
+    margin-left: 10px;
+}
+
+.content__program{
+    padding: 4px;
+    margin-left: 20px;
+}
+
+.content__prgram{
+    display: flex;
+    padding: 8px;
+}
+
+.content__syllabus{
+    border-radius: 10px;
+    margin-left: 20px;
+    width: 80%;
+    box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.content__prgram-p{
+    padding-left: 6px;
+}
