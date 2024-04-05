@@ -54,17 +54,20 @@
 
 .quiz__p{
     margin: 5px 0px 5px 20px;
+    font-weight: normal
 }
 
 .quiz__q{
     margin-right: 20px;
     margin-top: 5px;
+    font-weight: normal;
 }
 
 .other__location{
     background-color: #47505f;
     text-align: center;
     padding: 4px;
+    color: #FFF;
     border-radius: 8px 8px 0px 0px;
 }
 
@@ -76,6 +79,7 @@
 
 .other__gpa{
     margin: 0px 0px 5px 20px;
+    font-weight: normal;
 }
 
 .other__trainning{
@@ -83,7 +87,7 @@
     margin-top: 10px;
     width: 98%;
     margin-left: 20px;
-    height: 40%;
+    height: 35%;
     overflow-y: auto;
     border-radius: 8px;
 }

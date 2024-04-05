@@ -16,7 +16,7 @@ const Others = () => {
         <>
             <div className="general__content">
                 <div className="other__scheme">
-                    <h4 className="other__location">Time Location</h4>
+                    <h6 className="other__location">Time Location</h6>
                     <Chart
                         chartType="PieChart"
                         data={data}
@@ -25,7 +25,7 @@ const Others = () => {
                     />
                 </div>
                 <div className="other__scheme">
-                    <h4 className="other__location">Assessment scheme</h4>
+                    <h6 className="other__location">Assessment scheme</h6>
                     <div className="other__component">
                         <div className="quiz">
                             <p className='quiz__p'>Quiz:   15%</p>
@@ -34,14 +34,14 @@ const Others = () => {
                         <p className='quiz__p'>Final:   70%</p>
                     </div>
                     <div className="other__component">
-                        <h4 className="other__pass">Passing criteria</h4>
+                        <h6 className="other__pass">Passing criteria</h6>
                         <p className="other__gpa">GPA*   70%</p>
                     </div>
                 </div>
             </div>
 
             <div className="other__trainning">
-                <h4 className="train__title">Trainning delivery priciple</h4>
+                <h6 className="train__title">Trainning delivery priciple</h6>
                 <div className="tranning_component">
                     <i class="bi bi-shield-check training__icon"><b><span>Training</span></b></i>
                     <ul className='training__ul'>

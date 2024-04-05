@@ -67,8 +67,9 @@
     color: #47505f;
 }
 
-.info__detail p{
+p{
     margin-bottom: 0rem;
+    margin-bottom: 0px;
 }
 
 .tabs__outline.active {
