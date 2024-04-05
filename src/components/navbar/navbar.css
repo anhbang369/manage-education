@@ -3,7 +3,7 @@ body {
 }
 .nav__container{
     height: 50px;
-
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;

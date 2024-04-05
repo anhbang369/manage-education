@@ -14,8 +14,21 @@ const Navbar = () => {
 
     return (
         <nav className="nav__header">
-            <div className='nav__container'>
-                <div>
+            <div className='row nav__container'>
+                <div className='col-md-2'>
+                    <b>Logo</b>
+                </div>
+                <div className='col-md-7'>
+
+                </div>
+                <div className='col-md-1'>Logo second</div>
+                <div className='row col-md-2'>
+                    <div className='col-md-3'><img src={Image} alt="" className="nav__img" /></div>
+                    <div className="row col-md-9"><div><b>Anh Bang</b></div>
+                        <div>Logout</div></div>
+                </div>
+
+                {/* <div>
                     <ul className='nav__list'>
                         <li className='nav__title'>Logo</li>
                     </ul>
@@ -33,7 +46,7 @@ const Navbar = () => {
                             </div>
                         </li>
                     </ul>
-                </div>
+                </div> */}
             </div>
         </nav>
     )
