@@ -40,7 +40,7 @@ const Others = () => {
                 </div>
             </div>
 
-            <div className="other__trainning">
+            <div className="other__trainning-other">
                 <h6 className="train__title">Trainning delivery priciple</h6>
                 <div className="tranning_component">
                     <i class="bi bi-shield-check training__icon"><b><span>Training</span></b></i>

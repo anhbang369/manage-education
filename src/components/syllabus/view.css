@@ -99,6 +99,7 @@
     align-items: center;
     height: 22px;
     width: 90px;
+    margin-bottom: 5px;
 }
 
 .syllabus__table{
@@ -128,7 +129,6 @@ th:first-child{
 }
 
 .table__syllabus{
-    padding: 2px 0;
     border-bottom: 1px solid black;
 }
 

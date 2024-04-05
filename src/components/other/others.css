@@ -82,12 +82,12 @@
     font-weight: normal;
 }
 
-.other__trainning{
+.other__trainning-other{
     border: 1px solid #47505f;
     margin-top: 10px;
     width: 98%;
     margin-left: 20px;
-    height: 35%;
+    height: 38%;
     overflow-y: auto;
     border-radius: 8px;
 }
