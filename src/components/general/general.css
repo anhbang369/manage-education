@@ -88,3 +88,7 @@
     box-shadow: 0px 1px 1px 1px #888888;
     margin: 20px 15px;
 }
+
+.details__info{
+    font-weight: normal;
+}

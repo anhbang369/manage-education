@@ -11,6 +11,7 @@ export const Routes = () => {
                 <Route path="/login" component={Login} />
                 <Route path="/syllabus" component={() => <SyllabusList />} />
                 <Route path="/view" component={() => <SyllabusView />} />
+                <Route path="/lp" component={() => <SyllabusCreate />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>
