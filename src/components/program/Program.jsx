@@ -27,22 +27,55 @@ const Program = () => {
                 <div className='syllabus__time'><p className='syllabus__date'>8</p> <span className='date__span'>days (68 hours)</span></div>
                 <p className='info__detail'>Modified on 23/07/2024 by <b>Anh Bang</b></p>
                 <h6 className="content__program"><b>Content</b></h6>
-                <div className='content__syllabus'>
-                    <div className='content__component'>
-                        <div className='content__com'><b>Linux</b></div>
-                        <div className='content__component-div'><p>Active</p></div>
+
+                {Data.map((item, index) => (
+                    <div className='content__syllabus' key={index}>
+                        <div className='content__component'>
+                            <div className='content__com'><b>{item.title}</b></div>
+                            <div className='content__component-div'><p>{item.status}</p></div>
+                        </div>
+                        <div className='content__prgram'>
+                            <p className='content__prgram-p'>{item.programName}</p>
+                            <p className='content__prgram-p'>|</p>
+                            <p className='content__prgram-p'>{item.duration}</p>
+                            <p className='content__prgram-p'>|</p>
+                            <p className='content__prgram-p'>Modified on {item.modifiedDate} by {item.modifiedBy}</p>
+                        </div>
                     </div>
-                    <div className='content__prgram'>
-                        <p className='content__prgram-p'>LIN v2.0</p>
-                        <p className='content__prgram-p'>|</p>
-                        <p className='content__prgram-p'>4 days (12 hours)</p>
-                        <p className='content__prgram-p'>|</p>
-                        <p className='content__prgram-p'>Modified on 23/07/2024 by jonhy Deep</p>
-                    </div>
-                </div>
+                ))}
             </div>
         </>
     )
 }
 
 export default Program
+
+const Data = [
+    {
+        id: 1,
+        title: "Linux",
+        status: "Active",
+        programName: "LIN v2.0",
+        duration: "4 days (12 hours)",
+        modifiedDate: "23/07/2024",
+        modifiedBy: "jonhy Deep"
+    },
+    {
+        id: 2,
+        title: "Linux",
+        status: "Active",
+        programName: "LIN v2.0",
+        duration: "4 days (12 hours)",
+        modifiedDate: "23/07/2024",
+        modifiedBy: "jonhy Deep"
+    },
+    {
+        id: 3,
+        title: "Linux",
+        status: "Active",
+        programName: "LIN v2.0",
+        duration: "4 days (12 hours)",
+        modifiedDate: "23/07/2024",
+        modifiedBy: "jonhy Deep"
+    }
+]
