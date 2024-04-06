@@ -1,0 +1,40 @@
+.user__permission{
+    border-bottom: 1px solid black;
+    font-weight: normal;
+    margin-left: 20px;
+}
+
+.user__permission-end{
+    display: flex;
+    justify-content: end;
+}
+
+.user__permission-button{
+    padding: 2px;
+    border-radius: 8px;
+    color: #FFF;
+    background-color: #30344c;
+}
+
+.form-select{
+    width: 150px;
+    height: 40%;
+    padding: 4px 0px;
+    margin: 15px 0px;
+}
+
+.color-table{
+    color: blue;
+}
+
+.th__table-header{
+    text-align: center;
+}
+
+th:first-child {
+    border-top-left-radius: 10px;
+}
+
+th:last-child {
+    border-top-right-radius: 10px;
+}
