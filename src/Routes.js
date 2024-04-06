@@ -7,6 +7,7 @@ import TrainingProgramList from "./Page/TrainingProgramList";
 import ViewProgram from "./Page/ViewProgram";
 import CreateTrainingProgram from "./Page/CreateTrainingProgram";
 import TrainingClassList from "./Page/TrainingClassList";
+import TrainingCalander from "./Page/TrainingCalander";
 
 export const Routes = () => {
     return (
@@ -20,6 +21,7 @@ export const Routes = () => {
                 <Route path="/program" component={() => <ViewProgram />} />
                 <Route path="/create" component={() => <CreateTrainingProgram />} />
                 <Route path="/class" component={() => <TrainingClassList />} />
+                <Route path="/calender" component={() => <TrainingCalander />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>
