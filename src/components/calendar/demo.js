@@ -24,6 +24,7 @@ import FilterDrama from '@mui/icons-material/FilterDrama';
 import Opacity from '@mui/icons-material/Opacity';
 import ColorLens from '@mui/icons-material/ColorLens';
 import { owners } from '../calendar/task';
+import "./demo.css";
 
 const PREFIX = 'Demo';
 
