@@ -7,6 +7,22 @@ import ActionMenu from '../action/ActionMenu';
 
 const TrainingClassListView = () => {
 
+    const getClassForFsu = (fsu) => {
+        switch (fsu) {
+            case 'Fresher':
+                return 'blue-bg';
+            case 'Online fee-fresher':
+                return 'green-bg';
+            case 'Intern':
+                return 'gray-bg';
+            case 'Offline fee-fresher':
+                return 'organ-bg';
+            default:
+                return '';
+        }
+    };
+
+
     const [currentPage, setCurrentPage] = useState(0);
 
     const itemsPerPage = 9;
@@ -73,9 +89,10 @@ const TrainingClassListView = () => {
                                     <td className='table__syllabus'>{item.created}</td>
                                     <td className='table__syllabus'>{item.createBy}</td>
                                     <td className='table__syllabus'>{item.duration}</td>
-                                    <td className='table__syllabus'>{item.attendee}</td>
+                                    <td className="table__syllabus"><p className={`syllabus_p ${getClassForFsu(item.attendee)}`}>{item.attendee}</p></td>
                                     <td className='table__syllabus'>{item.location}</td>
                                     <td className='table__syllabus'>{item.fsu}</td>
+
                                     <td className='table__syllabus'>
                                         <ActionMenu></ActionMenu>
                                     </td>

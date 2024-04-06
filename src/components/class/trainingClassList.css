@@ -12,3 +12,32 @@
     color: #FFF;
     padding: 3px;
 }
+
+.syllabus_p{
+    padding: 2px;
+    width: 80%;
+    text-align: center;
+    color: #FFF;
+    border-radius: 10px;
+}
+
+.table__syllabus{
+    background-color: #FFF;
+}
+
+.blue-bg {
+    background-color: #285d9a;
+  }
+  
+  .green-bg {
+    background-color: #2f903f;
+  }
+  
+  .gray-bg {
+    background-color: #2d3748;
+  }
+  
+  .organ-bg {
+    background-color: #d45b13;
+  }
+  
