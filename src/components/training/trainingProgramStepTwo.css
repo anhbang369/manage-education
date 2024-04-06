@@ -1,0 +1,35 @@
+.header__litle-component{
+    display: flex;
+}
+
+.header__title-large{
+    padding: 2px;
+    color: #FFF;
+    border-radius: 8px;
+    border: 1px solid gray;
+    background-color: gray;
+    text-align: center;
+    height: 50%;
+    margin-left: 20px;
+}
+
+.header__step-two{
+    background-color: #2d3748;
+    color: #FFF;
+    border: 1px solid #FFF;
+}
+
+.header__litle-small{
+    padding: 4px;
+    margin-left: 20px;
+}
+
+.modified__content{
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.modified__content-under{
+    margin-top: 4px;
+    border-bottom: 1px solid #2d3748;
+}

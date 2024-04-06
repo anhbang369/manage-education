@@ -1,0 +1,26 @@
+.training__program-header{
+    padding: 6px;
+}
+
+.btn__sub-type{
+    background-color: #2d3748;
+    border: none;
+    border-radius: 8px;
+    color: #FFF;
+    padding: 3px;
+    text-align: center;
+}
+
+.training__program-title{
+    margin-left: 20px;
+}
+
+.btn__sub-input{
+    border-radius: 8px;
+    margin: 7px 20px;
+
+}
+
+.training__program-under{
+    border-bottom: 1px solid #2d3748;
+}
