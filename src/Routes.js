@@ -6,6 +6,7 @@ import Login from "./components/googleSignIn/Login";
 import TrainingProgramList from "./Page/TrainingProgramList";
 import ViewProgram from "./Page/ViewProgram";
 import CreateTrainingProgram from "./Page/CreateTrainingProgram";
+import TrainingClassList from "./Page/TrainingClassList";
 
 export const Routes = () => {
     return (
@@ -18,6 +19,7 @@ export const Routes = () => {
                 <Route path="/training" component={() => <TrainingProgramList />} />
                 <Route path="/program" component={() => <ViewProgram />} />
                 <Route path="/create" component={() => <CreateTrainingProgram />} />
+                <Route path="/class" component={() => <TrainingClassList />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>

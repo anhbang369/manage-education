@@ -1,0 +1,14 @@
+.syllabus__training-class-header{
+    color: white;
+    background-color: #2d3748;
+    border: 1px solid #FFF;
+    padding: 4px;
+}
+
+.training-class-filter{
+    border-radius: 8px;
+    border: none;
+    background-color: #2d3748;
+    color: #FFF;
+    padding: 3px;
+}
