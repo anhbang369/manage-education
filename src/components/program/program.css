@@ -47,10 +47,28 @@
     border-radius: 10px;
     margin-top: 20px;
     margin-left: 20px;
-    width: 80%;
+    width: 100%;
     box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .content__prgram-p{
     padding-left: 6px;
+}
+
+.prgram{
+    width: 100%;
+}
+
+.content__program-component{
+    background-color: #FFF;
+    width: 80%;
+    height: 200px;
+    height: 55vh;
+    margin-left: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.outline__days{
+    margin-bottom: 0px;
 }
