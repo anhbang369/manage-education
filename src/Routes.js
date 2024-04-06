@@ -8,6 +8,7 @@ import ViewProgram from "./Page/ViewProgram";
 import CreateTrainingProgram from "./Page/CreateTrainingProgram";
 import TrainingClassList from "./Page/TrainingClassList";
 import TrainingCalander from "./Page/TrainingCalander";
+import UserManagement from "./Page/UserManagement";
 
 export const Routes = () => {
     return (
@@ -22,6 +23,7 @@ export const Routes = () => {
                 <Route path="/create" component={() => <CreateTrainingProgram />} />
                 <Route path="/class" component={() => <TrainingClassList />} />
                 <Route path="/calender" component={() => <TrainingCalander />} />
+                <Route path="/user" component={() => <UserManagement />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>
