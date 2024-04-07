@@ -1,0 +1,24 @@
+.class__step-one-header{
+    background-color: #2d3748;
+    color: #FFF;
+    padding: 8px;
+    border: 1px solid #FFF;
+}
+
+.class__step-one-input{
+    border-radius: 8px;
+    margin-left: 20px;
+}
+
+.class__step-one-text{
+    margin-left: 20px;
+}
+
+.class__step-one-btn{
+    border-radius: 8px;
+    color: #FFF;
+    background-color: #2d3748;
+    border: none;
+    padding: 3px;
+    margin-left: 20px;
+}

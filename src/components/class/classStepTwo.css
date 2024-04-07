@@ -1,0 +1,37 @@
+.class__header-view-create{
+    border-bottom: 1px solid #FFF;
+}
+
+.header-view-text p{
+    font-weight: normal;
+}
+
+.container__first-title.create{
+    background-color: gray;
+}
+
+.container__first-title.create{
+    background-color: gray;
+}
+
+.training__program-tabs.create{
+    margin-top: 20px;
+}
+
+.training__program-components{
+    padding: 4px;
+}
+
+.training__program-components-text{
+    font-weight: normal;
+    margin-left: 20px;
+    padding: 6px 0px;
+}
+
+.input-with-icon i{
+    color: blue;
+}
+
+.save__general.margin{
+    margin-top: 10px;
+}

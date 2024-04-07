@@ -1,0 +1,64 @@
+.class__view-syllabus-image.pad{
+    padding: 8px;
+}
+
+.attendee__input{
+    width: 50%;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: none;
+}
+
+.attendee__input-header{
+    margin-left: 10px;
+}
+
+.select__class-three{
+    padding: 0px;
+    margin: 0px;
+    margin-left: 20px;
+}
+
+.container__first-text.time input{
+    border: none;
+    border-radius: 8px;
+}
+
+.class-general-input-time{
+    font-size: 12px;
+}
+
+.class-general-input-time input{
+    width: 28%;
+    margin-top: 5px;
+}
+
+.select__class-three-general{
+    padding: 0px;
+    margin: 0px;
+    height: 80%;
+}
+
+.select__class-three-general:last-child{
+    margin-bottom: 10px;
+}
+
+.gray{
+    color: grey;
+}
+
+.first__class-general{
+    font-size: 14px;
+}
+
+.training__program-tabs{
+    margin-top: 10px;
+}
+
+.training__program-components button{
+    border: none;
+    background-color: grey;
+    border-radius: 8px;
+    padding: 0px 5px;
+}

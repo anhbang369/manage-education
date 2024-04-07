@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function SidebarItems() {
     const [open, setOpen] = useState(false)
@@ -13,6 +13,7 @@ export default function SidebarItems() {
                     <span>
                         <i class="bi bi-house"></i>
                         Home
+                        <a href=""></a>
                     </span>
                 </div>
             </div>
@@ -30,7 +31,8 @@ export default function SidebarItems() {
                     <div className={open ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                View Syllabus
+
+                                <a href="/syllabus">View syllabus</a>
                             </span>
                         </div>
                     </div>
@@ -38,7 +40,8 @@ export default function SidebarItems() {
                     <div className={open ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                Create Syllabus
+
+                                <a href="/lp">Create Syllabus</a>
                             </span>
                         </div>
                     </div>
@@ -61,7 +64,8 @@ export default function SidebarItems() {
                     <div className={openProgram ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                View program
+
+                                <a href="/training">View program</a>
                             </span>
                         </div>
                     </div>
@@ -69,7 +73,8 @@ export default function SidebarItems() {
                     <div className={openProgram ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                Create program
+
+                                <a href="/create">Create program</a>
                             </span>
                         </div>
                     </div>
@@ -92,7 +97,7 @@ export default function SidebarItems() {
                     <div className={openClass ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                View class
+                                <a href="/class">View class</a>
                             </span>
                         </div>
                     </div>
@@ -100,7 +105,8 @@ export default function SidebarItems() {
                     <div className={openClass ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                Create class
+                                <a href="/class-create">Create class</a>
+
                             </span>
                         </div>
                     </div>
@@ -113,7 +119,7 @@ export default function SidebarItems() {
                 <div className="sidebar-title">
                     <span>
                         <i class="bi bi-calendar-check"></i>
-                        Calendar
+                        <a href="/calender">Calendar</a>
                     </span>
                 </div>
             </div>
@@ -132,11 +138,27 @@ export default function SidebarItems() {
                     <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                User list
+                                <a href="/user">User list</a>
+                            </span>
+                        </div>
+                    </div>
+                    <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
+                        <div className="sidebar-title">
+                            <span>
+                                <a href="/permission">User permission</a>
                             </span>
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+            <div className="sidebar-item">
+                <div className="sidebar-title">
+                    <span>
+                        <i class="bi bi-box-arrow-right"></i>
+                        Logout
+                    </span>
                 </div>
             </div>
         </>

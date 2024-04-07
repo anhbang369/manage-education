@@ -2,3 +2,8 @@
     color: #285d9a;
     font-size: 14px;
 }
+
+.sidebar-title a{
+    text-decoration: none;
+    color: #285d9a;
+}
