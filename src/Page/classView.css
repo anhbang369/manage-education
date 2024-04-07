@@ -59,6 +59,8 @@
     border-radius: 8px;
     display: flex;
     color: #FFF;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 .react-calendar{
@@ -80,4 +82,45 @@
 .general__contain-first{
     border-radius: 8px;
     box-shadow: 1px 1px 5px gainsboro;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0,1,0,1);
+}
+
+.general__contain-first.show{
+    height: auto;
+    max-height: 999px;
+    transition: all 0.5s cubic-bezier(1,0,1,0);
+
+}
+
+.attendee__component{
+    border-radius: 8px;
+    text-align: center;
+    background-color: #FFF;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0,1,0,1);
+}
+
+.attendee__component.show{
+    height: auto;
+    max-height: 999px;
+    transition: all 0.5s cubic-bezier(1,0,1,0);
+
+}
+
+.attendee__first{
+    background-color: #30344c;
+    border-radius: 8px 0px 0px 8px;
+}
+
+.attendee__center{
+    background-color: #285d9a;
+}
+
+.attendee__last{
+    background-color: #f1f1f1;
+    color: black;
+    border-radius: 0px 8px 8px 0px;
 }

@@ -15,6 +15,25 @@ const ClassView = () => {
         setDateState(e)
     }
 
+    //show
+    const [selected, setSelected] = useState(null)
+    const toggle = (i) => {
+        if (selected === i) {
+            return setSelected(null)
+        }
+
+        setSelected(i)
+    }
+
+    const [selected1, setSelected1] = useState(null)
+    const toggle1 = (i) => {
+        if (selected1 === i) {
+            return setSelected1(null)
+        }
+
+        setSelected1(i)
+    }
+
     return (
         <>
             <Navbar></Navbar>
@@ -61,8 +80,8 @@ const ClassView = () => {
 
                     <div className='row class__container-view'>
                         <div className='col-md-4 container__first-left'>
-                            <h6 className='container__first-title'><i class="bi bi-calendar"></i> General</h6>
-                            <div className='general__contain-first'>
+                            <h6 className='container__first-title' onClick={() => toggle(1)}><i class="bi bi-calendar"></i> General</h6>
+                            <div className={selected === 1 ? 'general__contain-first show' : 'general__contain-first'}>
                                 <div className='row first__class-general'>
                                     <div className='col-md-5'><b><i class="bi bi-alarm"></i> Class time</b></div>
                                     <div className='col-md-7'>09:00 - 12:00</div>
@@ -109,6 +128,22 @@ const ClassView = () => {
                                 <div className='row first__class-general'>
                                     <div className='col-md-5'><b>Approve</b></div>
                                     <div className='col-md-7'>26/01/2023 by TanLP</div>
+                                </div>
+                            </div>
+
+                            <h6 className='container__first-title' onClick={() => toggle1(1)}><i class="bi bi-star"></i> Attendee</h6>
+                            <div className={selected1 === 1 ? 'row attendee__component show' : 'row attendee__component'}>
+                                <div className='col-md-4 attendee__first row'>
+                                    <div className='col-md-12'>Planned</div>
+                                    <div className='col-md-12'>10</div>
+                                </div>
+                                <div className='col-md-4 attendee__center'>
+                                    <div className='col-md-12'>Accepted</div>
+                                    <div className='col-md-12'>10</div>
+                                </div>
+                                <div className='col-md-4 attendee__last'>
+                                    <div className='col-md-12'>Actual</div>
+                                    <div className='col-md-12'>9</div>
                                 </div>
                             </div>
                         </div>
