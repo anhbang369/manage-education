@@ -7,6 +7,7 @@ import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./classView.css"
+import Image from "../../src/components/assets/cat.jpg";
 
 const ClassView = () => {
 
@@ -170,11 +171,119 @@ const ClassView = () => {
                             </div>
                         </div>
                     </div>
+                    <h6 className='training__program-tabs'>Training program</h6>
+                    <div className='training__program-components'>
+                        <h5>DevOps Foundation</h5>
+                        <div className='program-components-text'>
+                            <p>31 days (97 hours)</p>
+                            <p>|</p>
+                            <p>Modified on 23/05/2023 by <b>Anh Bang</b></p>
+                        </div>
+                    </div>
+
+                    {Data.map((item, index) => (
+                        <div className='class__view-syllabus row'>
+                            <div className='col-md-3 class__view-syllabus-image row'>
+                                {Object.values(item.images).map((output, ind) => (
+                                    <div className='col-md-3'>
+                                        <img key={ind} className='view-syllabus-image-bor' src={Image} alt={output}></img>
+                                    </div>
+                                ))}
+
+                            </div>
+                            <div className='col-md-9 row class__view-syllabus-content'>
+                                <div className='col-md-12 class__view-syllabus-info'>
+                                    <h5><b>{item.title}</b></h5><p>{item.status}</p>
+                                </div>
+                                <div className='col-md-12'>
+                                    <div className='program-components-text'>
+                                        <p>{item.lin}</p>
+                                        <p>|</p>
+                                        <p>{item.days}</p>
+                                        <p>|</p>
+                                        <p>{item.modify}<b>{item.name}</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
         </>
     )
 }
 
 export default ClassView
+
+const Data = [
+    {
+        id: 1,
+        images: {
+            image: "Image",
+            image1: "Image",
+            image2: "Image",
+        },
+        title: "Linux",
+        status: "Active",
+        lin: "LIN v2.0",
+        days: "31 days (97 hours)",
+        modify: "Modified on 23/05/2023 by ",
+        name: "Anh Bang"
+    },
+    {
+        id: 2,
+        images: {
+            image: "Image",
+            image1: "Image",
+            image2: "Image",
+        },
+        title: "Linux",
+        status: "Active",
+        lin: "LIN v2.0",
+        days: "31 days (97 hours)",
+        modify: "Modified on 23/05/2023 by ",
+        name: "Anh Bang"
+    },
+    {
+        id: 3,
+        images: {
+            image: "Image",
+            image1: "Image",
+            image2: "Image",
+            image3: "Image",
+        },
+        title: "Linux",
+        status: "Active",
+        lin: "LIN v2.0",
+        days: "31 days (97 hours)",
+        modify: "Modified on 23/05/2023 by ",
+        name: "Anh Bang"
+    },
+    {
+        id: 4,
+        images: {
+            image: "Image",
+            image1: "Image",
+        },
+        title: "Linux",
+        status: "Active",
+        lin: "LIN v2.0",
+        days: "31 days (97 hours)",
+        modify: "Modified on 23/05/2023 by ",
+        name: "Anh Bang"
+    },
+    {
+        id: 5,
+        images: {
+            image: "Image",
+        },
+        title: "Linux",
+        status: "Active",
+        lin: "LIN v2.0",
+        days: "31 days (97 hours)",
+        modify: "Modified on 23/05/2023 by ",
+        name: "Anh Bang"
+    },
+
+]
