@@ -1,5 +1,4 @@
 import React from 'react';
-import "./trainingProgramList.css";
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';

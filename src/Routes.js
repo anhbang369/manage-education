@@ -10,6 +10,7 @@ import TrainingClassList from "./Page/TrainingClassList";
 import TrainingCalander from "./Page/TrainingCalander";
 import UserManagement from "./Page/UserManagement";
 import UserPermission from "./Page/UserPermission";
+import ClassView from "./Page/ClassView";
 
 export const Routes = () => {
     return (
@@ -26,6 +27,7 @@ export const Routes = () => {
                 <Route path="/calender" component={() => <TrainingCalander />} />
                 <Route path="/user" component={() => <UserManagement />} />
                 <Route path="/permission" component={() => <UserPermission />} />
+                <Route path="/class-view" component={() => <ClassView />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>

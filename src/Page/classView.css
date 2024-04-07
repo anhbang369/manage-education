@@ -1,0 +1,83 @@
+.class__header-view{
+    background-color: #30344c;
+    color: #FFF;
+    border: 1px solid #FFF;
+    margin: 0px;
+}
+
+.row{
+    margin: 0px;
+    padding: 0px;
+}
+
+.header__plain{
+    background-color: #b9b9b9;
+    color: #FFF;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+    width: 50px;
+}
+
+.class__name{
+    border-bottom: 1px solid #FFF;
+    margin: 5px 0px;
+}
+
+.class__name-icon{
+    display: flex;
+}
+
+.name-icon-pad{
+    margin-left: 10px;
+}
+
+.class__container-view{
+    margin-top: 10px;
+}
+
+.container__first-left{
+    border-radius: 8px;
+    color: #FFF;
+}
+
+.container__first-right{
+    border-radius: 8px;
+    color: #FFF;
+    display: flex;
+}
+
+.container__first-text{
+    font-weight: normal;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.container__first-title{
+    background-color: #30344c;
+    padding: 4px;
+    margin: 0px;
+    border-radius: 8px;
+    display: flex;
+    color: #FFF;
+}
+
+.react-calendar{
+    border: none;
+}
+
+.first__class-general{
+    color: black;
+}
+
+.first__class-general i{
+    color: blue;
+}
+
+.general__under{
+    border-bottom: 1px solid #30344c;
+}
+
+.general__contain-first{
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px gainsboro;
+}
