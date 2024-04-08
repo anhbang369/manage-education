@@ -1,7 +1,7 @@
 import React from 'react';
 import "./classStepTwo.css";
 
-const ClassStepTwo = () => {
+const ClassStepTwo = ({ classDto }) => {
     return (
         <>
             <div className='container'>
@@ -9,7 +9,7 @@ const ClassStepTwo = () => {
                     <h6>Class</h6>
                     <div className='row'>
                         <div className='col-md-11 row'>
-                            <div className='col-md-4'><h4 className='class__header-view-create'>Fresher Develop Operation</h4></div>
+                            <div className='col-md-4'><h4 className='class__header-view-create'>{classDto.className}</h4></div>
                             <div className='col-md-8'><p className='header__plain'>Plaining</p></div>
                         </div>
                         <div className='col-md-1'>
