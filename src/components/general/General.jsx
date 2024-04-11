@@ -6,51 +6,51 @@ const General = () => {
         <>
             <div className="general__content">
                 <div className="general__technical">
-                    <div className='level__content'>
-                        <div className='content__icon'>
+                    <div className='d-flex justify-content-between'>
+                        <div className='d-flex'>
                             <i class="bi bi-star"></i>
-                            <p className="level__title">Level</p>
+                            <p className="ms-2 fw-bold">Level</p>
                         </div>
-                        <p className="level__info">All levels</p>
+                        <p className='fw-bold'>All levels</p>
                     </div>
 
-                    <div className='level__content'>
-                        <div className='content__icon'>
+                    <div className='d-flex justify-content-between'>
+                        <div className='d-flex'>
                             <i class="bi bi-people-fill"></i>
-                            <p className="level__title">Attendee number</p>
+                            <p className="ms-2 fw-bold">Attendee number</p>
                         </div>
 
-                        <p className="level__info">20</p>
+                        <p className='fw-bold'>20</p>
                     </div>
 
-                    <div className='level__content'>
-                        <div className='content__icon'>
+                    <div className='d-flex justify-content-md-between mt-2'>
+                        <div className='d-flex'>
                             <i class="bi bi-shield-check"></i>
-                            <p className="level__title">Output standard</p>
+                            <p className="ms-2 fw-bold">Output standard</p>
                         </div>
 
-                        <div className="level__output">
-                            <p className="output__info">F78P</p>
-                            <p className="output__info">F78P</p>
-                            <p className="output__info">F78P</p>
+                        <div className="d-flex">
+                            <p className="text-white bg-core rounded me-1 p-1">F78P</p>
+                            <p className="text-white bg-core rounded me-1 p-1">F78P</p>
+                            <p className="text-white bg-core rounded me-1 p-1">F78P</p>
                         </div>
                     </div>
                 </div>
                 <div className="general__technical">
-                    <i class="bi bi-gear"> <b><span className="technical__title">Technical Requirements</span></b></i>
+                    <i class="bi bi-gear"> <b><span>Technical Requirements</span></b></i>
 
-                    <p className="technical__info">Trainees PCs nedd to have following software installed & run without any issue.</p>
+                    <p className="mt-2">Trainees PCs nedd to have following software installed & run without any issue.</p>
                     <ul>
-                        <li className='technical__list'>Microsoft SQL Server 2017 Express</li>
-                        <li className='technical__list'>Microsoft SQL Server 2017 Express</li>
-                        <li className='technical__list'>Microsoft SQL Server 2017 Express</li>
+                        <li className='ms-9'>Microsoft SQL Server 2017 Express</li>
+                        <li className='ms-9'>Microsoft SQL Server 2017 Express</li>
+                        <li className='ms-9'>Microsoft SQL Server 2017 Express</li>
                     </ul>
                 </div>
             </div>
 
             <div className="general__details">
                 <i class="bi bi-fullscreen"><b><span>Course Objective</span></b></i>
-                <p className="details__info">
+                <p className="fw-normal">
                     This topic is to introduce about C# programming language knowledge; adapt trainees with skills, lessons and practices which is specifically used in the Fsoft projects.
                     In details, after completing the topic, trainees will:
                     - Understand basic concepts of high-level programming languages (keyword, statement, operator, control-of-flow)

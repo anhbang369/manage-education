@@ -16,7 +16,7 @@ const Others = () => {
         <>
             <div className="general__content">
                 <div className="other__scheme">
-                    <h6 className="other__location">Time Location</h6>
+                    <h6 className="bg-core text-center p-1 rounded-top text-white">Time Location</h6>
                     <Chart
                         chartType="PieChart"
                         data={data}
@@ -25,7 +25,7 @@ const Others = () => {
                     />
                 </div>
                 <div className="other__scheme">
-                    <h6 className="other__location">Assessment scheme</h6>
+                    <h6 className="bg-core text-center p-1 rounded-top text-white">Assessment scheme</h6>
                     <div className="other__component">
                         <div className="quiz">
                             <p className='quiz__p'>Quiz:   15%</p>
@@ -41,49 +41,49 @@ const Others = () => {
             </div>
 
             <div className="other__trainning-other">
-                <h6 className="train__title">Trainning delivery priciple</h6>
+                <h6 className="bg-core p-1 rounded-top text-white">Trainning delivery priciple</h6>
                 <div className="tranning_component">
                     <i class="bi bi-shield-check training__icon"><b><span>Training</span></b></i>
                     <ul className='training__ul'>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                     </ul>
                 </div>
 
                 <div className="tranning_component">
                     <i class="bi bi-shield-check training__icon"><b><span>Re-test</span></b></i>
                     <ul className='training__ul'>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                     </ul>
                 </div>
 
                 <div className="tranning_component">
                     <i class="bi bi-shield-check training__icon"><b><span>Marking</span></b></i>
                     <ul className='training__ul'>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                     </ul>
                 </div>
 
                 <div className="tranning_component">
                     <i class="bi bi-shield-check training__icon"><b><span>Waiver Criterical</span></b></i>
                     <ul className='training__ul'>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                     </ul>
                 </div>
 
                 <div className="tranning_component">
                     <i class="bi bi-shield-check training__icon"><b><span>Other</span></b></i>
                     <ul className='training__ul'>
-                        <li className="training__list">Trainee who actively complete online learning according to MOOC links provided</li>
+                        <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                     </ul>
                 </div>
             </div>

@@ -38,45 +38,7 @@
 
 }
 
-.level__content{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 8px;
-}
-
-.content__icon{
-    display: flex;
-}
-
-.level__title{
-    margin-left: 8px;
-    font-weight: bold;
-    color: black;
-}
-
-.level__output{
-    display: flex;
-}
-
-.output__info{
-    color: #FFF;
-    background-color: #47505f;
-    border-radius: 6px;
-    height: 21px;
-    width: 48px;
-    margin-right: 5px;
-}
-
 .general__technical{
-    color: black;
-}
-
-.technical__info{
-    margin-top: 6px;
-}
-
-.technical__list{
-    margin-left: 20px;
     color: black;
 }
 
@@ -87,8 +49,4 @@
     padding: 10px;
     box-shadow: 0px 1px 1px 1px #888888;
     margin: 20px 15px;
-}
-
-.details__info{
-    font-weight: normal;
 }

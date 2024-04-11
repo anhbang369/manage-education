@@ -12,7 +12,6 @@ import OutlineCreate from '../components/outline/OutlineCreate';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Input from '@mui/material/Input';
 
 const marks = [
     {
