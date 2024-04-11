@@ -118,9 +118,10 @@
 }
 
 .ck-editor__editable_inline {
-    min-height: 125px;
-    max-height: 125px;
+    min-height: 200px;
+    max-height: 200px;
     padding: 10px;
+    margin-bottom: 20px;
 }
 
 .cke_chrome{

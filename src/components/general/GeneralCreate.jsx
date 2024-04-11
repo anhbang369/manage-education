@@ -4,6 +4,9 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const GeneralCreate = () => {
     return (
@@ -16,11 +19,14 @@ const GeneralCreate = () => {
                                 <div className='content__icon'>
                                     <p className="level__title">Level</p>
                                 </div>
-                                <select className="level__input">
-                                    <option value="option1">Option 1</option>
-                                    <option value="option2">Option 2</option>
-                                    <option value="option3">Option 3</option>
-                                </select>
+                                <Stack spacing={1} sx={{ width: 200, height: 10, }}>
+                                    <Autocomplete
+                                        id="free-solo-demo"
+                                        freeSolo
+                                        options={top100Films.map((option) => option.title)}
+                                        renderInput={(params) => <TextField {...params} label="freeSolo" />}
+                                    />
+                                </Stack>
 
                             </div>
 
@@ -103,3 +109,11 @@ const GeneralCreate = () => {
 }
 
 export default GeneralCreate
+
+const top100Films = [
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },
+    { title: 'Reservoir Dogs', year: 1992 },
+    { title: 'Braveheart', year: 1995 },
+
+];

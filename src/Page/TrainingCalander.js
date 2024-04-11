@@ -18,7 +18,7 @@ const TrainingCalander = () => {
                     <Sidebar></Sidebar>
                     <React.Fragment>
                         <CssBaseline />
-                        <Container fixed className='p-0'>
+                        <Container fixed className='p-0 overflow-y-scroll'>
                             <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                                 <h5 className='training__calendar-title'>Training Calendar</h5>
                                 <Demo />
