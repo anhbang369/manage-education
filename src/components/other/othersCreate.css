@@ -64,22 +64,6 @@ p{
     margin: 5px 0px;
 }
 
-.criterial__create{
-    margin-top: 5px;
-    margin-left: 10px;
-}
-
-.theory__input{
-    width: 20%;
-    border-radius: 8px;
-}
-.other__location{
-    background-color: #47505f;
-    text-align: center;
-    padding: 4px;
-    border-radius: 8px 8px 0px 0px;
-}
-
 .other__trainning{
     border: 1px solid #47505f;
     margin-top: 10px;

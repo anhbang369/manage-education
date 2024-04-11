@@ -21,7 +21,7 @@ const OthersCreate = () => {
         <>
             <div className="general__content">
                 <div className="other__scheme">
-                    <h6 className="other__location">Time Location</h6>
+                    <h6 className="bg-core text-center p-1 rounded-top text-white">Time Location</h6>
                     <Chart
                         chartType="PieChart"
                         data={data}
@@ -30,7 +30,7 @@ const OthersCreate = () => {
                     />
                 </div>
                 <div className="other__scheme">
-                    <h6 className="other__location">Assessment scheme</h6>
+                    <h6 className="bg-core text-center p-1 rounded-top text-white">Assessment scheme</h6>
                     <div className="d-flex justify-content-start my-0 mx-7">
                         <div>
                             <p className='my-1 mx-2'>Quiz*</p>
@@ -64,7 +64,7 @@ const OthersCreate = () => {
             </div>
 
             <div className="other__trainning">
-                <h6 className="train__title">Trainning delivery priciple</h6>
+                <h6 className="bg-core p-1 rounded-top text-white">Trainning delivery priciple</h6>
                 <CKEditor
                     editor={ClassicEditor}
                     data="<p>Hello from CKEditor&nbsp;5!</p>"

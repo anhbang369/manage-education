@@ -10,8 +10,8 @@ const GeneralCreate = () => {
 
     return (
         <>
-            <div className="general__container-create">
-                <div className='create__syllabus-input'>
+            <div className="d-flex justify-content-md-between">
+                <div className='w-75 h-100 box-shadow-black'>
                     <div className="general__content-create">
                         <div className="general__technica">
                             <div className='d-flex justify-content-start'>
@@ -36,7 +36,7 @@ const GeneralCreate = () => {
                             </div>
                         </div>
                         <div>
-                            <b><span className="technical__title-create">Technical Requirements</span></b>
+                            <b><span className="fw-bold text-black pb-2">Technical Requirements</span></b>
 
                             <div>
                                 <textarea className='textarea__tech' name="" id="" cols="30" rows="10"></textarea>
@@ -66,21 +66,21 @@ const GeneralCreate = () => {
                     </div>
                 </div>
                 <div className='create__time'>
-                    <h6 className="time__header">Time allocation</h6>
-                    <div className="time__container">
-                        <div className="time_div">
-                            <p className="time__p">Assignmant/Lab</p>
-                            <p className="time__p">Concept/Lecture</p>
-                            <p className="time__p">Guidle/Review</p>
-                            <p className="time__p">Test/Quiz</p>
-                            <p className="time__p">Exam</p>
+                    <h6 className="bg-core text-white p-1 text-center rounded-top">Time allocation</h6>
+                    <div className="d-flex text-black">
+                        <div className="p-3">
+                            <p className="fw-normal">Assignmant/Lab</p>
+                            <p className="fw-normal">Concept/Lecture</p>
+                            <p className="fw-normal">Guidle/Review</p>
+                            <p className="fw-normal">Test/Quiz</p>
+                            <p className="fw-normal">Exam</p>
                         </div>
-                        <div className="time__div">
-                            <p className="time__per">(0%)</p>
-                            <p className="time__per">(0%)</p>
-                            <p className="time__per">(0%)</p>
-                            <p className="time__per">(0%)</p>
-                            <p className="time__per">(0%)</p>
+                        <div className="p-3">
+                            <p className="fw-normal">(0%)</p>
+                            <p className="fw-normal">(0%)</p>
+                            <p className="fw-normal">(0%)</p>
+                            <p className="fw-normal">(0%)</p>
+                            <p className="fw-normal">(0%)</p>
                         </div>
                     </div>
                 </div>

@@ -126,8 +126,8 @@ const OutlineCreate = () => {
                                                         <p className="unit__title-create">Unit name</p>
                                                         <span className="unit__time"><input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" /></span>
                                                     </div>
-                                                    <div className='unit__edit'>
-                                                        <button className="btn__create-unit">Create</button>
+                                                    <div>
+                                                        <button className="bg-day border-0 rounded p-1 text-white mt-4 mb-1 ms-5">Create</button>
                                                     </div>
 
                                                 </div>
@@ -135,22 +135,22 @@ const OutlineCreate = () => {
                                             </div>
                                         </div>
 
-                                        <div className="add__days">
-                                            <button className="btn__add-date"><i class="bi bi-plus-circle"></i> Add unit</button>
+                                        <div>
+                                            <button className="border-0 p-1 rounded ms-3 mt-1 bg-day text-white mb-3"><i class="bi bi-plus-circle"></i> Add unit</button>
                                         </div>
                                     </div>
                                 </div>
                             ))}
 
-                            <div className="add_days-add">
-                                <button className="btn__date-add"><i class="bi bi-plus-circle"></i> Add day</button>
+                            <div>
+                                <button className="text-white bg-core p-1 border-0 rounded mt-4 ms-3"><i class="bi bi-plus-circle"></i> Add day</button>
                             </div>
 
                         </div>
                     </div>
                 </div>
-                <div className="outline__chart">
-                    <h6 className="outline__location">Time allocation</h6>
+                <div className="w-25 h-75 border me-15 rounded-top">
+                    <h6 className="p-1 bg-core text-white text-center rounded-top">Time allocation</h6>
                     <Chart
                         chartType="PieChart"
                         data={data}

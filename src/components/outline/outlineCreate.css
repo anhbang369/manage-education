@@ -110,18 +110,6 @@ p {
     margin-bottom: 5px;
   }
 
-  .btn__add-date{
-    border: none;
-    padding: 6px;
-    border-radius: 8px;
-    margin-left: 20px;
-    margin-top: 5px;
-    background-color: #474747;
-    font-weight: bold;
-    color: white;
-    margin-bottom: 10px;
-  }
-
   .content.show{
     border-radius: 0px 0px 10px 10px;
     box-shadow: 0px 1px 1px 1px #888888;
@@ -129,16 +117,6 @@ p {
     border: 1px solid;
     width: 98%;
     margin-left: 1%;
-  }
-
-  .btn__date-add{
-    color: white;
-    background-color: #47505f;
-    padding: 5px;
-    border: none;
-    border-radius: 8px;
-    margin-top: 10px;
-    margin-left: 20px;
   }
 
   .outline__content{
