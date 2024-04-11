@@ -9,13 +9,20 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 
 const View = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
 
-    const itemsPerPage = 10;
+    const itemsPerPage = 8;
 
     const totalPages = Math.ceil(Data.length / itemsPerPage);
 
@@ -62,43 +69,45 @@ const View = () => {
                             <p className="bg-dark text-white rounded ms-3 mb-3 p-1 d-flex w-10">HaNTT <i class="bi bi-x-lg"></i></p>
                         </div>
 
-                        <div className="syllabus__table">
-                            <table>
-                                <thead>
-                                    <tr className='table__header'>
-                                        <th>Syllabus<i class="bi bi-filter-left"></i></th>
-                                        <th>Code<i class="bi bi-filter-left"></i></th>
-                                        <th>Created on<i class="bi bi-filter-left"></i></th>
-                                        <th>Created by<i class="bi bi-filter-left"></i></th>
-                                        <th>Duration<i class="bi bi-filter-left"></i></th>
-                                        <th>Output standard</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
+                        <div>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead sx={{ backgroundColor: '#47505f' }}>
+                                        <TableRow>
+                                            <TableCell className='p-1 text-white'>Syllabus<i class="bi bi-filter-left"></i></TableCell>
+                                            <TableCell align="left" className='p-1 text-white'>Code<i class="bi bi-filter-left"></i></TableCell>
+                                            <TableCell align="left" className='p-1 text-white'>Created on<i class="bi bi-filter-left"></i></TableCell>
+                                            <TableCell align="left" className='p-1 text-white'>Created by<i class="bi bi-filter-left"></i></TableCell>
+                                            <TableCell align="left" className='p-1 text-white'>Duration<i class="bi bi-filter-left"></i></TableCell>
+                                            <TableCell align="left" className='p-1 text-white'>Output standard</TableCell>
+                                            <TableCell align="left" className='p-1 text-white'></TableCell>
 
-                                <tbody>
-                                    {currentData.map((item) => (
-                                        <tr key={item.id}>
-                                            <td className='table__syllabus'>{item.sullabus}</td>
-                                            <td className='table__syllabus'>{item.code}</td>
-                                            <td className='table__syllabus'>{item.created}</td>
-                                            <td className='table__syllabus'>{item.createBy}</td>
-                                            <td className='table__syllabus'>{item.duration}</td>
-                                            <td className='table__syllabus'>
-                                                <div className="standard__info">
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {currentData.map((item) => (
+                                            <TableRow
+                                                key={item.id}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell align="left">
+                                                    {item.sullabus}
+                                                </TableCell>
+                                                <TableCell align="left" sx={{ padding: 0 }}>{item.code}</TableCell>
+                                                <TableCell align="left" sx={{ padding: 0 }}>{item.created}</TableCell>
+                                                <TableCell align="left" sx={{ padding: 0 }}>{item.createBy}</TableCell>
+                                                <TableCell align="left" sx={{ padding: 0 }}>{item.duration}</TableCell>
+                                                <TableCell align="left" className='d-flex'>
                                                     {Object.values(item.output).map((output, index) => (
-                                                        <p key={index} className="syllabus__standard">{output}</p>
+                                                        <div key={index} className="syllabus__standard text-white rounded-pill mx-8 my-0 d-flex justify-content-center align-items-center p-1">{output}</div>
                                                     ))}
-                                                </div>
-                                            </td>
-                                            <td className='table__syllabus'>
-                                                <ActionMenu></ActionMenu>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-
-                            </table>
+                                                </TableCell>
+                                                <TableCell align="right" sx={{ padding: 0 }}><ActionMenu></ActionMenu></TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </div>
                         <ReactPaginate
                             nextLabel=">"

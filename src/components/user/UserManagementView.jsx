@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ActionMenu from '../action/ActionMenu';
 import ReactPaginate from 'react-paginate';
 import Import from '../import/Import';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const UserManagementView = () => {
 
@@ -82,18 +83,18 @@ const UserManagementView = () => {
                     </div>
                 </div>
 
-                <div className="syllabus__table">
-                    <table>
+                <div className='w-100'>
+                    <table className='table'>
                         <thead>
                             <tr className='table__header'>
-                                <th>ID<i class="bi bi-filter-left"></i></th>
-                                <th>Fullname<i class="bi bi-filter-left"></i></th>
-                                <th>Email<i class="bi bi-filter-left"></i></th>
-                                <th>Date of birth<i class="bi bi-filter-left"></i></th>
-                                <th>Gender<i class="bi bi-filter-left"></i></th>
-                                <th>Level<i class="bi bi-filter-left"></i></th>
-                                <th>Type<i class="bi bi-filter-left"></i></th>
-                                <th>Status<i class="bi bi-filter-left"></i></th>
+                                <th className='p-0'>ID<i class="bi bi-filter-left"></i></th>
+                                <th className='p-0'>Fullname<i class="bi bi-filter-left"></i></th>
+                                <th className='p-0'>Email<i class="bi bi-filter-left"></i></th>
+                                <th className='p-0'>Date of birth<i class="bi bi-filter-left"></i></th>
+                                <th className='p-0'>Gender<i class="bi bi-filter-left"></i></th>
+                                <th className='p-0'>Level<i class="bi bi-filter-left"></i></th>
+                                <th className='p-0'>Type<i class="bi bi-filter-left"></i></th>
+                                <th className='p-0'>Status<i class="bi bi-filter-left"></i></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -101,19 +102,19 @@ const UserManagementView = () => {
                         <tbody>
                             {currentData.map((item) => (
                                 <tr key={item.id}>
-                                    <td className='table__syllabus'>{item.id}</td>
-                                    <td className='table__syllabus'>{item.name}</td>
-                                    <td className='table__syllabus'>{item.email}</td>
-                                    <td className='table__syllabus'>{item.birth}</td>
-                                    <td className='table__syllabus'><i class={`bi bi-person-fill ${getClassForGender(item.sex)}`}></i></td>
-                                    <td className='table__syllabus'>{item.level}</td>
-                                    <td className='table__syllabus status'>
+                                    <td className='p-0'>{item.id}</td>
+                                    <td className='p-0'>{item.name}</td>
+                                    <td className='p-0'>{item.email}</td>
+                                    <td className='p-0'>{item.birth}</td>
+                                    <td className='p-0'><i class={`bi bi-person-fill ${getClassForGender(item.sex)}`}></i></td>
+                                    <td className='p-0'>{item.level}</td>
+                                    <td className='p-0'>
                                         <p className={`syllabus_p ${getClassForType(item.type)}`}>{item.type}</p>
                                     </td>
-                                    <td className='table__syllabus status'>
+                                    <td className='p-0'>
                                         <p className={`syllabus_p ${getClassForStatus(item.status)}`}>{item.status}</p>
                                     </td>
-                                    <td className='table__syllabus'>
+                                    <td className='p-0'>
                                         <ActionMenu></ActionMenu>
                                     </td>
                                 </tr>
