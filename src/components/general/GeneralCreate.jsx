@@ -4,38 +4,35 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const GeneralCreate = () => {
+
     return (
         <>
             <div className="general__container-create">
                 <div className='create__syllabus-input'>
                     <div className="general__content-create">
                         <div className="general__technica">
-                            <div className='level__content-create'>
-                                <div className='content__icon'>
-                                    <p className="level__title">Level</p>
+                            <div className='d-flex justify-content-start'>
+                                <div className='d-flex'>
+                                    <p className="fs-6">Level</p>
                                 </div>
-                                <Stack spacing={1} sx={{ width: 200, height: 10, }}>
-                                    <Autocomplete
-                                        id="free-solo-demo"
-                                        freeSolo
-                                        options={top100Films.map((option) => option.title)}
-                                        renderInput={(params) => <TextField {...params} label="freeSolo" />}
-                                    />
-                                </Stack>
+                                <select class="custom-select fs-6">
+                                    <option selected>All level</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
 
                             </div>
 
-                            <div className='level__content-create'>
-                                <div className='content__icon'>
-                                    <p className="level__title">Attendee number</p>
-                                </div>
+                            <div className='d-flex justify-content-start'>
+                                <p className="fs-6 me-3">Attendee number</p>
 
-                                <input type="text" className="level__input-create" />
+                                <div className="w-20">
+                                    <input type="number" class="form-control" aria-describedby="basic-addon1" />
+                                </div>
                             </div>
                         </div>
                         <div>
@@ -94,13 +91,13 @@ const GeneralCreate = () => {
                     <Grid item xs={8}>
                     </Grid>
                     <Grid item xs={1}>
-                        <button className="bg-transparent border-0 text-white rounded p-2"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
+                        <button className="bg-transparent border-0 text-white rounded p-2 my-4"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
                     </Grid>
                     <Grid item xs={2}>
-                        <button className="bg-dark-subtle border-0 text-white rounded p-2">Save as draft</button>
+                        <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                     </Grid>
                     <Grid item xs={1}>
-                        <button className="bg-secondary border-0 text-white rounded p-2">Next</button>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
                     </Grid>
                 </Grid>
             </Box>
@@ -109,11 +106,3 @@ const GeneralCreate = () => {
 }
 
 export default GeneralCreate
-
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'Reservoir Dogs', year: 1992 },
-    { title: 'Braveheart', year: 1995 },
-
-];

@@ -3,6 +3,9 @@ import "./outlineCreate.css";
 import { useState } from 'react';
 import { Chart } from "react-google-charts";
 import TrainMaterial from '../trainMaterial/TrainMaterial';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const data = [
     ["Task", "Hours per Day"],
@@ -158,15 +161,22 @@ const OutlineCreate = () => {
                 </div>
             </div>
 
-            <div className="row save__general">
-                <div className="col-md-1"><button className="general__pre">Previous</button></div>
-                <div className="col-md-7"></div>
-                <div className="row col-md-4">
-                    <div className="col-md-3"><button className="general__cancel"><a href="#" className="link__cancal">Cancal</a></button></div>
-                    <div className="col-md-6"><button className="general__draft">Save as draft</button></div>
-                    <div className="col-md-2"><button className="general__next">Next</button></div>
-                </div>
-            </div>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3">Previous</button>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <button className="bg-transparent border-0 text-white rounded p-2 my-4"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                    </Grid>
+                </Grid>
+            </Box>
 
             <TrainMaterial property={importOpen}></TrainMaterial>
         </>

@@ -3,6 +3,9 @@ import "./othersCreate.css";
 import { Chart } from "react-google-charts";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const data = [
     ["Task", "Hours per Day"],
@@ -28,31 +31,34 @@ const OthersCreate = () => {
                 </div>
                 <div className="other__scheme">
                     <h6 className="other__location">Assessment scheme</h6>
-                    <div className="other__component-create">
-                        <div className="quiz__create">
-                            <p className='quiz__p'>Quiz*</p>
-                            <p className='quiz__q'>Assignment*</p>
-                            <p className='quiz__q'>Final**</p>
+                    <div className="d-flex justify-content-start my-0 mx-7">
+                        <div>
+                            <p className='my-1'>Quiz*</p>
+                            <p className='my-1'>Assignment*</p>
+                            <p className='my-1'>Final**</p>
                         </div>
-                        <div className="quiz__create">
+                        <div>
                             <div>
-                                <input type="text" className="quiz__input" />
+                                <input type="number" class="form-control h-50 w-50 p-0 mx-3 my-1" aria-describedby="basic-addon1" />
                             </div>
                             <div>
-                                <input type="text" className="quiz__input" />
+                                <input type="number" class="form-control h-50 w-50 p-0 mx-3 my-1" aria-describedby="basic-addon1" />
                             </div>
                             <div>
-                                <input type="text" className="quiz__input" />
+                                <input type="number" class="form-control h-50 w-50 p-0 mx-3 my-1" aria-describedby="basic-addon1" />
                             </div>
                         </div>
                     </div>
-                    <div className="other__component-create">
-                        <p className="theory__create">Final Theory* <input className='theory__input' type="text" /></p>
-                        <p className="theory__create">Final Theory* <input className='theory__input' type="text" /></p>
+                    <div className="d-flex border-bottom border-black mx-3">
+                        <p className="d-flex h-50">Final Theory* <input type="number" class="form-control h-50 w-25 p-0 mx-3 my-1" aria-describedby="basic-addon1" /></p>
+                        <p className="d-flex h-50">Final Theory* <input type="number" class="form-control h-50 w-25 p-0 mx-3 my-1" aria-describedby="basic-addon1" /></p>
                     </div>
-                    <div className='criterial__create'>
+                    <div className='ms-2'>
                         <b>Passing criteria</b>
-                        <p className='p__criterial'>GPA* <input className='theory__input' type="text" /></p>
+                        <div className='d-flex'>
+                            <p className='p__criterial '>GPA* </p>
+                            <input type="number" class="form-control h-50 w-25 p-0 mx-3 my-1" aria-describedby="basic-addon1" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,15 +84,22 @@ const OthersCreate = () => {
                 />
             </div>
 
-            <div className="row save__general">
-                <div className="col-md-1"><button className="general__pre">Previous</button></div>
-                <div className="col-md-7"></div>
-                <div className="row col-md-4">
-                    <div className="col-md-3"><button className="general__cancel"><a href="#" className="link__cancal">Cancal</a></button></div>
-                    <div className="col-md-6"><button className="general__draft">Save as draft</button></div>
-                    <div className="col-md-2"><button className="general__next">Next</button></div>
-                </div>
-            </div>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3">Previous</button>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <button className="bg-transparent border-0 text-white rounded p-2 my-4"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                    </Grid>
+                </Grid>
+            </Box>
         </>
     )
 }

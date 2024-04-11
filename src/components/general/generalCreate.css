@@ -28,16 +28,16 @@
 
 }
 
-.level__content-create{
+/* .level__content-create{
     display: flex;
     justify-content: start;
     margin-top: 8px;
     margin-bottom: 6px;
-}
+} */
 
-.content__icon{
+/* .content__icon{
     display: flex;
-}
+} */
 
 .textarea__tech{
     width: 97%;
@@ -45,11 +45,11 @@
     border-radius: 8px;
 }
 
-.level__title{
+/* .level__title{
     margin-left: 8px;
     font-weight: bold;
     color: black;
-}
+} */
 
 .technical__title-create{
     font-weight: bold;

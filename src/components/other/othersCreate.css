@@ -41,13 +41,6 @@
     margin-left: 20px;
 }
 
-.other__component-create{
-    display: flex;
-    justify-content: start;
-    border-bottom: 1px solid black;
-    margin: 0px 10px;
-}
-
 p{
     font-size: 12px;
 }
@@ -107,12 +100,6 @@ p{
     padding: 4px;
     color: #FFF;
     border-radius: 6px 6px 0px 0px;
-}
-
-.save__general{
-    margin-top: 8px;
-    display: flex;
-    justify-content: space-between;
 }
 
 .general__pre{
