@@ -10,9 +10,7 @@ const TrainingProgramList = () => {
             <Navbar></Navbar>
             <div className='main'>
                 <Sidebar></Sidebar>
-                <div className="container">
-                    <TrainingProgram></TrainingProgram>
-                </div>
+                <TrainingProgram></TrainingProgram>
             </div>
             <Footer></Footer>
         </>

@@ -1,11 +1,5 @@
 .training__program-header{
     background-color: #2d3748;
-    color: #FFF;
-    width: 100%n;
-    padding: 6px;
-    margin: 0px;
-    font-weight: normal;
-    border: 1px solid #FFF;
 }
 
 .container{
@@ -23,10 +17,6 @@
 
 .table__syllabus-status{
     background-color: #2d3748;
-    border-radius: 8px;
-    padding: 4px;
-    width: 50%;
-    color: #FFF;
 }
 
 .syllabus__table{

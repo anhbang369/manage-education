@@ -45,7 +45,7 @@ const View = () => {
             <Container fixed className='p-0'>
                 <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                     <div className='syllabus__container'>
-                        <h4 className="syllabus__head">S y l l a b u s </h4>
+                        <h4 className="mb-4">S y l l a b u s </h4>
                         <div className="syllabus__underline"></div>
                         <div className="row">
                             <div className="syllabus__search col-md-8">
@@ -69,46 +69,44 @@ const View = () => {
                             <p className="bg-dark text-white rounded ms-3 mb-3 p-1 d-flex w-10">HaNTT <i class="bi bi-x-lg"></i></p>
                         </div>
 
-                        <div>
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                    <TableHead sx={{ backgroundColor: '#47505f' }}>
-                                        <TableRow>
-                                            <TableCell className='p-1 text-white'>Syllabus<i class="bi bi-filter-left"></i></TableCell>
-                                            <TableCell align="left" className='p-1 text-white'>Code<i class="bi bi-filter-left"></i></TableCell>
-                                            <TableCell align="left" className='p-1 text-white'>Created on<i class="bi bi-filter-left"></i></TableCell>
-                                            <TableCell align="left" className='p-1 text-white'>Created by<i class="bi bi-filter-left"></i></TableCell>
-                                            <TableCell align="left" className='p-1 text-white'>Duration<i class="bi bi-filter-left"></i></TableCell>
-                                            <TableCell align="left" className='p-1 text-white'>Output standard</TableCell>
-                                            <TableCell align="left" className='p-1 text-white'></TableCell>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead sx={{ backgroundColor: '#47505f' }}>
+                                    <TableRow>
+                                        <TableCell className='p-1 text-white'>Syllabus<i class="bi bi-filter-left"></i></TableCell>
+                                        <TableCell align="left" className='p-1 text-white'>Code<i class="bi bi-filter-left"></i></TableCell>
+                                        <TableCell align="left" className='p-1 text-white'>Created on<i class="bi bi-filter-left"></i></TableCell>
+                                        <TableCell align="left" className='p-1 text-white'>Created by<i class="bi bi-filter-left"></i></TableCell>
+                                        <TableCell align="left" className='p-1 text-white'>Duration<i class="bi bi-filter-left"></i></TableCell>
+                                        <TableCell align="left" className='p-1 text-white'>Output standard</TableCell>
+                                        <TableCell align="left" className='p-1 text-white'></TableCell>
 
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {currentData.map((item) => (
+                                        <TableRow
+                                            key={item.id}
+                                            sx={{ 'td': { padding: 0 } }}
+                                        >
+                                            <TableCell align="left">
+                                                {item.sullabus}
+                                            </TableCell>
+                                            <TableCell align="left">{item.code}</TableCell>
+                                            <TableCell align="left">{item.created}</TableCell>
+                                            <TableCell align="left">{item.createBy}</TableCell>
+                                            <TableCell align="left">{item.duration}</TableCell>
+                                            <TableCell align="left" className='d-flex'>
+                                                {Object.values(item.output).map((output, index) => (
+                                                    <div key={index} className="syllabus__standard text-white rounded-pill mx-8 my-0 d-flex justify-content-center align-items-center p-2">{output}</div>
+                                                ))}
+                                            </TableCell>
+                                            <TableCell align="right"><ActionMenu></ActionMenu></TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {currentData.map((item) => (
-                                            <TableRow
-                                                key={item.id}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <TableCell align="left">
-                                                    {item.sullabus}
-                                                </TableCell>
-                                                <TableCell align="left" sx={{ padding: 0 }}>{item.code}</TableCell>
-                                                <TableCell align="left" sx={{ padding: 0 }}>{item.created}</TableCell>
-                                                <TableCell align="left" sx={{ padding: 0 }}>{item.createBy}</TableCell>
-                                                <TableCell align="left" sx={{ padding: 0 }}>{item.duration}</TableCell>
-                                                <TableCell align="left" className='d-flex'>
-                                                    {Object.values(item.output).map((output, index) => (
-                                                        <div key={index} className="syllabus__standard text-white rounded-pill mx-8 my-0 d-flex justify-content-center align-items-center p-1">{output}</div>
-                                                    ))}
-                                                </TableCell>
-                                                <TableCell align="right" sx={{ padding: 0 }}><ActionMenu></ActionMenu></TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </div>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                         <ReactPaginate
                             nextLabel=">"
                             onPageChange={handlePageClick}
