@@ -33,9 +33,9 @@ const OthersCreate = () => {
                     <h6 className="other__location">Assessment scheme</h6>
                     <div className="d-flex justify-content-start my-0 mx-7">
                         <div>
-                            <p className='my-1'>Quiz*</p>
-                            <p className='my-1'>Assignment*</p>
-                            <p className='my-1'>Final**</p>
+                            <p className='my-1 mx-2'>Quiz*</p>
+                            <p className='my-1 mx-2'>Assignment*</p>
+                            <p className='my-1 mx-2'>Final**</p>
                         </div>
                         <div>
                             <div>
@@ -49,7 +49,7 @@ const OthersCreate = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex border-bottom border-black mx-3">
+                    <div className="d-flex border-bottom border-black border-top border-black mx-2">
                         <p className="d-flex h-50">Final Theory* <input type="number" class="form-control h-50 w-25 p-0 mx-3 my-1" aria-describedby="basic-addon1" /></p>
                         <p className="d-flex h-50">Final Theory* <input type="number" class="form-control h-50 w-25 p-0 mx-3 my-1" aria-describedby="basic-addon1" /></p>
                     </div>

@@ -93,3 +93,7 @@ body{
   display: inline-block;
   width: 1.7em;
 }
+
+.bg-core{
+  background-color: #282c34;
+}

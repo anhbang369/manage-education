@@ -64,7 +64,7 @@ const SyllabusCreate = () => {
                         <Box sx={{ bgcolor: '#FFF', height: '100%', width: '100%' }}>
                             <div>
                                 <div className='d-flex text-black m-0 border-bottom border-black'>
-                                    <h5 className='text-black mt-8 mx-15 mb-0 text-center'>S y l l a b u s</h5>
+                                    <h5 className='text-black mt-3 me-5 ms-2 text-center'>S y l l a b u s</h5>
                                     <Box sx={{ width: 300 }}>
                                         <Slider
                                             aria-label="Custom marks"
@@ -77,9 +77,9 @@ const SyllabusCreate = () => {
                                     </Box>
                                 </div>
                                 <div className='mt-2 d-flex justify-content-md-between text-black w-64'>
-                                    <div className='option_div'>
-                                        <h6 className='option__title'>Syllabus Name*</h6>
-                                        <input type='text' className='option__input' />
+                                    <div className='d-flex'>
+                                        <p className='mx-4'>Syllabus Name*</p>
+                                        <input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" />
                                     </div>
                                     <p className='option__code'><b>Code:</b>  NLP</p>
                                     <p className='option__version'><b>Version:</b>  1.0</p>

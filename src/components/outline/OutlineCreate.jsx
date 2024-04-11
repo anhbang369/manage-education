@@ -124,7 +124,7 @@ const OutlineCreate = () => {
                                                     <p className="unit__number">Unit 7</p>
                                                     <div className='title__div'>
                                                         <p className="unit__title-create">Unit name</p>
-                                                        <span className="unit__time"><input className='input__create-unit' type="text" placeholder='Type unit name' /></span>
+                                                        <span className="unit__time"><input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" /></span>
                                                     </div>
                                                     <div className='unit__edit'>
                                                         <button className="btn__create-unit">Create</button>

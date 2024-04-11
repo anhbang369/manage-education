@@ -18,7 +18,7 @@ const GeneralCreate = () => {
                                 <div className='d-flex'>
                                     <p className="fs-6">Level</p>
                                 </div>
-                                <select class="custom-select fs-6">
+                                <select class="custom-select h-75 mx-3 border">
                                     <option selected>All level</option>
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
@@ -30,8 +30,8 @@ const GeneralCreate = () => {
                             <div className='d-flex justify-content-start'>
                                 <p className="fs-6 me-3">Attendee number</p>
 
-                                <div className="w-20">
-                                    <input type="number" class="form-control" aria-describedby="basic-addon1" />
+                                <div className='h-25'>
+                                    <input type="number" class="form-control h-25" aria-describedby="basic-addon1" />
                                 </div>
                             </div>
                         </div>
