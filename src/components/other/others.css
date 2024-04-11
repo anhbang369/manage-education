@@ -85,34 +85,18 @@
 .other__trainning-other{
     border: 1px solid #47505f;
     margin-top: 10px;
+    margin-bottom: 10px;
     width: 98%;
     margin-left: 20px;
-    height: 38%;
     overflow-y: auto;
     border-radius: 8px;
+    padding-bottom: 20px;
 }
 
 ::-webkit-scrollbar{
     display: none;
 }
 
-.tranning_component{
-    color: black;
-    display: flex;
-    margin-top: 10px;
-}
-
-.training__icon{
-    margin-left: 20px;
-}
-
 .training__ul{
     margin: 0px 0px 0px 150px;
-}
-
-.train__title{
-    background-color: #47505f;
-    padding: 4px;
-    color: #FFF;
-    border-radius: 6px 6px 0px 0px;
 }

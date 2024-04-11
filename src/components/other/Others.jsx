@@ -42,8 +42,8 @@ const Others = () => {
 
             <div className="other__trainning-other">
                 <h6 className="bg-core p-1 rounded-top text-white">Trainning delivery priciple</h6>
-                <div className="tranning_component">
-                    <i class="bi bi-shield-check training__icon"><b><span>Training</span></b></i>
+                <div className="d-flex mt-2">
+                    <i class="bi bi-shield-check ms-3"><b><span>Training</span></b></i>
                     <ul className='training__ul'>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
@@ -54,16 +54,16 @@ const Others = () => {
                     </ul>
                 </div>
 
-                <div className="tranning_component">
-                    <i class="bi bi-shield-check training__icon"><b><span>Re-test</span></b></i>
+                <div className="d-flex mt-2">
+                    <i class="bi bi-shield-check ms-3"><b><span>Re-test</span></b></i>
                     <ul className='training__ul'>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                     </ul>
                 </div>
 
-                <div className="tranning_component">
-                    <i class="bi bi-shield-check training__icon"><b><span>Marking</span></b></i>
+                <div className="d-flex mt-2">
+                    <i class="bi bi-shield-check ms-3"><b><span>Marking</span></b></i>
                     <ul className='training__ul'>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
@@ -72,16 +72,16 @@ const Others = () => {
                     </ul>
                 </div>
 
-                <div className="tranning_component">
-                    <i class="bi bi-shield-check training__icon"><b><span>Waiver Criterical</span></b></i>
+                <div className="d-flex mt-2">
+                    <i class="bi bi-shield-check ms-3"><b><span>Waiver Criterical</span></b></i>
                     <ul className='training__ul'>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                     </ul>
                 </div>
 
-                <div className="tranning_component">
-                    <i class="bi bi-shield-check training__icon"><b><span>Other</span></b></i>
+                <div className="d-flex mt-2">
+                    <i class="bi bi-shield-check ms-3"><b><span>Other</span></b></i>
                     <ul className='training__ul'>
                         <li className="fs-6">Trainee who actively complete online learning according to MOOC links provided</li>
                     </ul>

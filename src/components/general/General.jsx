@@ -4,7 +4,7 @@ import "./general.css";
 const General = () => {
     return (
         <>
-            <div className="general__content">
+            <div className="d-flex justify-content-around mt-2 box-shadow4">
                 <div className="general__technical">
                     <div className='d-flex justify-content-between'>
                         <div className='d-flex'>

@@ -17,10 +17,7 @@
     background-color: #47505f;
 }
 
-.general__content{
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
+.box-shadow4{
     box-shadow: #47505f;
 }
 
