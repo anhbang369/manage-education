@@ -10,9 +10,7 @@ const UserManagement = () => {
             <Navbar></Navbar>
             <div className='main'>
                 <Sidebar></Sidebar>
-                <div className="container">
-                    <UserManagementView />
-                </div>
+                <UserManagementView />
             </div>
             <Footer></Footer>
         </>

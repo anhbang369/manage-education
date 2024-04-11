@@ -3,6 +3,11 @@ import Demo from '../components/calendar/demo';
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const TrainingCalander = () => {
     return (
@@ -11,10 +16,17 @@ const TrainingCalander = () => {
                 <Navbar></Navbar>
                 <div className='main'>
                     <Sidebar></Sidebar>
-                    <div className="container">
-                        <h5 className='training__calendar-title'>Training Calendar</h5>
-                        <Demo />
-                    </div>
+                    <React.Fragment>
+                        <CssBaseline />
+                        <Container fixed className='p-0'>
+                            <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
+                                <h5 className='training__calendar-title'>Training Calendar</h5>
+                                <Demo />
+                            </ Box>
+                        </Container>
+                    </React.Fragment>
+
+
                 </div>
                 <Footer></Footer>
             </>
