@@ -31,20 +31,22 @@ const TrainingProgram = () => {
                 <div>
                     <h5 className="training__program-header">Training program</h5>
                 </div>
-                <div className="syllabus__func">
-                    <div className="syllabus__search">
-                        <div className="input-with-icon">
-                            <i class="bi bi-search"></i>
-                            <input type="text" className="search__by" placeholder='Search by ...' />
+                <div className="row p-1">
+                    <div className="col-md-9 d-flex justify-content-start">
+                        <div>
+                            <div className="input-with-icon">
+                                <i class="bi bi-search"></i>
+                                <input type="text" className="search__by" placeholder='Search by ...' />
+                            </div>
                         </div>
-                        <div className="input--with-icon">
-                            <button className='filter__training'><i class="bi bi-filter"></i>    <b>Filter</b></button>
+                        <div>
+                            <button className='text-white p-1 border-0 rounded bg-primary'><i class="bi bi-filter"></i>    <b>Filter</b></button>
                         </div>
                     </div>
 
-                    <div className="syllabus__import">
-                        <button className="import" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
-                        <button className="syllabus__add"><i class="bi bi-plus-circle"></i> Add syllabus</button>
+                    <div className="col-md-3">
+                        <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
+                        <button className="border border-0 text-white rounded me-3 px-2 py-1"><i class="bi bi-plus-circle"></i> Add syllabus</button>
                     </div>
                 </div>
 

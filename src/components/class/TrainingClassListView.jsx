@@ -44,25 +44,27 @@ const TrainingClassListView = () => {
         <>
             <div className='syllabus__container'>
                 <h5 className='syllabus__training-class-header'>Traning Class</h5>
-                <div className="syllabus__func">
-                    <div className="syllabus__search">
-                        <div className="input-with-icon">
-                            <i class="bi bi-search"></i>
-                            <input type="text" className="search__by" placeholder='Search by ...' />
+                <div className="row p-1">
+                    <div className="col-md-9 d-flex justify-content-start">
+                        <div>
+                            <div className="input-with-icon">
+                                <i class="bi bi-search"></i>
+                                <input type="text" className="search__by" placeholder='Search by ...' />
+                            </div>
                         </div>
                         <div>
-                            <button className='training-class-filter'><i class="bi bi-filter"></i> Filter</button>
+                            <button className='text-white p-1 border-0 rounded bg-primary'><i class="bi bi-filter"></i>    <b>Filter</b></button>
                         </div>
                     </div>
 
-                    <div className="syllabus__import">
-                        <button className="import" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
-                        <button className="syllabus__add"><i class="bi bi-plus-circle"></i> Add syllabus</button>
+                    <div className="col-md-3">
+                        <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
+                        <button className="border border-0 text-white rounded me-3 px-2 py-1"><i class="bi bi-plus-circle"></i> Add syllabus</button>
                     </div>
                 </div>
-                <div className="syllabus__enter">
-                    <p className="enter__search">foundation <i class="bi bi-x-lg"></i></p>
-                    <p className="enter__search">HaNTT <i class="bi bi-x-lg"></i></p>
+                <div className="mt-2 ms-10 d-flex">
+                    <p className="bg-dark text-white rounded ms-4 mb-3 p-1 d-flex w-10">foundation <i class="bi bi-x-lg"></i></p>
+                    <p className="bg-dark text-white rounded ms-3 mb-3 p-1 d-flex w-10">HaNTT <i class="bi bi-x-lg"></i></p>
                 </div>
 
                 <div className="syllabus__table">

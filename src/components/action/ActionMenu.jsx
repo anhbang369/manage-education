@@ -2,7 +2,6 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./actionMenu.css";
 
 const ActionMenu = () => {
     return (

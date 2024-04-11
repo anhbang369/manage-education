@@ -9,11 +9,6 @@
     border: 1px solid #47505f;
 }
 
-.syllabus__func{
-    margin-top: 15px;
-    display: flex;
-    justify-content: space-between;
-}
 
 .syllabus__search {
     display: flex;
@@ -64,43 +59,36 @@
     margin-right: 20px;
 }
 
-.import{
-    border: none;
+/* .import{
     width: 79px;
     height: 30px;
     background-color: #d45b13;
-    color: #fff;
-    border-radius: 8px;
-    margin-right: 5px;
-}
+} */
 
-.syllabus__add{
+/* .syllabus__add{
     border: none;
     width: 110px;
     height: 30px;
     background-color: #47505f;
     color: #fff;
     border-radius: 8px;
-}
+} */
 
-.syllabus__enter{
+/* .syllabus__enter{
     margin-top: 5px;
     margin-left: 20px;
     display: flex;
-}
+} */
 
-.enter__search{
+/* .enter__search{
     color: #FFF;
     background-color: #474747;
-    border-radius: 6px;
-    margin-left: 6px;
-    display: flex;
     justify-content: center;
     align-items: center;
     height: 22px;
     width: 90px;
     margin-bottom: 5px;
-}
+} */
 
 .syllabus__table{
     width: 100%;

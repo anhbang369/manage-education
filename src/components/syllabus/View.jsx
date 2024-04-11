@@ -8,6 +8,7 @@ import ActionMenu from '../action/ActionMenu';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const View = () => {
@@ -39,8 +40,8 @@ const View = () => {
                     <div className='syllabus__container'>
                         <h4 className="syllabus__head">S y l l a b u s </h4>
                         <div className="syllabus__underline"></div>
-                        <div className="syllabus__func">
-                            <div className="syllabus__search">
+                        <div className="row">
+                            <div className="syllabus__search col-md-8">
                                 <div className="input-with-icon">
                                     <i class="bi bi-search"></i>
                                     <input type="text" className="search__by" placeholder='Search by ...' />
@@ -51,14 +52,14 @@ const View = () => {
                                 </div>
                             </div>
 
-                            <div className="syllabus__import">
-                                <button className="import" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
-                                <button className="syllabus__add"><i class="bi bi-plus-circle"></i> Add syllabus</button>
+                            <div className="col-md-4">
+                                <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
+                                <button className="border border-0 text-white rounded me-3 px-2 py-1"><i class="bi bi-plus-circle"></i> Add syllabus</button>
                             </div>
                         </div>
-                        <div className="syllabus__enter">
-                            <p className="enter__search">foundation <i class="bi bi-x-lg"></i></p>
-                            <p className="enter__search">HaNTT <i class="bi bi-x-lg"></i></p>
+                        <div className="mt-2 ms-10 d-flex">
+                            <p className="bg-dark text-white rounded ms-4 mb-3 p-1 d-flex w-10">foundation <i class="bi bi-x-lg"></i></p>
+                            <p className="bg-dark text-white rounded ms-3 mb-3 p-1 d-flex w-10">HaNTT <i class="bi bi-x-lg"></i></p>
                         </div>
 
                         <div className="syllabus__table">
