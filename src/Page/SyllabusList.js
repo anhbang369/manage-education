@@ -10,9 +10,7 @@ const SyllabusList = () => {
             <Navbar></Navbar>
             <div className='main'>
                 <Sidebar></Sidebar>
-                <div className="container">
-                    <View></View>
-                </div>
+                <View></View>
             </div>
             <Footer></Footer>
         </>
