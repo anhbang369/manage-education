@@ -2,6 +2,8 @@ import React from 'react';
 import "./generalCreate.css";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 const GeneralCreate = () => {
     return (
@@ -81,14 +83,21 @@ const GeneralCreate = () => {
                 </div>
             </div>
 
-            <div className="row">
-                <div className="col-md-9"></div>
-                <div className="col-md-3 row">
-                    <div className="col-md-4"><button className="general__cancel"><a href="#" className="link__cancal">Cancal</a></button></div>
-                    <div className="col-md-6"><button className="general__draft">Save as draft</button></div>
-                    <div className="col-md-2"><button className="general__next">Next</button></div>
-                </div>
-            </div>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <button className="bg-transparent border-0 text-white rounded p-2"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <button className="bg-dark-subtle border-0 text-white rounded p-2">Save as draft</button>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <button className="bg-secondary border-0 text-white rounded p-2">Next</button>
+                    </Grid>
+                </Grid>
+            </Box>
         </>
     )
 }

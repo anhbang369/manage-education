@@ -5,6 +5,16 @@ import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 const UserPermission = () => {
     return (
@@ -12,149 +22,191 @@ const UserPermission = () => {
             <Navbar></Navbar>
             <div className='main'>
                 <Sidebar></Sidebar>
-                <div className="container">
-                    <h4 className='user__permission'>User Permission</h4>
-                    <div className='user__permission-end'><button className='user__permission-button'><i class="bi bi-plus-circle"></i> Add new</button></div>
+                <React.Fragment>
+                    <CssBaseline />
+                    <Container fixed className='p-0'>
+                        <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
+                            <div>
+                                <h4 className='ms-9 border-bottom border-black'>User Permission</h4>
+                                <div className='d-flex justify-content-end'><button className='p-1 rounded text-white border border-white mb-3'><i class="bi bi-plus-circle"></i> Add new</button></div>
 
-                    <div className="syllabus__table">
-                        <table>
-                            <thead>
-                                <tr className='table__header'>
-                                    <th className='th__table-header'>Role name</th>
-                                    <th>    Syllabus</th>
-                                    <th>Training program</th>
-                                    <th>Class</th>
-                                    <th>Learning material</th>
-                                    <th>User</th>
-                                </tr>
-                            </thead>
+                                <TableContainer component={Paper}>
+                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                        <TableHead sx={{ backgroundColor: '#47505f' }}>
+                                            <TableRow>
+                                                <TableCell className='p-1 text-white'>Role name<i class="bi bi-filter-left"></i></TableCell>
+                                                <TableCell align="left" className='p-1 text-white'>Syllabus<i class="bi bi-filter-left"></i></TableCell>
+                                                <TableCell align="left" className='p-1 text-white'>Training program<i class="bi bi-filter-left"></i></TableCell>
+                                                <TableCell align="left" className='p-1 text-white'>Class<i class="bi bi-filter-left"></i></TableCell>
+                                                <TableCell align="left" className='p-1 text-white'>Learning material<i class="bi bi-filter-left"></i></TableCell>
+                                                <TableCell align="left" className='p-1 text-white'>User</TableCell>
+                                                <TableCell align="left" className='p-1 text-white'></TableCell>
 
-                            <tbody>
-                                <tr>
-                                    <td className='table__syllabus'>Super Admin</td>
-                                    <td className='table__syllabus'>
-                                        <Form.Select aria-placeholder='exam'>
-                                            <option>Permission</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </Form.Select>
-                                    </td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus color-table'>
-                                        <i class="bi bi-star"></i> Full access
-                                    </td>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow
+                                                sx={{ 'td': { padding: 0 } }}
+                                            >
+                                                <TableCell align="left" className='fw-bold'>
+                                                    Super Admin
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left" className='text-primary'>
+                                                    <i class="bi bi-star"></i> Full access
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow
+                                                sx={{ 'td': { padding: 0 } }}
+                                            >
+                                                <TableCell align="left" className='fw-bold'>
+                                                    Class Admin
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left" className='text-primary'>
+                                                    <i class="bi bi-plus-circle"></i> Create
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow
+                                                sx={{ 'td': { padding: 0 } }}
+                                            >
+                                                <TableCell align="left" className='fw-bold'>
+                                                    Trainer
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left" className='text-primary'>
+                                                    <i class="bi bi-eye"></i> View
+                                                </TableCell>
+                                            </TableRow>
+                                            <TableRow
+                                                sx={{ 'td': { padding: 0 } }}
+                                            >
+                                                <TableCell align="left" className='fw-bold'>
+                                                    Student
+                                                </TableCell>
+                                                <TableCell align="left">
+                                                    <Form.Select aria-label="Default select example">
+                                                        <option>Permission</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </Form.Select>
+                                                </TableCell>
+                                                <TableCell align="left" className='text-primary'>
+                                                    <i class="bi bi-eye"></i> View
+                                                </TableCell>
+                                                <TableCell align="left" className='text-primary'>
+                                                    <i class="bi bi-eye"></i> View
+                                                </TableCell>
+                                                <TableCell align="left" className='text-primary'>
+                                                    <i class="bi bi-eye"></i> View
+                                                </TableCell>
+                                                <TableCell align="left" className='text-primary'>
+                                                    <i class="bi bi-eye-slash"></i> Access denied
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </div>
+                        </ Box>
+                    </Container>
+                </React.Fragment>
 
-                                </tr>
 
-                                <tr>
-                                    <td className='table__syllabus'>Class Admin</td>
-                                    <td className='table__syllabus'>
-                                        <Form.Select aria-placeholder='exam'>
-                                            <option>Permission</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </Form.Select>
-                                    </td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus color-table'>
-                                        <i class="bi bi-plus-circle"></i> Create
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td className='table__syllabus'>Trainer</td>
-                                    <td className='table__syllabus'>
-                                        <Form.Select aria-placeholder='exam'>
-                                            <option>Permission</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </Form.Select>
-                                    </td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus'><Form.Select aria-label="Default select example">
-                                        <option>Permission</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select></td>
-                                    <td className='table__syllabus color-table'>
-                                        <i class="bi bi-eye"></i> View
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td className='table__syllabus'>Super Admin</td>
-                                    <td className='table__syllabus'>
-                                        <Form.Select aria-placeholder='exam'>
-                                            <option>Permission</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </Form.Select>
-                                    </td>
-                                    <td className='table__syllabus color-table'><i class="bi bi-eye"></i> View</td>
-                                    <td className='table__syllabus color-table'><i class="bi bi-eye"></i> View</td>
-                                    <td className='table__syllabus color-table'><i class="bi bi-eye"></i> View</td>
-                                    <td className='table__syllabus color-table'>
-                                        <i class="bi bi-eye-slash"></i> Access denied
-                                    </td>
-
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
-                </div>
             </div>
             <Footer></Footer>
         </>

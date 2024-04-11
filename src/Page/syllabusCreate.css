@@ -1,29 +1,3 @@
-.syllabus__header{
-    display: flex;
-    color: black;
-    margin: 0px;
-}
-
-.header__title{
-    color: black;
-    margin-top: 16px;
-    margin-right: 56px;
-    margin-left: 20px;
-    margin-bottom: 0px;
-}
-
-.syllabus__header{
-    border-bottom: 1px solid black;
-}
-
-.syllabus__option{
-    display: flex;
-    justify-content: space-between;
-    color: black;
-    margin-top: 10px;
-    width: 64%;
-}
-
 .option_div{
     display: flex;
 }
