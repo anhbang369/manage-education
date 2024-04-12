@@ -4,14 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-const TrainingProgramStepTwo = () => {
+const TrainingProgramStepTwo = ({ classDto }) => {
     return (
         <>
             <div >
                 <div className="bg-core text-white border border-white">
                     <h6 className="p-1 ms-3">Training program</h6>
                     <div className='d-flex'>
-                        <h5 className="p-1 ms-3">DevOps Foundation</h5>
+                        <h5 className="p-1 ms-3">{classDto.classNameP}</h5>
                         <p className="p-1 text-white rounded border-0 bg-secondary text-center h-50 ms-3">Inactive</p>
                     </div>
                 </div>

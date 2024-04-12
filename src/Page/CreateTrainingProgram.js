@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import Sidebar from '../layout/sidebar/Sidebar';
 import Navbar from '../layout/navbar/Navbar';
 import Footer from '../layout/footer/Footer';
@@ -9,6 +10,15 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
 const CreateTrainingProgram = () => {
+
+    const [stepP, setStepP] = useState(1);
+    const [classDtoP, setClassDtoP] = useState(null);
+
+    const handleNextStepP = (dto) => {
+        setClassDtoP(dto);
+        setStepP(stepP + 1);
+    };
+
     return (
         <>
             <Navbar></Navbar>
@@ -18,7 +28,8 @@ const CreateTrainingProgram = () => {
                     <CssBaseline />
                     <Container fixed className='p-0 overflow-y-scroll'>
                         <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
-                            <TrainingProgramStepOne />
+                            {stepP === 1 && <TrainingProgramStepOne onNextStepP={handleNextStepP} />}
+                            {stepP === 2 && <TrainingProgramStepTwo classDto={classDtoP} />}
                         </ Box>
                     </Container>
                 </React.Fragment>

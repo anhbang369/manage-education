@@ -6,10 +6,8 @@ import ClassStepOne from '../components/class/ClassStepOne';
 import ClassStepTwo from '../components/class/ClassStepTwo';
 import ClassStepThree from '../components/class/ClassStepThree';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 
 const CreateClass = () => {
 
