@@ -4,12 +4,6 @@
     margin: 0px 0px 8px 0px;
 }
 
-.syllabus__underline,
-.syllabus__underline{
-    border: 1px solid #47505f;
-}
-
-
 .syllabus__search {
     display: flex;
     justify-content: space-between;

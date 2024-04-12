@@ -43,10 +43,9 @@ const View = () => {
         <React.Fragment>
             <CssBaseline />
             <Container fixed className='p-0'>
-                <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
+                <Box sx={{ bgcolor: '#FFF', height: '100%', width: '100%' }}>
                     <div className='syllabus__container'>
-                        <h5 className="mb-4 bg-core text-white border border-white p-2">Syllabus</h5>
-                        <div className="syllabus__underline"></div>
+                        <h5 className="mb-2 bg-core text-white border border-white p-2">Syllabus</h5>
                         <div className="row">
                             <div className="syllabus__search col-md-8">
                                 <div className="input-with-icon">
