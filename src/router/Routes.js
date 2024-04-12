@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import SyllabusView from "./Page/SyllabusView";
-import SyllabusCreate from "./Page/SyllabusCreate";
-import SyllabusList from "./Page/SyllabusList";
-import Login from "./components/googleSignIn/Login";
-import TrainingProgramList from "./Page/TrainingProgramList";
-import ViewProgram from "./Page/ViewProgram";
-import CreateTrainingProgram from "./Page/CreateTrainingProgram";
-import TrainingClassList from "./Page/TrainingClassList";
-import TrainingCalander from "./Page/TrainingCalander";
-import UserManagement from "./Page/UserManagement";
-import UserPermission from "./Page/UserPermission";
-import ClassView from "./Page/ClassView";
-import CreateClass from "./Page/CreateClass";
+import SyllabusView from "../page/SyllabusView";
+import SyllabusCreate from "../page/SyllabusCreate";
+import SyllabusList from "../page/SyllabusList";
+import Login from "../components/googleSignIn/Login";
+import TrainingProgramList from "../page/TrainingProgramList";
+import ViewProgram from "../page/ViewProgram";
+import CreateTrainingProgram from "../page/CreateTrainingProgram";
+import TrainingClassList from "../page/TrainingClassList";
+import TrainingCalander from "../page/TrainingCalander";
+import UserManagement from "../page/UserManagement";
+import UserPermission from "../page/UserPermission";
+import ClassView from "../page/ClassView";
+import CreateClass from "../page/CreateClass";
 
 export const Routes = () => {
     return (
