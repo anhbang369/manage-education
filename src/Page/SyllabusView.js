@@ -31,7 +31,7 @@ const SyllabusGeneral = () => {
                         <Container fixed className='p-0 overflow-y-scroll'>
                             <Box sx={{ bgcolor: '#FFF', height: '100%', width: '100%' }}>
                                 <div>
-                                    <h4 className='fw-normal text-white fs-5 ms-10 bg-core p-1'>S y l l a b u s </h4>
+                                    <h4 className='fw-normal text-white fs-5 ms-10 bg-core p-1 border border-white'>S y l l a b u s </h4>
                                     <div className='header__title'>
                                         <div className='header__div'>
                                             <h1 className='syllabus__title'>C# Programming Language</h1>

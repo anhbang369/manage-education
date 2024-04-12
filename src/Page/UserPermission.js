@@ -27,8 +27,8 @@ const UserPermission = () => {
                     <Container fixed className='p-0'>
                         <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                             <div>
-                                <h4 className='ms-9 border-bottom border-black'>User Permission</h4>
-                                <div className='d-flex justify-content-end'><button className='p-1 rounded text-white border border-white mb-3'><i class="bi bi-plus-circle"></i> Add new</button></div>
+                                <h4 className='ms-9 border-bottom border-black bg-core text-white border border-white p-1'>User Permission</h4>
+                                <div className='d-flex justify-content-end'><button className='p-1 rounded text-white border border-white mb-3 bg-core'><i class="bi bi-plus-circle"></i> Add new</button></div>
 
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
