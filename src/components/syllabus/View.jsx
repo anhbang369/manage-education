@@ -45,7 +45,7 @@ const View = () => {
             <Container fixed className='p-0'>
                 <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                     <div className='syllabus__container'>
-                        <h4 className="mb-4">S y l l a b u s </h4>
+                        <h5 className="mb-4 bg-core text-white border border-white p-2">Syllabus</h5>
                         <div className="syllabus__underline"></div>
                         <div className="row">
                             <div className="syllabus__search col-md-8">
@@ -61,7 +61,7 @@ const View = () => {
 
                             <div className="col-md-4">
                                 <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
-                                <button className="border border-0 text-white rounded me-3 px-2 py-1"><i class="bi bi-plus-circle"></i> Add syllabus</button>
+                                <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-core"><i class="bi bi-plus-circle"></i> Add syllabus</button>
                             </div>
                         </div>
                         <div className="mt-2 ms-10 d-flex">
