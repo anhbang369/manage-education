@@ -5,6 +5,11 @@ import Footer from '../components/footer/Footer';
 import ClassStepOne from '../components/class/ClassStepOne';
 import ClassStepTwo from '../components/class/ClassStepTwo';
 import ClassStepThree from '../components/class/ClassStepThree';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
 const CreateClass = () => {
 
@@ -21,12 +26,17 @@ const CreateClass = () => {
             <Navbar></Navbar>
             <div className='main'>
                 <Sidebar></Sidebar>
-                <div className="container">
-                    {step === 1 && <ClassStepOne onNextStep={handleNextStep} />}
-                    {step === 2 && <ClassStepTwo classDto={classDto} />}
-                    {step === 3 && <ClassStepThree />}
-                </div>
+                <Container fixed className='p-0 overflow-y-scroll'>
+                    <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
+                        <div className="w-100">
+                            {step === 1 && <ClassStepOne onNextStep={handleNextStep} />}
+                            {step === 2 && <ClassStepThree classDto={classDto} />}
+                            {step === 3 && <ClassStepTwo />}
+                        </div>
+                    </ Box>
+                </Container>
             </div>
+            <Footer></Footer>
         </>
     )
 }

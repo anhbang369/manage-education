@@ -114,6 +114,10 @@ body{
   background-color: #285d9a;
 }
 
+.bg-general{
+  background-color: #8b8b8b;
+}
+
 .fs-12{
   font-size: 12px;
 }
@@ -168,4 +172,8 @@ body{
 
 .rounded-top-end{
   border-radius: 0px 10px 0px 0px;
+}
+
+.box-shadow-1{
+  box-shadow: 1px 1px 20px #8b8b8b;
 }
