@@ -3,6 +3,10 @@ import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import Program from '../components/program/Program';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ViewProgram = () => {
     return (
@@ -10,9 +14,17 @@ const ViewProgram = () => {
             <Navbar></Navbar>
             <div className='main'>
                 <Sidebar></Sidebar>
-                <div className="container">
-                    <Program></Program>
-                </div>
+
+                <React.Fragment>
+                    <CssBaseline />
+                    <Container fixed className='p-0 overflow-y-scroll'>
+                        <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
+                            <div>
+                                <Program></Program>
+                            </div>
+                        </ Box>
+                    </Container>
+                </React.Fragment>
             </div>
             <Footer></Footer>
         </>

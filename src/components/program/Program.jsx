@@ -29,16 +29,16 @@ const Program = () => {
 
     return (
         <>
-            <div className="container">
-                <div className="container__header">
-                    <h6 className="program__title">Training program</h6>
+            <div>
+                <div className="bg-core border border-white text-white p-1">
+                    <h6 className="ms-2">Training program</h6>
                     <div className="row">
                         <div className='col-md-4 row'>
                             <div className='col-md-9'>
                                 <h4>DevOps Foundation</h4>
                             </div>
                             <div className='col-md-3'>
-                                <p className='program__title-action'>Active</p>
+                                <p className='border border-white rounded text-center'>Active</p>
                             </div>
                         </div>
                         <div className='col-md-7'></div>
@@ -48,23 +48,23 @@ const Program = () => {
                     </div>
                 </div>
 
-                <div className='syllabus__time'><p className='syllabus__date'>8</p> <span className='date__span'>days (68 hours)</span></div>
-                <p className='info__detail'>Modified on 23/07/2024 by <b>Anh Bang</b></p>
-                <h6 className="content__program"><b>Content</b></h6>
+                <div className='d-flex'><p className='fw-bold ms-2 fs-20'>8</p> <span className='fs-14 mt-2'>days (68 hours)</span></div>
+                <p className='fs-14 ms-2 fw-normal'>Modified on 23/07/2024 by <b>Anh Bang</b></p>
+                <h6 className="p-1 ms-3"><b>Content</b></h6>
 
-                <div className='content__program-component'>
+                <div>
                     {Data.map((item, index) => (
-                        <div className='content__syllabus' key={index}>
-                            <div className='content__component'>
-                                <div className='content__com'><b>{item.title}</b></div>
-                                <div className='content__component-div'><p>{item.status}</p></div>
+                        <div className='rounded mt-3 ms-3 w-75 box-shadow-1' key={index}>
+                            <div className='d-flex p-2'>
+                                <div><b>{item.title}</b></div>
+                                <div><p className='bg-core p-1 text-center border-0 text-white rounded ms-2'>{item.status}</p></div>
                             </div>
                             <div className='content__prgram'>
-                                <p className='content__prgram-p'>{item.programName}</p>
-                                <p className='content__prgram-p'>|</p>
-                                <p className='content__prgram-p'>{item.duration}</p>
-                                <p className='content__prgram-p'>|</p>
-                                <p className='content__prgram-p'>Modified on {item.modifiedDate} by {item.modifiedBy}</p>
+                                <p className='ps-1 fw-normal'>{item.programName}</p>
+                                <p className='ps-1 fw-normal'>|</p>
+                                <p className='ps-1 fw-normal'>{item.duration}</p>
+                                <p className='ps-1 fw-normal'>|</p>
+                                <p className='ps-1 fw-normal'>Modified on {item.modifiedDate} by <b>{item.modifiedBy}</b></p>
                             </div>
 
 
