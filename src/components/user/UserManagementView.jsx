@@ -76,7 +76,7 @@ const UserManagementView = () => {
                     <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                         <div>
                             <div>
-                                <h5 className="training__program-header text-white">Training program</h5>
+                                <h5 className="training__program-header text-white border border-white">Training program</h5>
                             </div>
                             <div className="row p-1">
                                 <div className="col-md-9 d-flex justify-content-start">
