@@ -2,12 +2,12 @@ import React from 'react';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import Sidebar from '../components/sidebar/Sidebar';
-import Navbar from '../components/navbar/Navbar';
-import Footer from '../components/footer/Footer';
+import Sidebar from '../layout/sidebar/Sidebar';
+import Navbar from '../layout/navbar/Navbar';
+import Footer from '../layout/footer/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./classView.css"
-import Image from "../../src/components/assets/cat.jpg";
+import Image from "../../src/assets/cat.jpg";
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';

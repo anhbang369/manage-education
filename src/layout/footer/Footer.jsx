@@ -1,10 +1,9 @@
 import React from 'react';
-import "./footer.css";
 
 const Footer = () => {
     return (
-        <div className="footer__title">
-            <p className="footer__title">Copyright by AB with Technology @@</p>
+        <div className="bg-core p-1">
+            <p className="text-white text-center">Copyright by AB with Technology @@</p>
         </div>
     )
 }

@@ -32,7 +32,7 @@ export default function SidebarItems() {
                         <div className="sidebar-title">
                             <span>
 
-                                <a href="/syllabus">View syllabus</a>
+                                <a href="/syllabus" className='text-decoration-none'>View syllabus</a>
                             </span>
                         </div>
                     </div>
@@ -41,7 +41,7 @@ export default function SidebarItems() {
                         <div className="sidebar-title">
                             <span>
 
-                                <a href="/lp">Create Syllabus</a>
+                                <a href="/lp" className='text-decoration-none'>Create Syllabus</a>
                             </span>
                         </div>
                     </div>
@@ -97,7 +97,7 @@ export default function SidebarItems() {
                     <div className={openClass ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                <a href="/class">View class</a>
+                                <a href="/class" className='text-decoration-none'>View class</a>
                             </span>
                         </div>
                     </div>
@@ -105,7 +105,7 @@ export default function SidebarItems() {
                     <div className={openClass ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                <a href="/class-create">Create class</a>
+                                <a href="/class-create" className='text-decoration-none'>Create class</a>
 
                             </span>
                         </div>
@@ -119,7 +119,7 @@ export default function SidebarItems() {
                 <div className="sidebar-title">
                     <span>
                         <i class="bi bi-calendar-check"></i>
-                        <a href="/calender">Calendar</a>
+                        <a href="/calender" className='text-decoration-none text-nav'>Calendar</a>
                     </span>
                 </div>
             </div>
@@ -138,27 +138,18 @@ export default function SidebarItems() {
                     <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                <a href="/user">User list</a>
+                                <a href="/user" className='text-decoration-none'>User list</a>
                             </span>
                         </div>
                     </div>
-                    <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
+                    <div className={openMana ? "tsidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
                             <span>
-                                <a href="/permission">User permission</a>
+                                <a href="/permission" className='text-decoration-none'>User permission</a>
                             </span>
                         </div>
                     </div>
 
-                </div>
-            </div>
-
-            <div className="sidebar-item">
-                <div className="sidebar-title">
-                    <span>
-                        <i class="bi bi-box-arrow-right"></i>
-                        Logout
-                    </span>
                 </div>
             </div>
         </>

@@ -43,6 +43,8 @@ body{
   display: block;
   transition: background-color .15s;
   border-radius: 5px;
+  color: #285d9a;
+  font-size: 14px;
 }
 
 .sidebar-item:hover{
@@ -184,4 +186,8 @@ body{
 
 .box-shadow-1{
   box-shadow: 1px 1px 20px #8b8b8b;
+}
+
+.text-nav{
+  color: #285d9a;
 }

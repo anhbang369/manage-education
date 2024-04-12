@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import Sidebar from '../components/sidebar/Sidebar';
-import Navbar from '../components/navbar/Navbar';
-import Footer from '../components/footer/Footer';
+import Sidebar from '../layout/sidebar/Sidebar';
+import Navbar from '../layout/navbar/Navbar';
+import Footer from '../layout/footer/Footer';
 import "./syllabusGeneral.css";
 import General from '../components/general/General';
 import Others from '../components/other/Others';

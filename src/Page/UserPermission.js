@@ -1,8 +1,8 @@
 import React from 'react';
 import "./userPermission.css";
-import Sidebar from '../components/sidebar/Sidebar';
-import Navbar from '../components/navbar/Navbar';
-import Footer from '../components/footer/Footer';
+import Sidebar from '../layout/sidebar/Sidebar';
+import Navbar from '../layout/navbar/Navbar';
+import Footer from '../layout/footer/Footer';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from '@mui/material/Table';

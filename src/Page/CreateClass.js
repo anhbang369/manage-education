@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
-import Sidebar from '../components/sidebar/Sidebar';
-import Navbar from '../components/navbar/Navbar';
-import Footer from '../components/footer/Footer';
+import Sidebar from '../layout/sidebar/Sidebar';
+import Navbar from '../layout/navbar/Navbar';
+import Footer from '../layout/footer/Footer';
 import ClassStepOne from '../components/class/ClassStepOne';
 import ClassStepTwo from '../components/class/ClassStepTwo';
 import ClassStepThree from '../components/class/ClassStepThree';
