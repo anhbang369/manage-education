@@ -18,7 +18,7 @@ const CreateTrainingProgram = () => {
                     <CssBaseline />
                     <Container fixed className='p-0 overflow-y-scroll'>
                         <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
-                            <TrainingProgramStepTwo />
+                            <TrainingProgramStepOne />
                         </ Box>
                     </Container>
                 </React.Fragment>

@@ -3,7 +3,7 @@ import { auth, provider } from './firebase';
 import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { Redirect } from 'react-router-dom';
 import "./login.css";
-import Image from "../assets/image.png";
+import Image from "../../assets/image.png";
 
 const Login = () => {
   const [email, setEmail] = useState('');
