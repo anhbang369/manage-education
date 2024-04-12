@@ -1,82 +1,6 @@
-.class__header-view{
-    background-color: #30344c;
-    color: #FFF;
-    border: 1px solid #FFF;
-    margin: 0px;
-}
-
-.row{
-    margin: 0px;
-    padding: 0px;
-}
-
-.header__plain{
-    background-color: #b9b9b9;
-    color: #FFF;
-    border: 1px solid #FFF;
-    border-radius: 5px;
-    width: 50px;
-}
-
-.class__name{
-    border-bottom: 1px solid #FFF;
-    margin: 5px 0px;
-}
-
-.class__name-icon{
-    display: flex;
-}
-
-.name-icon-pad{
-    margin-left: 10px;
-}
-
-.class__container-view{
-    margin-top: 10px;
-}
-
-.container__first-left{
-    border-radius: 8px;
-    color: #FFF;
-}
-
-.container__first-right{
-    border-radius: 8px;
-    color: #FFF;
-    display: flex;
-}
-
-.container__first-text{
-    font-weight: normal;
-    margin-left: 20px;
-    font-size: 15px;
-}
-
-.container__first-title{
-    background-color: #30344c;
-    padding: 4px;
-    margin: 0px;
-    border-radius: 8px;
-    display: flex;
-    color: #FFF;
-    cursor: pointer;
-    margin-top: 10px;
-}
 
 .react-calendar{
     border: none;
-}
-
-.first__class-general{
-    color: black;
-}
-
-.first__class-general i{
-    color: blue;
-}
-
-.general__under{
-    border-bottom: 1px solid #30344c;
 }
 
 .general__contain-first{
@@ -92,6 +16,10 @@
     max-height: 999px;
     transition: all 0.5s cubic-bezier(1,0,1,0);
 
+}
+.row{
+    margin: 0px;
+    padding: 0px;
 }
 
 .attendee__component{
@@ -110,90 +38,11 @@
 
 }
 
-.attendee__first{
-    background-color: #30344c;
-    border-radius: 8px 0px 0px 8px;
-}
-
-.attendee__center{
-    background-color: #285d9a;
-}
-
-.attendee__last{
-    background-color: #f1f1f1;
-    color: black;
-    border-radius: 0px 8px 8px 0px;
-}
-
-.training__program-tabs{
-    color: #FFF;
-    background-color: #30344c;
-    border-radius: 8px 8px 0px 0px;
-    width: 15%;
-    text-align: center;
-    margin: 0px;
-    margin-left: 12px;
-}
-
-.training__program-components{
-    background-color: #30344c;
-    color: #FFF;
-    border: 1px solid #FFF;
-    border-radius: 0px 10px 0px 0px;
-    margin-left: 12px;
-}
-
-.training__program-components h5{
-    margin-left: 20px;
-}
-
-.program-components-text{
-    display: flex;
-}
-
-.program-components-text p{
-    margin-left: 10px;
-}
-
-.program-components-text p:first-child{
-    margin-left: 20px;
-}
-
-.class__view-syllabus{
-    width: 98%;
-    margin-left: 15px;
-    margin-top: 15px;
-}
-
-.class__view-syllabus-info{
-    display: flex;
-}
-
-.class__view-syllabus-info p{
-    background-color: #30344c;
-    color: #FFF;
-    height: 20px;
-    text-align: center;
-    margin-left: 15px;
-    border-radius: 8px;
-}
-
 .program-components-text p:first-child{
     margin-left: 0px;
-}
-
-.class__view-syllabus-image{
-    background-color: #30344c;
-    border-radius: 8px 0px 0px 8px;
-    padding: 8px 0px;
 }
 
 .class__view-syllabus-content{
     box-shadow: 1px 1px 5px gainsboro;
     border-radius: 0px 8px 8px 0px;
-}
-
-.view-syllabus-image-bor{
-    width: 100%;
-    border-radius: 50%;
 }

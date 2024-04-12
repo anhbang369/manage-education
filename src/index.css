@@ -95,9 +95,77 @@ body{
 }
 
 .bg-core{
-  background-color: #282c34;
+  background-color: #2d3748;
+}
+
+.bg-tab{
+  background-color: #6d7684;
+}
+
+.bg-chapter{
+  background-color: #f1f1f1;
 }
 
 .bg-day{
   background-color: #474747;
+}
+
+.bg-atten{
+  background-color: #285d9a;
+}
+
+.fs-12{
+  font-size: 12px;
+}
+
+.fs-14{
+  font-size: 14px;
+}
+
+.fs-16{
+  font-size: 16px;
+}
+
+.fs-18{
+  font-size: 18px;
+}
+
+.fs-20{
+  font-size: 20px;
+}
+
+.w-10{
+  width: 10%;
+}
+
+.w-15{
+  width: 15%;
+}
+
+.w-20{
+  width: 20%;
+}
+
+.w-30{
+  width: 30%;
+}
+
+.w-40{
+  width: 10%;
+}
+
+.w-60{
+  width: 60%;
+}
+
+.w-98{
+  width: 98%;
+}
+
+.h-20p{
+  height: 20px;
+}
+
+.rounded-top-end{
+  border-radius: 0px 10px 0px 0px;
 }
