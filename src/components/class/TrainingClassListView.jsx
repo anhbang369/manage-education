@@ -69,7 +69,7 @@ const TrainingClassListView = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className='text-white p-1 border-0 rounded bg-primary'><i class="bi bi-filter"></i>    <b>Filter</b></button>
+                                        <button className='text-white p-1 border-0 rounded bg-core'><i class="bi bi-filter"></i>    <b>Filter</b></button>
                                     </div>
                                 </div>
 

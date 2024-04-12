@@ -55,7 +55,7 @@ const TrainingProgram = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className='text-white p-1 border-0 rounded bg-primary'><i class="bi bi-filter"></i>    <b>Filter</b></button>
+                                        <button className='text-white p-1 border-0 rounded bg-core'><i class="bi bi-filter"></i>    <b>Filter</b></button>
                                     </div>
                                 </div>
 
@@ -94,7 +94,7 @@ const TrainingProgram = () => {
                                                 <TableCell align="left">{item.createBy}</TableCell>
                                                 <TableCell align="left">{item.duration}</TableCell>
                                                 <TableCell align="left"><p className='table__syllabus-status rounded p-1 w-50 text-white'>{item.output1}</p></TableCell>
-                                                <TableCell align="right"><ActionMenu></ActionMenu></TableCell>
+                                                <TableCell align="right"><ActionMenu className='bg-light'></ActionMenu></TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

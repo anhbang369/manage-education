@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import "./view.css";
 import Data from './Data';
@@ -16,6 +16,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { getSyllabusData } from '../../services/SyllabusService';
 
 
 const View = () => {
@@ -36,6 +37,24 @@ const View = () => {
     };
 
     const [importOpen, setImportOpen] = useState(false);
+
+
+    //get list
+    const [syllabusData, setSyllabusData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSyllabusData();
+                console.log(data);
+                setSyllabusData(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
 
 
 
@@ -83,21 +102,21 @@ const View = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {currentData.map((item) => (
+                                    {syllabusData && syllabusData.map((item) => (
                                         <TableRow
                                             key={item.id}
                                             sx={{ 'td': { padding: 0 } }}
                                         >
                                             <TableCell align="left">
-                                                {item.sullabus}
+                                                {item.name}
                                             </TableCell>
                                             <TableCell align="left">{item.code}</TableCell>
-                                            <TableCell align="left">{item.created}</TableCell>
+                                            <TableCell align="left">{item.createOn}</TableCell>
                                             <TableCell align="left">{item.createBy}</TableCell>
-                                            <TableCell align="left">{item.duration}</TableCell>
+                                            <TableCell align="left">{item.duration} hours</TableCell>
                                             <TableCell align="left" className='d-flex'>
-                                                {Object.values(item.output).map((output, index) => (
-                                                    <div key={index} className="syllabus__standard text-white rounded-pill mx-8 my-0 d-flex justify-content-center align-items-center p-2">{output}</div>
+                                                {item.outputStandard.map((output, index) => (
+                                                    <div key={index} className="syllabus__standard text-white rounded-pill mx-8 my-0 d-flex justify-content-center align-items-center p-2">{output.name}</div>
                                                 ))}
                                             </TableCell>
                                             <TableCell align="right"><ActionMenu></ActionMenu></TableCell>

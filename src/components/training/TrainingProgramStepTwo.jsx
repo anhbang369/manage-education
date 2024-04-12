@@ -1,5 +1,4 @@
 import React from 'react';
-import "./trainingProgramStepTwo.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -22,7 +21,7 @@ const TrainingProgramStepTwo = ({ classDto }) => {
 
                 {Data.map((item, index) => (
                     <div className='d-flex'>
-                        <div className='content__syllabus' key={index}>
+                        <div className='content__syllabus w-75' key={index}>
                             <div className='content__component d-flex'>
                                 <div className='fs-16 p-2'><b>{item.title}</b></div>
                                 <div className='bg-core rounded text-white w-5 h-20p text-center mt-2'><p>{item.status}</p></div>
@@ -35,8 +34,8 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                                 <p className='fs-14 fw-normal me-2'>Modified on {item.modifiedDate} by {item.modifiedBy}</p>
                             </div>
                         </div>
-                        <div className='content__component-delete'>
-                            <i class="bi bi-trash justify-content-center align-items-center align-self-start"></i>
+                        <div className='ms-2 mt-3 d-flex py-3 px-1 bg-delete rounded'>
+                            <i class="bi bi-trash justify-content-center align-items-center align-self-start mt-2 text-white"></i>
                         </div>
                     </div>
 

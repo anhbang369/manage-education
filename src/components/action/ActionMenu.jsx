@@ -13,7 +13,7 @@ const ActionMenu = () => {
                             key={direction}
                             id={`dropdown-button-drop-${direction}`}
                             drop={direction}
-                            variant="secondary"
+                            variant="light-subtle"
                             title={<i className="bi bi-three-dots"></i>}
                             toggle={false}
                         >
