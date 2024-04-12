@@ -3,7 +3,12 @@ import { auth, provider } from './firebase';
 import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { Redirect } from 'react-router-dom';
 import "./login.css";
-import Image from "../assets/image.png"
+import Image from "../assets/image.png";
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -56,6 +61,7 @@ const Login = () => {
         <Redirect to="/syllabus" /> // Redirect immediately if user is already logged in
       ) : (
         <>
+
           <div className='login__container'>
             <div className='login__content'>
               <div className='login__welcome'>
@@ -98,17 +104,6 @@ const Login = () => {
               </div>
             </div>
           </div>
-
-
-
-
-
-
-
-
-
-
-
         </>
       )}
     </div>

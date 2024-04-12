@@ -18,8 +18,9 @@
 
 .login__welcome{
     width: 50%;
-    height: 80%;
+    height: 90%;
     margin-top: 7%;
+    overflow: hidden;
 }
 
 .image__welcome{
