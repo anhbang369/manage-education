@@ -21,7 +21,7 @@ export const importSyllabus = async (file) => {
             method: 'POST',
             body: formData,
             headers: {
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMjk3MjM3OSwiZXhwIjoxNzEzMDU4Nzc5fQ.RSCPRH9xYgIeDD-KKbVaOjtCYsnbQ2AODEXwuTxAyW8"
+                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMjk3NjU3OCwiZXhwIjoxNzEzMDYyOTc4fQ.nfS1s_xuV_pufc8LxaBqXD58DnBq0XnIjgr6OYPOodI"
             }
         });
 

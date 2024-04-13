@@ -10,11 +10,7 @@ import Alert from '@mui/material/Alert';
 const Import = ({ property }) => {
 
     //notification
-    const [open, setOpen] = useState(false);
-
-    const handleClick = () => {
-        setOpen(true);
-    };
+    const [openNo, setOpenNo] = useState(false);
 
     const [file, setFile] = useState(null);
     const [notificationMessage, setNotificationMessage] = useState('');
@@ -29,13 +25,11 @@ const Import = ({ property }) => {
                 await importSyllabus(file);
                 setNotificationMessage('Import successful.');
                 console.log('Import successful');
-                setOpen(true);
-                // Xử lý khi import thành công
+                setOpenNo(true);
             } catch (error) {
                 setNotificationMessage('Import fail.');
                 console.error('Import failed:', error);
-                setOpen(true);
-                // Xử lý khi import thất bại
+                setOpenNo(true);
             }
         } else {
             console.error('No file selected');
@@ -52,6 +46,9 @@ const Import = ({ property }) => {
     }, [property]);
     const handleClose = () => {
         setImportOpen(false);
+    };
+    const handleCloseNo = () => {
+        setOpenNo(false);
     };
 
     console.log(importOpen);
@@ -119,9 +116,9 @@ const Import = ({ property }) => {
                     <button className="btn__import" onClick={handleImport}>Import</button>
                 </div>
             </div>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                 <Alert
-                    onClose={handleClose}
+                    onClose={handleCloseNo}
                     severity="success"
                     variant="filled"
                     sx={{ width: '100%' }}
