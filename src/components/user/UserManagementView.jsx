@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ActionMenu from '../action/ActionMenu';
 import ReactPaginate from 'react-paginate';
 import Import from '../import/Import';
@@ -14,8 +14,26 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { getUserData } from '../../services/UserService';
 
 const UserManagementView = () => {
+
+    //get list
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserData();
+                console.log(data);
+                setUserData(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
 
 
     const getClassForStatus = (status) => {
@@ -24,7 +42,7 @@ const UserManagementView = () => {
                 return 'organ-bg';
             case 'In class':
                 return 'gray-bg';
-            case 'Active':
+            case 'ACTIVE':
                 return 'gray-bg';
             case 'Off class':
                 return 'grayy-bg';
@@ -35,7 +53,7 @@ const UserManagementView = () => {
 
     const getClassForType = (type) => {
         switch (type) {
-            case 'Admin':
+            case 'ADMIN':
                 return 'green-bg';
             default:
                 return 'gray-bg';
@@ -44,7 +62,7 @@ const UserManagementView = () => {
 
     const getClassForGender = (sex) => {
         switch (sex) {
-            case 'Female':
+            case 'FEMALE':
                 return 'redicon-bg';
             default:
                 return 'blueicon-bg';
@@ -53,14 +71,20 @@ const UserManagementView = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
 
-    const itemsPerPage = 10;
+    const itemsPerPage = 8;
+    let totalPages = 0;
 
-    const totalPages = Math.ceil(Data.length / itemsPerPage);
+    if (userData !== null) {
+        totalPages = Math.ceil(userData.length / itemsPerPage);
+    }
 
-    const currentData = Data.slice(
-        currentPage * itemsPerPage,
-        (currentPage + 1) * itemsPerPage
-    );
+    let currentData = [];
+    if (userData !== null) {
+        currentData = userData.slice(
+            currentPage * itemsPerPage,
+            (currentPage + 1) * itemsPerPage
+        );
+    }
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
@@ -122,13 +146,13 @@ const UserManagementView = () => {
                                                 <TableCell align="left">
                                                     {item.id}
                                                 </TableCell>
-                                                <TableCell align="left">{item.name}</TableCell>
+                                                <TableCell align="left">{item.fullName}</TableCell>
                                                 <TableCell align="left">{item.email}</TableCell>
-                                                <TableCell align="left">{item.birth}</TableCell>
-                                                <TableCell align="left"><i class={`bi bi-person-fill ${getClassForGender(item.sex)}`}></i></TableCell>
+                                                <TableCell align="left">{item.birthday}</TableCell>
+                                                <TableCell align="left"><i class={`bi bi-person-fill ${getClassForGender(item.gender)}`}></i></TableCell>
                                                 <TableCell align="left">{item.level}</TableCell>
-                                                <TableCell align="left"><p className={`syllabus_p ${getClassForType(item.type)}`}>{item.type}</p></TableCell>
-                                                <TableCell align="left"><p className={`syllabus_p ${getClassForStatus(item.status)}`}>{item.status}</p></TableCell>
+                                                <TableCell align="left"><p className={`syllabus_p mt-1 ${getClassForType(item.role.name)}`}>{item.role.name}</p></TableCell>
+                                                <TableCell align="left"><p className={`syllabus_p mt-1 ${getClassForStatus(item.status)}`}>{item.status}</p></TableCell>
                                                 <TableCell align="right"><ActionMenu></ActionMenu></TableCell>
                                             </TableRow>
                                         ))}

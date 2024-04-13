@@ -21,7 +21,6 @@ import Paper from '@mui/material/Paper';
 import { getSyllabusData, duplicatedSyllabus } from '../../services/SyllabusService';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { importSyllabus } from '../../services/SyllabusService';
 
 
 const View = () => {
