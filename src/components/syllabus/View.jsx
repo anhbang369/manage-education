@@ -4,7 +4,9 @@ import "./view.css";
 import Data from './Data';
 import ReactPaginate from 'react-paginate';
 import Import from '../import/Import';
-import ActionMenu from '../action/ActionMenu';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -16,7 +18,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getSyllabusData } from '../../services/SyllabusService';
+import { getSyllabusData, duplicatedSyllabus } from '../../services/SyllabusService';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { importSyllabus } from '../../services/SyllabusService';
 
 
 const View = () => {
@@ -56,7 +61,22 @@ const View = () => {
         fetchData();
     }, []);
 
+    //notification
+    const [openNo, setOpenNo] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const handleCloseNo = () => {
+        setOpenNo(false);
+    };
 
+    //duplicated
+    const [selectedItemId, setSelectedItemId] = useState(null);
+
+    const handleDropdownItemClick = (itemId) => {
+        setSelectedItemId(itemId);
+        duplicatedSyllabus(itemId);
+        setNotificationMessage('Import successful.');
+        setOpenNo(true);
+    };
 
     return (
         <React.Fragment>
@@ -119,7 +139,32 @@ const View = () => {
                                                     <div key={index} className="syllabus__standard text-white rounded-pill mx-8 my-0 d-flex justify-content-center align-items-center p-2">{output.code}</div>
                                                 ))}
                                             </TableCell>
-                                            <TableCell align="right"><ActionMenu></ActionMenu></TableCell>
+                                            <TableCell align="right">
+                                                <div className="mb-2">
+                                                    {['start'].map(
+                                                        (direction) => (
+                                                            <DropdownButton
+                                                                key={direction}
+                                                                id={`dropdown-button-drop-${direction}`}
+                                                                drop={direction}
+                                                                variant="light-subtle"
+                                                                title={<i className="bi bi-three-dots"></i>}
+                                                                toggle={false}
+                                                            >
+                                                                <Dropdown.Item eventKey="1" onClick={() => handleDropdownItemClick(item.id)}>
+                                                                    <i className="bi bi-plus-circle"></i>Add training program
+                                                                </Dropdown.Item>
+                                                                <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit syllabus</Dropdown.Item>
+                                                                <Dropdown.Item eventKey="1" onClick={() => handleDropdownItemClick(item.id)}>
+                                                                    <i className="bi bi-plus-circle"></i> Duplicate
+                                                                </Dropdown.Item>
+                                                                <Dropdown.Divider />
+                                                                <Dropdown.Item eventKey="4"><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
+                                                            </DropdownButton>
+                                                        ),
+                                                    )}
+                                                </div>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -146,6 +191,16 @@ const View = () => {
                         />
 
                         <Import property={importOpen} />
+                        <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
+                            <Alert
+                                onClose={handleCloseNo}
+                                severity="success"
+                                variant="filled"
+                                sx={{ width: '100%' }}
+                            >
+                                {notificationMessage}
+                            </Alert>
+                        </Snackbar>
                     </div>
                 </ Box>
             </Container>

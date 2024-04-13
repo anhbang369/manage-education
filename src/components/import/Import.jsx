@@ -59,16 +59,15 @@ const Import = ({ property }) => {
                     <h3 className="import__title">Import Syllabus</h3>
                 </div>
                 <div className="import__setting">
-                    <h4 className="setting__title">Import setting</h4>
+                    <h4 className="fs-14">Import setting</h4>
                     <div className="setting__info">
-                        <input type='file' onChange={handleFileChange} />
-                        {/* <p className="setting__detail">File (csv)</p> */}
+                        <p className="setting__detail">File (csv)</p>
                         <p className="setting__detail">Encoding type</p>
                         <p className="setting__detail">Column seperator</p>
                         <p className="setting__detail">Import template</p>
                     </div>
                     <div className="setting__action">
-                        <div className="action__info"><button className="btn__action">Select</button></div>
+                        <div className="action__info"><input type='file' onChange={handleFileChange} /></div>
                         <div className="action__info">
                             <select name="info__drop">
                                 <option value="volvo">Volvo</option>
