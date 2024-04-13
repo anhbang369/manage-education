@@ -26,24 +26,6 @@ import { importSyllabus } from '../../services/SyllabusService';
 
 const View = () => {
 
-    const [currentPage, setCurrentPage] = useState(0);
-
-    const itemsPerPage = 8;
-
-    const totalPages = Math.ceil(Data.length / itemsPerPage);
-
-    const currentData = Data.slice(
-        currentPage * itemsPerPage,
-        (currentPage + 1) * itemsPerPage
-    );
-
-    const handlePageClick = ({ selected }) => {
-        setCurrentPage(selected);
-    };
-
-    const [importOpen, setImportOpen] = useState(false);
-
-
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
 
@@ -60,6 +42,29 @@ const View = () => {
 
         fetchData();
     }, []);
+
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const itemsPerPage = 8;
+    let totalPages = 0;
+
+    if (syllabusData !== null) {
+        totalPages = Math.ceil(syllabusData.length / itemsPerPage);
+    }
+
+    let currentData = [];
+    if (syllabusData !== null) {
+        currentData = syllabusData.slice(
+            currentPage * itemsPerPage,
+            (currentPage + 1) * itemsPerPage
+        );
+    }
+
+    const handlePageClick = ({ selected }) => {
+        setCurrentPage(selected);
+    };
+
+    const [importOpen, setImportOpen] = useState(false);
 
     //notification
     const [openNo, setOpenNo] = useState(false);
@@ -122,7 +127,7 @@ const View = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {syllabusData && syllabusData.map((item) => (
+                                    {currentData && currentData.map((item) => (
                                         <TableRow
                                             key={item.id}
                                             sx={{ 'td': { padding: 0 } }}
