@@ -116,7 +116,7 @@ const View = () => {
                                             <TableCell align="left">{item.duration} hours</TableCell>
                                             <TableCell align="left" className='d-flex'>
                                                 {item.outputStandard.map((output, index) => (
-                                                    <div key={index} className="syllabus__standard text-white rounded-pill mx-8 my-0 d-flex justify-content-center align-items-center p-2">{output.name}</div>
+                                                    <div key={index} className="syllabus__standard text-white rounded-pill mx-8 my-0 d-flex justify-content-center align-items-center p-2">{output.code}</div>
                                                 ))}
                                             </TableCell>
                                             <TableCell align="right"><ActionMenu></ActionMenu></TableCell>
