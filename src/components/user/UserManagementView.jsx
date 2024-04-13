@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import ActionMenu from '../action/ActionMenu';
 import ReactPaginate from 'react-paginate';
-import Import from '../import/Import';
+import ImportUser from '../import/ImportUser';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -100,7 +100,7 @@ const UserManagementView = () => {
                     <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                         <div>
                             <div>
-                                <h5 className="training__program-header text-white border border-white">Training program</h5>
+                                <h5 className="training__program-header text-white border border-white">User Management</h5>
                             </div>
                             <div className="row p-1">
                                 <div className="col-md-9 d-flex justify-content-start">
@@ -117,7 +117,7 @@ const UserManagementView = () => {
 
                                 <div className="col-md-3">
                                     <button className="border border-0 text-white rounded me-3 px-1 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
-                                    <button className="border border-0 text-white rounded me-3 px-1 py-1 bg-core"><i class="bi bi-plus-circle"></i> Add syllabus</button>
+                                    <button className="border border-0 text-white rounded me-3 px-1 py-1 bg-core"><i class="bi bi-plus-circle"></i> Add new</button>
                                 </div>
                             </div>
 
@@ -178,7 +178,7 @@ const UserManagementView = () => {
                                 activeClassName="active"
                                 renderOnZeroPageCount={null}
                             />
-                            <Import property={importOpen} />
+                            <ImportUser property={importOpen} />
                         </div>
                     </ Box>
                 </Container>
@@ -188,126 +188,3 @@ const UserManagementView = () => {
 }
 
 export default UserManagementView
-
-const Data = [
-    {
-        "id": "1",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Male",
-        level: "AC",
-        type: "Student",
-        status: "In class"
-    },
-    {
-        id: "2",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Female",
-        level: "AC",
-        type: "Trainer",
-        status: "In class"
-    },
-    {
-        "id": "3",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Male",
-        level: "AC",
-        type: "Student",
-        status: "On Boaring"
-    },
-    {
-        id: "4",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Male",
-        level: "AC",
-        type: "Admin",
-        status: "Active"
-    },
-    {
-        id: "5",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Female",
-        level: "AC",
-        type: "Student",
-        status: "Off class"
-    },
-    {
-        id: "6",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Male",
-        level: "AC",
-        type: "Trainer",
-        status: "On Boaring"
-    },
-    {
-        id: "7",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Male",
-        level: "AC",
-        type: "Trainer",
-        status: "On Boaring"
-    },
-    {
-        id: "8",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Male",
-        level: "AC",
-        type: "Trainer",
-        status: "On Boaring"
-    },
-    {
-        id: "9",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Female",
-        level: "AC",
-        type: "Trainer",
-        status: "In class"
-    },
-    {
-        id: "10",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Female",
-        level: "AC",
-        type: "Trainer",
-        status: "In class"
-    },
-    {
-        id: "11",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Female",
-        level: "AC",
-        type: "Trainer",
-        status: "In class"
-    },
-    {
-        id: "12",
-        name: "Lê Tiến Việt",
-        birth: "22/04/2021",
-        email: "tienviet@gmail.com",
-        sex: "Female",
-        level: "AC",
-        type: "Trainer",
-        status: "In class"
-    },
-]
