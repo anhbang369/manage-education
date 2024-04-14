@@ -12,6 +12,7 @@ import UserManagement from "../page/UserManagement";
 import UserPermission from "../page/UserPermission";
 import ClassView from "../page/ClassView";
 import CreateClass from "../page/CreateClass";
+import SyllabusGeneral from "../page/SyllabusView";
 
 export const Routes = () => {
     return (
@@ -19,7 +20,6 @@ export const Routes = () => {
             <Switch>
                 <Route path="/login" component={() => <Login />} />
                 <Route path="/syllabus" component={() => <SyllabusList />} />
-                <Route path="/view" component={() => <SyllabusView />} />
                 <Route path="/lp" component={() => <SyllabusCreate />} />
                 <Route path="/training" component={() => <TrainingProgramList />} />
                 <Route path="/program" component={() => <ViewProgram />} />
@@ -30,6 +30,7 @@ export const Routes = () => {
                 <Route path="/permission" component={() => <UserPermission />} />
                 <Route path="/class-view" component={() => <ClassView />} />
                 <Route path="/class-create" component={() => <CreateClass />} />
+                <Route path="/view/:id" component={() => <SyllabusView />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>

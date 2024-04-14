@@ -62,6 +62,27 @@ export const deleteSyllabus = async (itemId) => {
 };
 
 
+export const getByIdSyllabus = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/syllabus/${itemId}`, {
+            method: 'GET',
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } else {
+            console.error('View syllabus');
+            throw new Error('View syllabus');
+        }
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+
 // SyllabusService.js
 
 const duplicatedSyllabus = async (itemId) => {

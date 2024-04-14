@@ -20,9 +20,13 @@ import Paper from '@mui/material/Paper';
 import { getSyllabusData, duplicatedSyllabus, deleteSyllabus } from '../../services/SyllabusService';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { useHistory, Route, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 const View = () => {
+    const history = useHistory();
+    // const { itemId } = useParams();
 
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
@@ -90,12 +94,18 @@ const View = () => {
         setOpenNo(true);
     };
 
+    //getbyid
+    const handleDropdownItemView = (itemId) => {
+
+    };
+
     return (
         <React.Fragment>
             <CssBaseline />
             <Container fixed className='p-0'>
                 <Box sx={{ bgcolor: '#FFF', height: '100%', width: '100%' }}>
                     <div className='syllabus__container'>
+                        <a href="/view/123">View syllabus return</a>
                         <h5 className="mb-2 bg-core text-white border border-white p-2">Syllabus</h5>
                         <div className="row">
                             <div className="syllabus__search col-md-8">
@@ -170,8 +180,14 @@ const View = () => {
                                                                 <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemClick(item.id)}>
                                                                     <i className="bi bi-plus-circle"></i> Duplicate
                                                                 </Dropdown.Item>
+                                                                <Dropdown.Item eventKey="4">
+                                                                    <Link to={`/view/${item.id}`}>
+                                                                        <i className="bi bi-eye"></i> View syllabus
+                                                                    </Link>
+                                                                </Dropdown.Item>
+
                                                                 <Dropdown.Divider />
-                                                                <Dropdown.Item eventKey="4" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
+                                                                <Dropdown.Item eventKey="5" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
                                                             </DropdownButton>
                                                         ),
                                                     )}
