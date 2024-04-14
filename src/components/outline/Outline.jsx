@@ -5,8 +5,6 @@ import { Chart } from "react-google-charts";
 import TrainMaterial from '../trainMaterial/TrainMaterial';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 
 export const options = {
     legend: {
@@ -15,13 +13,7 @@ export const options = {
     pieSliceText: "label",
     pieStartAngle: 100,
 };
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
+
 
 const Outline = ({ syllabusData }) => {
 

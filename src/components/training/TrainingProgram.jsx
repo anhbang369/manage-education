@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./trainingProgram.css";
 import Data from '../training/DataTraining';
 import ActionMenu from '../action/ActionMenu';
@@ -16,19 +16,44 @@ import Paper from '@mui/material/Paper';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import { getTrainingProgram } from '../../services/TrainingProgramService';
+
 
 const TrainingProgram = () => {
+
+    //get list
+    const [syllabusData, setSyllabusData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getTrainingProgram();
+                console.log(data);
+                setSyllabusData(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const [currentPage, setCurrentPage] = useState(0);
 
     const itemsPerPage = 10;
+    let totalPages = 0;
 
-    const totalPages = Math.ceil(Data.length / itemsPerPage);
+    if (syllabusData !== null) {
+        totalPages = Math.ceil(syllabusData.length / itemsPerPage);
+    }
 
-    const currentData = Data.slice(
-        currentPage * itemsPerPage,
-        (currentPage + 1) * itemsPerPage
-    );
+    let currentData = [];
+    if (syllabusData !== null) {
+        currentData = syllabusData.slice(
+            currentPage * itemsPerPage,
+            (currentPage + 1) * itemsPerPage
+        );
+    }
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
@@ -90,10 +115,10 @@ const TrainingProgram = () => {
                                                     {item.id}
                                                 </TableCell>
                                                 <TableCell align="left">{item.name}</TableCell>
-                                                <TableCell align="left">{item.created}</TableCell>
-                                                <TableCell align="left">{item.createBy}</TableCell>
-                                                <TableCell align="left">{item.duration}</TableCell>
-                                                <TableCell align="left"><p className='table__syllabus-status rounded p-1 w-50 text-white'>{item.output1}</p></TableCell>
+                                                <TableCell align="left">{item.createdDate.slice(0, 10)}</TableCell>
+                                                <TableCell align="left">{item.createdBy}</TableCell>
+                                                <TableCell align="left">{item.day} days</TableCell>
+                                                <TableCell align="left"><p className='rounded p-1 w-75 text-center text-white bg-core'>{item.status}</p></TableCell>
                                                 <TableCell align="right"><ActionMenu className='bg-light'></ActionMenu></TableCell>
                                             </TableRow>
                                         ))}
