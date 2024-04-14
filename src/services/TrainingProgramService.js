@@ -50,3 +50,28 @@ export const deActiveTrainingProgram = async (itemId) => {
         throw error;
     }
 };
+
+const duplicatedTrainingProgram = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}/duplicated`, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMzEwNDcyOSwiZXhwIjoxNzEzMTkxMTI5fQ._CNbKhWKc0PjqLsZK2W1NIBfbNMrC_BmU2OeHo8pOFA"
+            }
+        });
+
+        if (response.ok) {
+            const data = await response;
+            console.log('Duplicated successful', data);
+            return data;
+        } else {
+            console.error('Duplicated failed');
+            throw new Error('Duplicated failed');
+        }
+    } catch (error) {
+        console.error('Error duplicating program:', error);
+        throw error;
+    }
+};
+
+export { duplicatedTrainingProgram };

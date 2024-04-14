@@ -18,7 +18,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { getTrainingProgram, deleteTrainingProgram, deActiveTrainingProgram } from '../../services/TrainingProgramService';
+import { getTrainingProgram, deleteTrainingProgram, deActiveTrainingProgram, duplicatedTrainingProgram } from '../../services/TrainingProgramService';
 
 
 const TrainingProgram = () => {
@@ -61,6 +61,14 @@ const TrainingProgram = () => {
         setSelectedItemId(itemId);
         deActiveTrainingProgram(itemId);
         setNotificationMessage('De-active successful.');
+        setOpenNo(true);
+    };
+
+    //duplicated
+    const handleDropdownItemClickDuplicated = (itemId) => {
+        setSelectedItemId(itemId);
+        duplicatedTrainingProgram(itemId);
+        setNotificationMessage('Duplicated successful.');
         setOpenNo(true);
     };
 
@@ -161,7 +169,7 @@ const TrainingProgram = () => {
                                                                         <i className="bi bi-plus-circle"></i>Training material
                                                                     </Dropdown.Item>
                                                                     <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit program</Dropdown.Item>
-                                                                    <Dropdown.Item eventKey="3">
+                                                                    <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemClickDuplicated(item.id)}>
                                                                         <i className="bi bi-plus-circle"></i> Duplicate
                                                                     </Dropdown.Item>
                                                                     <Dropdown.Item eventKey="4" onClick={() => handleDropdownItemDeActive(item.id)}>
