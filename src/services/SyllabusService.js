@@ -41,6 +41,27 @@ export const importSyllabus = async (file) => {
 };
 
 
+export const deleteSyllabus = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/syllabus/${itemId}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            const data = await response;
+            console.log('Delete successful', data);
+            return data;
+        } else {
+            console.error('Delete failed');
+            throw new Error('Delete failed');
+        }
+    } catch (error) {
+        console.error('Error Delete syllabus:', error);
+        throw error;
+    }
+};
+
+
 // SyllabusService.js
 
 const duplicatedSyllabus = async (itemId) => {

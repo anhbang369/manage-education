@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import "./view.css";
-import Data from './Data';
 import ReactPaginate from 'react-paginate';
 import Import from '../import/Import';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -18,7 +17,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getSyllabusData, duplicatedSyllabus } from '../../services/SyllabusService';
+import { getSyllabusData, duplicatedSyllabus, deleteSyllabus } from '../../services/SyllabusService';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
@@ -79,6 +78,15 @@ const View = () => {
         setSelectedItemId(itemId);
         duplicatedSyllabus(itemId);
         setNotificationMessage('Import successful.');
+        setOpenNo(true);
+    };
+
+
+    //delete
+    const handleDropdownItemDelete = (itemId) => {
+        setSelectedItemId(itemId);
+        deleteSyllabus(itemId);
+        setNotificationMessage('Delete successful.');
         setOpenNo(true);
     };
 
@@ -159,11 +167,11 @@ const View = () => {
                                                                     <i className="bi bi-plus-circle"></i>Add training program
                                                                 </Dropdown.Item>
                                                                 <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit syllabus</Dropdown.Item>
-                                                                <Dropdown.Item eventKey="1" onClick={() => handleDropdownItemClick(item.id)}>
+                                                                <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemClick(item.id)}>
                                                                     <i className="bi bi-plus-circle"></i> Duplicate
                                                                 </Dropdown.Item>
                                                                 <Dropdown.Divider />
-                                                                <Dropdown.Item eventKey="4"><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
+                                                                <Dropdown.Item eventKey="4" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
                                                             </DropdownButton>
                                                         ),
                                                     )}

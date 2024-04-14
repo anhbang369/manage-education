@@ -292,8 +292,8 @@ const UserManagementView = () => {
                                                                     title={<i className="bi bi-three-dots"></i>}
                                                                     toggle={false}
                                                                 >
-                                                                    <Dropdown.Item eventKey="1" className='ms-1'><i className="bi bi-plus-circle"></i> Add training program</Dropdown.Item>
-                                                                    <Dropdown.Item eventKey="2" onClick={() => handleGetUserById(item.id)}>
+
+                                                                    <Dropdown.Item eventKey="1" onClick={() => handleGetUserById(item.id)}>
                                                                         <React.Fragment>
                                                                             <Dropdown.Item eventKey="1" onClick={() => setOpen(true)} className='p-1'><i class="bi bi-pencil"></i> Update user</Dropdown.Item>
                                                                             <Modal open={open} onClose={() => setOpen(false)}>
@@ -336,8 +336,11 @@ const UserManagementView = () => {
                                                                             </Modal>
                                                                         </React.Fragment>
                                                                     </Dropdown.Item>
-                                                                    <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemClick(item.id)} className='ms-1'>
+                                                                    <Dropdown.Item eventKey="2" onClick={() => handleDropdownItemClick(item.id)} className='ms-1'>
                                                                         <i className="bi bi-copy"></i> De-activate user
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="3" className='ms-1'><i className="bi bi-plus-circle">
+                                                                    </i> Add training program
                                                                     </Dropdown.Item>
                                                                     <Dropdown.Divider />
                                                                     <Dropdown.Item eventKey="4" onClick={() => handleDropdownItemClickDelete(item.id)} className='ms-1'>
