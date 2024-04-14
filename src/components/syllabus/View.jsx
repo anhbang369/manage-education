@@ -94,10 +94,6 @@ const View = () => {
         setOpenNo(true);
     };
 
-    //getbyid
-    const handleDropdownItemView = (itemId) => {
-
-    };
 
     return (
         <React.Fragment>
@@ -105,7 +101,6 @@ const View = () => {
             <Container fixed className='p-0'>
                 <Box sx={{ bgcolor: '#FFF', height: '100%', width: '100%' }}>
                     <div className='syllabus__container'>
-                        <a href="/view/123">View syllabus return</a>
                         <h5 className="mb-2 bg-core text-white border border-white p-2">Syllabus</h5>
                         <div className="row">
                             <div className="syllabus__search col-md-8">

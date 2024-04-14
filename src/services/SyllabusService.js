@@ -70,7 +70,6 @@ export const getByIdSyllabus = async (itemId) => {
 
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
             return data;
         } else {
             console.error('View syllabus');

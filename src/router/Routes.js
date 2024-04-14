@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import SyllabusView from "../page/SyllabusView";
 import SyllabusCreate from "../page/SyllabusCreate";
 import SyllabusList from "../page/SyllabusList";
 import Login from "../components/googleSignIn/Login";
@@ -12,7 +11,7 @@ import UserManagement from "../page/UserManagement";
 import UserPermission from "../page/UserPermission";
 import ClassView from "../page/ClassView";
 import CreateClass from "../page/CreateClass";
-import SyllabusGeneral from "../page/SyllabusView";
+import SyllabusView from "../page/SyllabusView";
 
 export const Routes = () => {
     return (
