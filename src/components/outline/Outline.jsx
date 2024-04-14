@@ -4,15 +4,6 @@ import { useState } from 'react';
 import { Chart } from "react-google-charts";
 import TrainMaterial from '../trainMaterial/TrainMaterial';
 
-export const data = [
-    ["Task", "Hours per Day"],
-    ["Assignment/Lab", 54],
-    ["Concept/Lecture", 29],
-    ["Guide/Review", 9],
-    ["Test/Quiz", 1],
-    ["Exam", 6],
-];
-
 export const options = {
     legend: {
         position: "bottom",
@@ -22,6 +13,22 @@ export const options = {
 };
 
 const Outline = ({ syllabusData }) => {
+
+    const data = [
+        ["Task", "Hours per Day"]
+    ];
+
+    if (syllabusData && Array.isArray(syllabusData)) {
+        syllabusData.forEach(item => {
+            data.push(
+                ["Assignment/Lab", item.timeAllocationResponse.assignment],
+                ["Concept/Lecture", item.timeAllocationResponse.concept],
+                ["Guide/Review", item.timeAllocationResponse.guides],
+                ["Test/Quiz", item.timeAllocationResponse.test],
+                ["Exam", item.timeAllocationResponse.exam]
+            );
+        });
+    }
 
     const [selected, setSelected] = useState(null)
     const toggle = (i) => {
@@ -64,7 +71,7 @@ const Outline = ({ syllabusData }) => {
                                                             <p className="unit__number">Unit{itemUnit.unitNo}</p>
                                                             <div className='title__div'>
                                                                 <p className="unit__title">{itemUnit.name}</p>
-                                                                <span className="unit__time">{itemUnit.duration}</span>
+                                                                <span className="unit__time fs-14">{itemUnit.duration} hours</span>
                                                             </div>
 
                                                         </div>

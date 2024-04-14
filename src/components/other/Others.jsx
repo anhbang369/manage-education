@@ -12,15 +12,22 @@ export const data = [
 ];
 
 const Others = ({ syllabusData }) => {
-
     const data = [
-        ["Task", "Hours per Day"],
-        ["Assignment/Lab", 54],
-        ["Concept/Lecture", 29],
-        ["Guide/Review", 9],
-        ["Test/Quiz", 1],
-        ["Exam", 6],
+        ["Task", "Hours per Day"]
     ];
+
+    if (syllabusData && Array.isArray(syllabusData)) {
+        syllabusData.forEach(item => {
+            data.push(
+                ["Assignment/Lab", item.timeAllocationResponse.assignment],
+                ["Concept/Lecture", item.timeAllocationResponse.concept],
+                ["Guide/Review", item.timeAllocationResponse.guides],
+                ["Test/Quiz", item.timeAllocationResponse.test],
+                ["Exam", item.timeAllocationResponse.exam]
+            );
+        });
+    }
+
 
     return (
         <>
