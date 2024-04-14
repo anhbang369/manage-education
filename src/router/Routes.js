@@ -21,7 +21,7 @@ export const Routes = () => {
                 <Route path="/syllabus" component={() => <SyllabusList />} />
                 <Route path="/lp" component={() => <SyllabusCreate />} />
                 <Route path="/training" component={() => <TrainingProgramList />} />
-                <Route path="/program" component={() => <ViewProgram />} />
+                <Route path="/program/:id" component={() => <ViewProgram />} />
                 <Route path="/create" component={() => <CreateTrainingProgram />} />
                 <Route path="/class" component={() => <TrainingClassList />} />
                 <Route path="/calender" component={() => <TrainingCalander />} />

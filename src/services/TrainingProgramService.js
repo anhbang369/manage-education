@@ -51,6 +51,25 @@ export const deActiveTrainingProgram = async (itemId) => {
     }
 };
 
+export const getByIdProgram = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}`, {
+            method: 'GET',
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            console.error('View program');
+            throw new Error('View program');
+        }
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 const duplicatedTrainingProgram = async (itemId) => {
     try {
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}/duplicated`, {

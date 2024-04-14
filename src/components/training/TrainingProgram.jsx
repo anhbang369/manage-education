@@ -18,6 +18,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { useHistory, Route, Link } from 'react-router-dom';
 import { getTrainingProgram, deleteTrainingProgram, deActiveTrainingProgram, duplicatedTrainingProgram } from '../../services/TrainingProgramService';
 
 
@@ -168,16 +169,21 @@ const TrainingProgram = () => {
                                                                     <Dropdown.Item eventKey="1" >
                                                                         <i className="bi bi-plus-circle"></i>Training material
                                                                     </Dropdown.Item>
-                                                                    <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit program</Dropdown.Item>
-                                                                    <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemClickDuplicated(item.id)}>
+                                                                    <Dropdown.Item eventKey="2" >
+                                                                        <Link to={`/program/${item.id}`}>
+                                                                            <i className="bi bi-eye"></i> View program
+                                                                        </Link>
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="3"><i className="bi bi-pencil"></i> Edit program</Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="4" onClick={() => handleDropdownItemClickDuplicated(item.id)}>
                                                                         <i className="bi bi-plus-circle"></i> Duplicate
                                                                     </Dropdown.Item>
-                                                                    <Dropdown.Item eventKey="4" onClick={() => handleDropdownItemDeActive(item.id)}>
+                                                                    <Dropdown.Item eventKey="5" onClick={() => handleDropdownItemDeActive(item.id)}>
                                                                         <i className="bi bi-plus-circle"></i> De-active program
                                                                     </Dropdown.Item>
 
                                                                     <Dropdown.Divider />
-                                                                    <Dropdown.Item eventKey="5" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete program</Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="6" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete program</Dropdown.Item>
                                                                 </DropdownButton>
                                                             ),
                                                         )}
