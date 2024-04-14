@@ -148,7 +148,7 @@ const View = () => {
                                                 {item.name}
                                             </TableCell>
                                             <TableCell align="left">{item.code}</TableCell>
-                                            <TableCell align="left">{item.createOn}</TableCell>
+                                            <TableCell align="left">{item.createOn.slice(0, 10)}</TableCell>
                                             <TableCell align="left">{item.createBy}</TableCell>
                                             <TableCell align="left">{item.duration} hours</TableCell>
                                             <TableCell align="left" className='d-flex'>

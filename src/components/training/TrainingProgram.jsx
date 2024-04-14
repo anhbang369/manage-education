@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import "./trainingProgram.css";
-import Data from '../training/DataTraining';
-import ActionMenu from '../action/ActionMenu';
 import ReactPaginate from 'react-paginate';
 import Import from '../import/Import';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,7 +14,11 @@ import Paper from '@mui/material/Paper';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { getTrainingProgram } from '../../services/TrainingProgramService';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { getTrainingProgram, deleteTrainingProgram, deActiveTrainingProgram } from '../../services/TrainingProgramService';
 
 
 const TrainingProgram = () => {
@@ -37,6 +39,30 @@ const TrainingProgram = () => {
 
         fetchData();
     }, []);
+
+    //notification
+    const [openNo, setOpenNo] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const handleCloseNo = () => {
+        setOpenNo(false);
+    };
+
+    //delete
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const handleDropdownItemDelete = (itemId) => {
+        setSelectedItemId(itemId);
+        deleteTrainingProgram(itemId);
+        setNotificationMessage('Delete successful.');
+        setOpenNo(true);
+    };
+
+    //de-active
+    const handleDropdownItemDeActive = (itemId) => {
+        setSelectedItemId(itemId);
+        deActiveTrainingProgram(itemId);
+        setNotificationMessage('De-active successful.');
+        setOpenNo(true);
+    };
 
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -119,7 +145,36 @@ const TrainingProgram = () => {
                                                 <TableCell align="left">{item.createdBy}</TableCell>
                                                 <TableCell align="left">{item.day} days</TableCell>
                                                 <TableCell align="left"><p className='rounded p-1 w-75 text-center text-white bg-core'>{item.status}</p></TableCell>
-                                                <TableCell align="right"><ActionMenu className='bg-light'></ActionMenu></TableCell>
+                                                <TableCell align="right">
+                                                    <div className="mb-2">
+                                                        {['start'].map(
+                                                            (direction) => (
+                                                                <DropdownButton
+                                                                    key={direction}
+                                                                    id={`dropdown-button-drop-${direction}`}
+                                                                    drop={direction}
+                                                                    variant="light-subtle"
+                                                                    title={<i className="bi bi-three-dots"></i>}
+                                                                    toggle={false}
+                                                                >
+                                                                    <Dropdown.Item eventKey="1" >
+                                                                        <i className="bi bi-plus-circle"></i>Training material
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit program</Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="3">
+                                                                        <i className="bi bi-plus-circle"></i> Duplicate
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="4" onClick={() => handleDropdownItemDeActive(item.id)}>
+                                                                        <i className="bi bi-plus-circle"></i> De-active program
+                                                                    </Dropdown.Item>
+
+                                                                    <Dropdown.Divider />
+                                                                    <Dropdown.Item eventKey="5" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete program</Dropdown.Item>
+                                                                </DropdownButton>
+                                                            ),
+                                                        )}
+                                                    </div>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -145,6 +200,16 @@ const TrainingProgram = () => {
                                 renderOnZeroPageCount={null}
                             />
                             <Import property={importOpen} />
+                            <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
+                                <Alert
+                                    onClose={handleCloseNo}
+                                    severity="success"
+                                    variant="filled"
+                                    sx={{ width: '100%' }}
+                                >
+                                    {notificationMessage}
+                                </Alert>
+                            </Snackbar>
                         </div>
                     </ Box>
                 </Container>

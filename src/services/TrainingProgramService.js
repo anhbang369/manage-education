@@ -10,3 +10,43 @@ export const getTrainingProgram = async () => {
         throw error;
     }
 };
+
+export const deleteTrainingProgram = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            const data = await response;
+            console.log('Delete successful', data);
+            return data;
+        } else {
+            console.error('Delete failed');
+            throw new Error('Delete failed');
+        }
+    } catch (error) {
+        console.error('Error Delete training program:', error);
+        throw error;
+    }
+};
+
+export const deActiveTrainingProgram = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}/de-active`, {
+            method: 'PUT',
+        });
+
+        if (response.ok) {
+            const data = await response;
+            console.log('De-active successful', data);
+            return data;
+        } else {
+            console.error('De-active failed');
+            throw new Error('De-active failed');
+        }
+    } catch (error) {
+        console.error('Error De-active training program:', error);
+        throw error;
+    }
+};
