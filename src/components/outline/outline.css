@@ -86,24 +86,6 @@
     color: black;
 }
 
-.unit__number{
-    font-weight: bold;
-}
-
-.unit__com{
-    display: flex;
-    margin-right: 10px;
-}
-
-.unit__title{
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.title__div{
-    margin-left: 50px;
-}
-
 .unit__details{
     color: black;
     display: flex;
@@ -131,11 +113,6 @@
 .unit__component{
     display: flex;
     justify-content: space-between;
-}
-
-.details__title{
-    color: black;
-    font-weight: bold;
 }
 
 .details__stanrd{

@@ -3,6 +3,10 @@ import "./outline.css";
 import { useState } from 'react';
 import { Chart } from "react-google-charts";
 import TrainMaterial from '../trainMaterial/TrainMaterial';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
 
 export const options = {
     legend: {
@@ -11,6 +15,13 @@ export const options = {
     pieSliceText: "label",
     pieStartAngle: 100,
 };
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 
 const Outline = ({ syllabusData }) => {
 
@@ -67,11 +78,11 @@ const Outline = ({ syllabusData }) => {
                                             {itemDay.syllabusUnits && Array.isArray(itemDay.syllabusUnits) && itemDay.syllabusUnits.map((itemUnit, index) => (
                                                 <div className="unit" key={index} onClick={() => toggles(i)}>
                                                     <div className="unit__component">
-                                                        <div className='unit__com'>
-                                                            <p className="unit__number">Unit{itemUnit.unitNo}</p>
-                                                            <div className='title__div'>
-                                                                <p className="unit__title">{itemUnit.name}</p>
-                                                                <span className="unit__time fs-14">{itemUnit.duration} hours</span>
+                                                        <div className='d-flex me-2'>
+                                                            <p className="fw-bold fs-16">Unit{itemUnit.unitNo}</p>
+                                                            <div className='ms-4 mb-2'>
+                                                                <p className='fs-16'>{itemUnit.name}</p>
+                                                                <span className="fs-14">{itemUnit.duration} hours</span>
                                                             </div>
 
                                                         </div>
@@ -80,14 +91,38 @@ const Outline = ({ syllabusData }) => {
 
                                                     {itemUnit.syllabusUnitChapters && Array.isArray(itemUnit.syllabusUnitChapters) && itemUnit.syllabusUnitChapters.map((itemChapter, idx) => (
                                                         <div className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}>
-                                                            <h6 className='details__title'>{itemChapter.name}</h6>
-                                                            <p className='details__stanrd'>{itemChapter.outputStandard}</p>
-                                                            <p className='details__mins'>{itemChapter.duration} mins</p>
-                                                            <p>
-                                                                {itemChapter.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
-                                                            </p>
-                                                            <i class="bi bi-image-alt">{itemChapter.deliveryType.name}</i>
-                                                            <i class="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
+                                                            <Box sx={{ flexGrow: 1 }}>
+                                                                <Grid container spacing={1}>
+                                                                    <Grid item xs={5}>
+                                                                        <h6 className='fs-14'>{itemChapter.name}</h6>
+                                                                    </Grid>
+                                                                    <Grid item xs={1}>
+                                                                        <p className='details__stanrd'>{itemChapter.outputStandard}</p>
+                                                                    </Grid>
+                                                                    <Grid item xs={2}>
+                                                                        <p className='details__mins'>{itemChapter.duration} mins</p>
+                                                                    </Grid>
+                                                                    <Grid item xs={2}>
+                                                                        <p>
+                                                                            {itemChapter.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
+                                                                        </p>
+                                                                    </Grid>
+                                                                    <Grid item xs={1}>
+                                                                        {itemChapter.deliveryType.name === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
+                                                                        {itemChapter.deliveryType.name === 'Assignment/Lab' && <i class="bi bi-bookmark-check"></i>}
+                                                                        {itemChapter.deliveryType.name === 'Test/Quiz' && <i class="bi bi-card-checklist"></i>}
+                                                                        {itemChapter.deliveryType.name === 'Exam' && <i class="bi bi-journal-bookmark-fill"></i>}
+                                                                        {itemChapter.deliveryType.name === 'Guide/Review' && <i class="bi bi-hand-thumbs-up"></i>}
+                                                                        {itemChapter.deliveryType.name === 'Seminar/Workshop' && <i class="bi bi-person-workspace"></i>}
+                                                                        {itemChapter.deliveryType.name === 'Class Meeting' && <i class="bi bi-people"></i>}
+                                                                        {itemChapter.deliveryType.name === 'Tour/Outdoor' && <i class="bi bi-globe-central-south-asia"></i>}
+
+                                                                    </Grid>
+                                                                    <Grid item xs={1}>
+                                                                        <i class="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Box>
                                                             <TrainMaterial property={importOpen} syllabusData={syllabusData}></TrainMaterial>
                                                         </div>
                                                     ))}
