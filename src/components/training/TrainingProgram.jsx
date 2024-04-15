@@ -19,7 +19,8 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { useHistory, Route, Link } from 'react-router-dom';
-import { getTrainingProgram, deleteTrainingProgram, deActiveTrainingProgram, duplicatedTrainingProgram } from '../../services/TrainingProgramService';
+import ImportProgram from '../import/ImportProgram';
+import { getTrainingProgram, deleteTrainingProgram, deActiveTrainingProgram, duplicatedTrainingProgram, importTrainingProgram } from '../../services/TrainingProgramService';
 
 
 const TrainingProgram = () => {
@@ -213,7 +214,7 @@ const TrainingProgram = () => {
                                 activeClassName="active"
                                 renderOnZeroPageCount={null}
                             />
-                            <Import property={importOpen} />
+                            <ImportProgram property={importOpen} />
                             <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                                 <Alert
                                     onClose={handleCloseNo}
