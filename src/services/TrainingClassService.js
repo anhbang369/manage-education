@@ -30,3 +30,29 @@ export const deleteTrainingClass = async (itemId) => {
         throw error;
     }
 };
+
+
+const duplicatedTrainingClass = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/training-class/${itemId}/duplicated`, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMzE4NDM1MSwiZXhwIjoxNzEzMjcwNzUxfQ.kmR4UBnSaIs5cWmyeE0xJ0hKBJNgEwnwVhmBBxkDbxE"
+            }
+        });
+
+        if (response.ok) {
+            const data = await response;
+            console.log('Duplicated successful', data);
+            return data;
+        } else {
+            console.error('Duplicated failed');
+            throw new Error('Duplicated failed');
+        }
+    } catch (error) {
+        console.error('Error duplicating syllabus:', error);
+        throw error;
+    }
+};
+
+export { duplicatedTrainingClass };

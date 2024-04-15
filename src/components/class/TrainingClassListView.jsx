@@ -14,7 +14,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { getTrainingProgram, deleteTrainingClass } from '../../services/TrainingClassService';
+import { getTrainingProgram, deleteTrainingClass, duplicatedTrainingClass } from '../../services/TrainingClassService';
 import Paper from '@mui/material/Paper';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -95,6 +95,14 @@ const TrainingClassListView = () => {
         setOpenNo(true);
     };
 
+    //duplicated
+    const handleDropdownItemDuplicated = (itemId) => {
+        setSelectedItemId(itemId);
+        duplicatedTrainingClass(itemId);
+        setNotificationMessage('Import successful.');
+        setOpenNo(true);
+    };
+
     return (
         <>
 
@@ -172,11 +180,11 @@ const TrainingClassListView = () => {
                                                                     toggle={false}
                                                                 >
                                                                     <Dropdown.Item eventKey="1" >
-                                                                        <i className="bi bi-plus-circle"></i>Add training program
+                                                                        <i className="bi bi-plus-circle"></i>View
                                                                     </Dropdown.Item>
                                                                     <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit syllabus</Dropdown.Item>
-                                                                    <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemDelete(item.id)}>
-                                                                        <i className="bi bi-plus-circle"></i> Delete
+                                                                    <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemDuplicated(item.id)}>
+                                                                        <i className="bi bi-plus-circle"></i> Duplicated class
                                                                     </Dropdown.Item>
                                                                     <Dropdown.Item eventKey="4">
                                                                         {/* <Link to={`/view/${item.id}`}>
