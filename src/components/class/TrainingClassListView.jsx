@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./trainingClassList.css";
 import ReactPaginate from 'react-paginate';
 import Import from '../import/Import';
@@ -14,42 +14,86 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { getTrainingProgram, deleteTrainingClass } from '../../services/TrainingClassService';
 import Paper from '@mui/material/Paper';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const TrainingClassListView = () => {
 
     const getClassForFsu = (fsu) => {
         switch (fsu) {
-            case 'Fresher':
+            case 'FRF':
                 return 'blue-bg';
-            case 'Online fee-fresher':
+            case 'CPLU':
                 return 'green-bg';
-            case 'Intern':
+            case 'PFR':
                 return 'gray-bg';
-            case 'Offline fee-fresher':
+            case 'CPL':
                 return 'organ-bg';
             default:
-                return '';
+                return 'organ-bg';
         }
     };
 
+    //notification
+    const [openNo, setOpenNo] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const handleCloseNo = () => {
+        setOpenNo(false);
+    };
+
+
+    //get list
+    const [syllabusData, setSyllabusData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getTrainingProgram();
+                console.log(data);
+                setSyllabusData(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const [currentPage, setCurrentPage] = useState(0);
 
     const itemsPerPage = 8;
+    let totalPages = 0;
 
-    const totalPages = Math.ceil(Data.length / itemsPerPage);
+    if (syllabusData !== null) {
+        totalPages = Math.ceil(syllabusData.length / itemsPerPage);
+    }
 
-    const currentData = Data.slice(
-        currentPage * itemsPerPage,
-        (currentPage + 1) * itemsPerPage
-    );
+    let currentData = [];
+    if (syllabusData !== null) {
+        currentData = syllabusData.slice(
+            currentPage * itemsPerPage,
+            (currentPage + 1) * itemsPerPage
+        );
+    }
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
     };
 
     const [importOpen, setImportOpen] = useState(false);
+
+    //delete
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const handleDropdownItemDelete = (itemId) => {
+        setSelectedItemId(itemId);
+        deleteTrainingClass(itemId);
+        setNotificationMessage('Delete successful.');
+        setOpenNo(true);
+    };
 
     return (
         <>
@@ -106,16 +150,47 @@ const TrainingClassListView = () => {
                                                 sx={{ 'td': { padding: 0 } }}
                                             >
                                                 <TableCell align="left">
-                                                    {item.sullabus}
+                                                    {item.name}
                                                 </TableCell>
                                                 <TableCell align="left">{item.code}</TableCell>
-                                                <TableCell align="left">{item.created}</TableCell>
-                                                <TableCell align="left">{item.createBy}</TableCell>
+                                                <TableCell align="left">{item.createdDate.slice(0, 10)}</TableCell>
+                                                <TableCell align="left">{item.createdBy}</TableCell>
                                                 <TableCell align="left">{item.duration}</TableCell>
-                                                <TableCell align="left"><p className={`syllabus_p ${getClassForFsu(item.attendee)}`}>{item.attendee}</p></TableCell>
+                                                <TableCell align="left"><p className={`syllabus_p ${getClassForFsu(item.attend)}`}>{item.attend}</p></TableCell>
                                                 <TableCell align="left">{item.location}</TableCell>
                                                 <TableCell align="left">{item.fsu}</TableCell>
-                                                <TableCell align="right"><ActionMenu></ActionMenu></TableCell>
+                                                <TableCell align="right">
+                                                    <div className="mb-2">
+                                                        {['start'].map(
+                                                            (direction) => (
+                                                                <DropdownButton
+                                                                    key={direction}
+                                                                    id={`dropdown-button-drop-${direction}`}
+                                                                    drop={direction}
+                                                                    variant="light-subtle"
+                                                                    title={<i className="bi bi-three-dots"></i>}
+                                                                    toggle={false}
+                                                                >
+                                                                    <Dropdown.Item eventKey="1" >
+                                                                        <i className="bi bi-plus-circle"></i>Add training program
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit syllabus</Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemDelete(item.id)}>
+                                                                        <i className="bi bi-plus-circle"></i> Delete
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item eventKey="4">
+                                                                        {/* <Link to={`/view/${item.id}`}>
+                                                                        <i className="bi bi-eye"></i> View syllabus
+                                                                    </Link> */}
+                                                                    </Dropdown.Item>
+
+                                                                    <Dropdown.Divider />
+                                                                    <Dropdown.Item eventKey="5" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
+                                                                </DropdownButton>
+                                                            ),
+                                                        )}
+                                                    </div>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -142,6 +217,16 @@ const TrainingClassListView = () => {
                             />
 
                             <Import property={importOpen} />
+                            <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
+                                <Alert
+                                    onClose={handleCloseNo}
+                                    severity="success"
+                                    variant="filled"
+                                    sx={{ width: '100%' }}
+                                >
+                                    {notificationMessage}
+                                </Alert>
+                            </Snackbar>
                         </div>
                     </ Box>
                 </Container>
@@ -151,138 +236,3 @@ const TrainingClassListView = () => {
 }
 
 export default TrainingClassListView
-
-const Data = [
-    {
-        "id": "1",
-        sullabus: "C# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Fresher",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "2",
-        sullabus: "C# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Online fee-fresher",
-        location: "Ha Noi",
-        fsu: "FHM"
-    },
-    {
-        "id": "3",
-        sullabus: "C# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Intern",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "4",
-        sullabus: "D# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Fresher",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "5",
-        sullabus: "E# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Offline fee-fresher",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "6",
-        sullabus: "F# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Fresher",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "7",
-        sullabus: "G# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Intern",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "8",
-        sullabus: "H# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Intern",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "9",
-        sullabus: "J# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Offline fee-fresher",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "10",
-        sullabus: "K# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Online fee-fresher",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "11",
-        sullabus: "C# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Fresher",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-    {
-        id: "12",
-        sullabus: "C# Programming Language",
-        code: "NLP",
-        created: "22/04/2021",
-        createBy: "HaNNT22",
-        duration: "12 days",
-        attendee: "Fresher",
-        location: "Ho Chi Minh",
-        fsu: "FHM"
-    },
-]
