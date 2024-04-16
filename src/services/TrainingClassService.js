@@ -32,6 +32,26 @@ export const deleteTrainingClass = async (itemId) => {
 };
 
 
+export const getByIdTrainingClass = async (itemId) => {
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/training-classes/${itemId}`, {
+            method: 'GET',
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            console.error('View training class');
+            throw new Error('view training class');
+        }
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+
 const duplicatedTrainingClass = async (itemId) => {
     try {
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/training-class/${itemId}/duplicated`, {

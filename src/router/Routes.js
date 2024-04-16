@@ -27,7 +27,7 @@ export const Routes = () => {
                 <Route path="/calender" component={() => <TrainingCalander />} />
                 <Route path="/user" component={() => <UserManagement />} />
                 <Route path="/permission" component={() => <UserPermission />} />
-                <Route path="/class-view" component={() => <ClassView />} />
+                <Route path="/class-view/:id" component={() => <ClassView />} />
                 <Route path="/class-create" component={() => <CreateClass />} />
                 <Route path="/view/:id" component={() => <SyllabusView />} />
                 <Redirect from="/" to="/login" />

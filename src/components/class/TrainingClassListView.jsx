@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import "./trainingClassList.css";
 import ReactPaginate from 'react-paginate';
 import Import from '../import/Import';
-import ActionMenu from '../action/ActionMenu';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -20,6 +19,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Link } from 'react-router-dom';
 
 const TrainingClassListView = () => {
 
@@ -180,7 +180,10 @@ const TrainingClassListView = () => {
                                                                     toggle={false}
                                                                 >
                                                                     <Dropdown.Item eventKey="1" >
-                                                                        <i className="bi bi-plus-circle"></i>View
+
+                                                                        <Link to={`/class-view/${item.id}`}>
+                                                                            <i className="bi bi-plus-circle"></i> View class
+                                                                        </Link>
                                                                     </Dropdown.Item>
                                                                     <Dropdown.Item eventKey="2"><i className="bi bi-pencil"></i> Edit syllabus</Dropdown.Item>
                                                                     <Dropdown.Item eventKey="3" onClick={() => handleDropdownItemDuplicated(item.id)}>
