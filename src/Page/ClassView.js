@@ -209,27 +209,30 @@ const ClassView = () => {
                                         </div>
                                     </div>
 
-                                    {Data.map((item, index) => (
+                                    {item.trainingProgram.syllabuses.map((itemSyllabus, indexSyllabus) => (
                                         <div className='row w-98 ms-3 mt-3'>
                                             <div className='col-md-3 bg-core rounded-start py-2 px-2 row'>
-                                                {Object.values(item.images).map((output, ind) => (
+                                                {/* {Object.values(item.images).map((output, ind) => (
                                                     <div className='col-md-3'>
                                                         <img key={ind} className='w-100 rounded-circle' src={Image} alt={output}></img>
                                                     </div>
-                                                ))}
+                                                ))} */}
+                                                <div className='col-md-3'>
+                                                    <img className='w-100 rounded-circle' src={Image} ></img>
+                                                </div>
 
                                             </div>
                                             <div className='col-md-9 row class__view-syllabus-content'>
                                                 <div className='col-md-12 d-flex'>
-                                                    <h5><b>{item.title}</b></h5><p className='bg-core text-white text-center h-20p ms-3 rounded'>{item.status}</p>
+                                                    <h5><b>{itemSyllabus.name}</b></h5><p className='bg-core text-white text-center h-20p ms-3 rounded'>{itemSyllabus.status}</p>
                                                 </div>
                                                 <div className='col-md-12'>
                                                     <div className='d-flex fw-normal'>
-                                                        <p className='fw-normal'>{item.lin}</p>
-                                                        <p className='fw-normal'>|</p>
-                                                        <p className='fw-normal'>{item.days}</p>
-                                                        <p className='fw-normal'>|</p>
-                                                        <p className='fw-normal'>{item.modify}<b>{item.name}</b></p>
+                                                        <p className='fw-normal'>{itemSyllabus.code} {itemSyllabus.version}</p>
+                                                        <p className='fw-normal ms-2'>|</p>
+                                                        <p className='fw-normal ms-2'>{itemSyllabus.days} days ({itemSyllabus.hours} hour)</p>
+                                                        <p className='fw-normal ms-2'>|</p>
+                                                        <p className='fw-normal ms-2'>{itemSyllabus.createdDate.slice(0, 10)} by <b>{itemSyllabus.createdBy}</b></p>
                                                     </div>
                                                 </div>
                                             </div>
