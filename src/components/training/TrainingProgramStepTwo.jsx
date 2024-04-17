@@ -1,9 +1,45 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { getSyllabusData } from "../../services/SyllabusService";
 
 const TrainingProgramStepTwo = ({ classDto }) => {
+
+    //get list
+    const [syllabusData, setSyllabusData] = useState(null);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSyllabusData();
+                console.log("First data: ", data);
+                setSyllabusData(data);
+                setIsDataLoaded(true);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    console.log("this is data for filter: ", syllabusData);
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredSyllabus = isDataLoaded ? syllabusData.filter((syllabus) =>
+        syllabus.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) : [];
+
+
+
     return (
         <>
             <div >
@@ -45,9 +81,35 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                 <div>
                     <label className='ms-3 mt-4' htmlFor=""><b>Select syllabus</b></label>
                     <div className="input-with-icon">
-                        <i class="bi bi-search"></i>
-                        <input type="text" className="search__by" placeholder='Search by ...' />
+                        <i className="bi bi-search"></i>
+                        <input
+                            type="text"
+                            className="search__by"
+                            placeholder='Search by ...'
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
                     </div>
+
+
+                    <div className='d-flex'>
+                        <label className='ms-3 mt-4 text-white' htmlFor=""><b>Select syllabus</b></label>
+                        {filteredSyllabus.length > 0 && searchTerm && (
+                            <div className='box-shadow-1 rounded w-30 ms-4' style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                {filteredSyllabus.map((syllabus, index) => (
+                                    <div className='fs-14 fw-bold ms-3' key={index}>
+                                        {syllabus.name} {syllabus.code}
+                                        <div className='row'>
+                                            <div className="col-md-3 fs-14 fw-normal">{syllabus.duration} days</div>
+                                            <div className="col-md-9 fs-14 fw-normal">{syllabus.createOn.slice(0, 10)} by <b>{syllabus.createBy.slice(0, 10)}</b></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                    </div>
+
                 </div>
 
                 <Box sx={{ flexGrow: 1 }}>

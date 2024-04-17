@@ -32,7 +32,7 @@ const View = () => {
         const fetchData = async () => {
             try {
                 const data = await getSyllabusData();
-                console.log(data);
+                console.log("this is dada: " + data);
                 setSyllabusData(data);
             } catch (error) {
                 console.log(error)
@@ -41,6 +41,8 @@ const View = () => {
 
         fetchData();
     }, []);
+
+    console.log("this is syllabus data: " + syllabusData);
 
     const [currentPage, setCurrentPage] = useState(0);
 
