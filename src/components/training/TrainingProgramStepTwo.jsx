@@ -10,6 +10,7 @@ const TrainingProgramStepTwo = ({ classDto }) => {
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [selectedItems, setSelectedItems] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,6 +40,20 @@ const TrainingProgramStepTwo = ({ classDto }) => {
     ) : [];
 
 
+    const handleItemClick = (item) => {
+        const isExist = selectedItems.some(selectedItem => selectedItem.id === item.id);
+        if (!isExist) {
+            setSelectedItems([...selectedItems, item]);
+        }
+    };
+
+    console.log([selectedItems])
+
+    const handleDeleteItem = (idToDelete) => {
+        const newData = selectedItems.filter(item => item.id !== idToDelete);
+        setSelectedItems(newData);
+    };
+
 
     return (
         <>
@@ -55,22 +70,40 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                 <div className='border-bottom border-black'></div>
                 <h6 className='ms-3 mt-2 mb-0'>Content</h6>
 
-                {Data.map((item, index) => (
+                {selectedItems.map((item, index) => (
+                    // <div className='d-flex'>
+                    //     <div className='content__syllabus w-75' key={index}>
+                    //         <div className='content__component d-flex'>
+                    //             <div className='fs-16 p-2'><b>{item.title}</b></div>
+                    //             <div className='bg-core rounded text-white w-5 h-20p text-center mt-2'><p>{item.status}</p></div>
+                    //         </div>
+                    //         <div className='d-flex p-2'>
+                    //             <p className='fs-14 fw-normal me-2'>{item.programName}</p>
+                    //             <p className='fs-14 fw-normal me-2'>|</p>
+                    //             <p className='fs-14 fw-normal me-2'>{item.duration}</p>
+                    //             <p className='fs-14 fw-normal me-2'>|</p>
+                    //             <p className='fs-14 fw-normal me-2'>Modified on {item.modifiedDate} by {item.modifiedBy}</p>
+                    //         </div>
+                    //     </div>
+                    //     <div className='ms-2 mt-3 d-flex py-3 px-1 bg-delete rounded'>
+                    //         <i class="bi bi-trash justify-content-center align-items-center align-self-start mt-2 text-white"></i>
+                    //     </div>
+                    // </div>
                     <div className='d-flex'>
                         <div className='content__syllabus w-75' key={index}>
                             <div className='content__component d-flex'>
-                                <div className='fs-16 p-2'><b>{item.title}</b></div>
-                                <div className='bg-core rounded text-white w-5 h-20p text-center mt-2'><p>{item.status}</p></div>
+                                <div className='fs-16 p-2'><b>{item.name}</b></div>
+                                <div className='bg-core rounded text-white w-5 h-20p text-center mt-2'><p>{item.code}</p></div>
                             </div>
                             <div className='d-flex p-2'>
-                                <p className='fs-14 fw-normal me-2'>{item.programName}</p>
+                                <p className='fs-14 fw-normal me-2'>{item.name}</p>
                                 <p className='fs-14 fw-normal me-2'>|</p>
                                 <p className='fs-14 fw-normal me-2'>{item.duration}</p>
                                 <p className='fs-14 fw-normal me-2'>|</p>
-                                <p className='fs-14 fw-normal me-2'>Modified on {item.modifiedDate} by {item.modifiedBy}</p>
+                                <p className='fs-14 fw-normal me-2'>Modified on {item.createOn.slice(0, 10)} by {item.createBy}</p>
                             </div>
                         </div>
-                        <div className='ms-2 mt-3 d-flex py-3 px-1 bg-delete rounded'>
+                        <div className='ms-2 mt-3 d-flex py-3 px-1 bg-delete rounded' onClick={() => handleDeleteItem(item.id)}>
                             <i class="bi bi-trash justify-content-center align-items-center align-self-start mt-2 text-white"></i>
                         </div>
                     </div>
@@ -97,14 +130,21 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                         {filteredSyllabus.length > 0 && searchTerm && (
                             <div className='box-shadow-1 rounded w-30 ms-4' style={{ maxHeight: '200px', overflowY: 'auto' }}>
                                 {filteredSyllabus.map((syllabus, index) => (
-                                    <div className='fs-14 fw-bold ms-3' key={index}>
-                                        {syllabus.name} {syllabus.code}
-                                        <div className='row'>
-                                            <div className="col-md-3 fs-14 fw-normal">{syllabus.duration} days</div>
-                                            <div className="col-md-9 fs-14 fw-normal">{syllabus.createOn.slice(0, 10)} by <b>{syllabus.createBy.slice(0, 10)}</b></div>
+                                    !selectedItems.some(selectedItem => selectedItem.id === syllabus.id) && (
+                                        <div
+                                            className='fs-14 fw-bold ms-3'
+                                            key={index}
+                                            onClick={() => handleItemClick(syllabus)}
+                                        >
+                                            {syllabus.name} {syllabus.code}
+                                            <div className='row'>
+                                                <div className="col-md-3 fs-14 fw-normal">{syllabus.duration} days</div>
+                                                <div className="col-md-9 fs-14 fw-normal">{syllabus.createOn.slice(0, 10)} by <b>{syllabus.createBy.slice(0, 10)}</b></div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    )
                                 ))}
+
                             </div>
                         )}
 
