@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { getSyllabusData } from "../../services/SyllabusService";
+import { getSyllabusProgram } from "../../services/SyllabusService";
 
 const TrainingProgramStepTwo = ({ classDto }) => {
 
@@ -15,7 +15,7 @@ const TrainingProgramStepTwo = ({ classDto }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getSyllabusData();
+                const data = await getSyllabusProgram();
                 console.log("First data: ", data);
                 setSyllabusData(data);
                 setIsDataLoaded(true);
@@ -93,14 +93,14 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                         <div className='content__syllabus w-75' key={index}>
                             <div className='content__component d-flex'>
                                 <div className='fs-16 p-2'><b>{item.name}</b></div>
-                                <div className='bg-core rounded text-white w-5 h-20p text-center mt-2'><p>{item.code}</p></div>
+                                <div className='bg-core rounded text-white w-5 h-20p text-center mt-2'><p>{item.status}</p></div>
                             </div>
                             <div className='d-flex p-2'>
-                                <p className='fs-14 fw-normal me-2'>{item.name}</p>
+                                <p className='fs-14 fw-normal me-2'>{item.code} {item.version}</p>
                                 <p className='fs-14 fw-normal me-2'>|</p>
-                                <p className='fs-14 fw-normal me-2'>{item.duration}</p>
+                                <p className='fs-14 fw-normal me-2'>{item.days} days ({item.hours} hours)</p>
                                 <p className='fs-14 fw-normal me-2'>|</p>
-                                <p className='fs-14 fw-normal me-2'>Modified on {item.createOn.slice(0, 10)} by {item.createBy}</p>
+                                <p className='fs-14 fw-normal me-2'>Modified on {item.createdDate.slice(0, 10)} by {item.createdBy}</p>
                             </div>
                         </div>
                         <div className='ms-2 mt-3 d-flex py-3 px-1 bg-delete rounded' onClick={() => handleDeleteItem(item.id)}>
@@ -128,7 +128,7 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                     <div className='d-flex'>
                         <label className='ms-3 mt-4 text-white' htmlFor=""><b>Select syllabus</b></label>
                         {filteredSyllabus.length > 0 && searchTerm && (
-                            <div className='box-shadow-1 rounded w-30 ms-4' style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                            <div className='box-shadow-1 rounded w-30 ms-4 pointer' style={{ maxHeight: '200px', overflowY: 'auto' }}>
                                 {filteredSyllabus.map((syllabus, index) => (
                                     !selectedItems.some(selectedItem => selectedItem.id === syllabus.id) && (
                                         <div
@@ -138,8 +138,8 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                                         >
                                             {syllabus.name} {syllabus.code}
                                             <div className='row'>
-                                                <div className="col-md-3 fs-14 fw-normal">{syllabus.duration} days</div>
-                                                <div className="col-md-9 fs-14 fw-normal">{syllabus.createOn.slice(0, 10)} by <b>{syllabus.createBy.slice(0, 10)}</b></div>
+                                                <div className="col-md-3 fs-14 fw-normal">{syllabus.hours} hours</div>
+                                                <div className="col-md-9 fs-14 fw-normal">{syllabus.createdDate.slice(0, 10)} by <b>{syllabus.createdBy.slice(0, 10)}</b></div>
                                             </div>
                                         </div>
                                     )
