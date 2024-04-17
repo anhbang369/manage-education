@@ -7,8 +7,10 @@ import { getSyllabusProgram } from "../../services/SyllabusService";
 import { createTrainingProgram } from "../../services/TrainingProgramService";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { useHistory } from 'react-router-dom';
 
 const TrainingProgramStepTwo = ({ classDto }) => {
+    const history = useHistory();
 
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
@@ -61,7 +63,7 @@ const TrainingProgramStepTwo = ({ classDto }) => {
     };
 
     //request body
-    const requestBody = {
+    let requestBody = {
         name: classDto.classNameP,
         version: "1.0",
         status: "ACTIVE",
@@ -83,6 +85,9 @@ const TrainingProgramStepTwo = ({ classDto }) => {
             setLoading(false);
             setNotificationMessage('Create successful.');
             setOpenNo(true);
+            requestBody = {};
+            setSelectedItems([]);
+            history.push('/training');
         } catch (error) {
             console.error('Error while saving training program:', error);
             setLoading(false);

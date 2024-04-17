@@ -51,7 +51,7 @@ export const createTrainingProgram = async (dto) => {
         });
 
         if (response.ok) {
-            const data = await response.json();
+            const data = await response;
             console.log('Create successful', data);
             console.log(response.status);
             return data;
