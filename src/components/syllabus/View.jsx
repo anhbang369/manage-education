@@ -20,13 +20,10 @@ import Paper from '@mui/material/Paper';
 import { getSyllabusData, duplicatedSyllabus, deleteSyllabus } from '../../services/SyllabusService';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { useHistory, Route, Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const View = () => {
-    const history = useHistory();
-    // const { itemId } = useParams();
 
     //get list
     const [syllabusData, setSyllabusData] = useState(null);

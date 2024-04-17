@@ -146,38 +146,3 @@ const Outline = ({ syllabusData }) => {
 }
 
 export default Outline
-
-const data1 = [
-    {
-        day: "Day 1",
-        units: [
-            {
-                title: ".NET Introduction",
-                duration: "3hrs",
-                details: [
-                    {
-                        title: ".NET Introduction",
-                        standard: "SD4H",
-                        duration: "30mins",
-                        type: "Online",
-                        icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-                    },
-                    {
-                        title: ".NET Introduction",
-                        standard: "SD4H",
-                        duration: "30mins",
-                        type: "Online",
-                        icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-                    },
-                    {
-                        title: ".NET Introduction",
-                        standard: "SD4H",
-                        duration: "30mins",
-                        type: "Online",
-                        icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-                    },
-                ]
-            },
-        ]
-    },
-];

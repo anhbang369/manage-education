@@ -1,5 +1,4 @@
 import React from 'react';
-import "./trainMaterial.css";
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -19,7 +18,7 @@ const TrainMaterial = ({ property, syllabusData }) => {
 
     return (
         <>
-            {/* {syllabusData && Array.isArray(syllabusData) && syllabusData.map((item) => (
+            {syllabusData && Array.isArray(syllabusData) && syllabusData.map((item) => (
                 <div>
                     {
                         item.syllabusDays && Array.isArray(item.syllabusDays) && item.syllabusDays.map((itemDay, i) => (
@@ -61,7 +60,7 @@ const TrainMaterial = ({ property, syllabusData }) => {
                         ))
                     }
                 </div>
-            ))} */}
+            ))}
         </>
     )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -14,14 +14,31 @@ import Container from '@mui/material/Container';
 import { getByIdTrainingClass } from '../services/TrainingClassService';
 import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
+import Button from '@mui/joy/Button';
+import Modal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
 
 
 const ClassView = () => {
 
-    const [importOpen, setImportOpen] = useState(false);
+    //popup material
+    const [open, setOpen] = useState({});
+    const handleOpenModal = (index) => {
+        setOpen(prevOpen => ({
+            ...prevOpen,
+            [index]: true,
+        }));
+    };
+
+    const handleCloseModal = (index) => {
+        setOpen(prevOpen => ({
+            ...prevOpen,
+            [index]: false,
+        }));
+    };
+
 
     const params = useParams();
-    console.log("GET PARAMETER nhoa" + params.id)
 
     const [classData, setClassData] = useState(null);
     useEffect(() => {
@@ -64,32 +81,31 @@ const ClassView = () => {
 
 
     //show syllabus
-    const [selectedSyllabus, setSelectedSyllabus] = useState(null)
-    const toggleSyllabus = (indexSyllabus) => {
-        if (selectedSyllabus === indexSyllabus) {
-            return setSelectedSyllabus(null)
-        }
+    // const [selectedSyllabus, setSelectedSyllabus] = useState(null)
+    // const toggleSyllabus = (indexSyllabus) => {
+    //     if (selectedSyllabus === indexSyllabus) {
+    //         return setSelectedSyllabus(null)
+    //     }
 
-        setSelectedSyllabus(indexSyllabus)
-    }
+    //     setSelectedSyllabus(indexSyllabus)
+    // }
 
-    const [selectedDetail, setSelectedDetail] = useState(null)
-    const toggleDetail = (i) => {
-        if (selectedDetail === i) {
-            return setSelectedDetail(null)
-        }
+    const [selectedUnit, setSelectedUnit] = useState(null);
 
-        setSelectedDetail(i)
-    }
+    // Function to toggle the visibility of a unit
+    const toggleUnit = (index) => {
+        setSelectedUnit(prevIndex => (prevIndex === index ? null : index));
+    };
 
-    const [selectedMore, setSelectedMore] = useState(null)
-    const togglesMore = (more) => {
-        if (selectedMore === more) {
-            return setSelectedMore(null)
-        }
 
-        setSelectedMore(more)
-    }
+    // const [selectedChapter, setSelectedChapter] = useState(null)
+    // const togglesChapter = (detail) => {
+    //     if (selectedChapter === detail) {
+    //         return setSelectedChapter(null)
+    //     }
+
+    //     setSelectedChapter(detail)
+    // }
 
     return (
         <>
@@ -242,7 +258,7 @@ const ClassView = () => {
                                     </div>
 
                                     {item.trainingProgram.syllabuses.map((itemSyllabus, indexSyllabus) => (
-                                        <div key={indexSyllabus} onClick={() => toggleSyllabus(indexSyllabus)}>
+                                        <div key={indexSyllabus} >
                                             <div className='row w-98 ms-3 mt-3'>
                                                 <div className='col-md-3 bg-core rounded-start py-2 px-2 row'>
                                                     {/* {Object.values(item.images).map((output, ind) => (
@@ -271,18 +287,18 @@ const ClassView = () => {
                                                 </div>
                                             </div>
 
-                                            <div className={selectedSyllabus === indexSyllabus ? 'show__syllabus show_s' : 'show__syllabus'}>
+                                            <div className="show__syllabus show_s">
                                                 {itemSyllabus.syllabusDays && Array.isArray(itemSyllabus.syllabusDays) && itemSyllabus.syllabusDays.map((day1, i) => (
                                                     <div className="wrapper" key={i}>
                                                         <div className='accordion accordion__wa'>
                                                             <div className='item'>
-                                                                <div className='title' onClick={() => toggleDetail(i)}>
-                                                                    <h6 className='outline__days w-98 ms-3'>{day1.dayNo} day</h6>
+                                                                <div className='title w-98'>
+                                                                    <h6 className='outline__days ms-3'>{day1.dayNo} day</h6>
                                                                 </div>
-                                                                <div className={selectedDetail === i ? 'content show' : 'content'}>
+                                                                <div className="content show">
                                                                     {day1.syllabusUnits.map((unit, index) => (
-                                                                        <div className="unit" key={index} onClick={() => togglesMore(index)}>
-                                                                            <div className="unit__component">
+                                                                        <div className="unit" key={index} >
+                                                                            <div className="unit__component" onClick={() => toggleUnit(index)}>
                                                                                 <div className='d-flex mb-2'>
                                                                                     <p className="unit__number">Unit {unit.unitNo}</p>
                                                                                     <div className='ms-4'>
@@ -291,52 +307,102 @@ const ClassView = () => {
                                                                                     </div>
 
                                                                                 </div>
-                                                                                <i className={selectedMore === index ? 'bi bi-caret-down-fill' : 'bi bi-caret-left-fill'}></i>
+                                                                                <i className='bi bi-caret-left-fill'></i>
                                                                             </div>
 
-                                                                            {unit.syllabusUnitChapters.map((detail, idx) => (
-                                                                                <div className={selectedMore === idx ? 'unit__details show' : 'unit__details'} key={idx}>
+                                                                            <div>
+                                                                                {unit.syllabusUnitChapters.map((detail, idx) => (
+                                                                                    <div className={selectedUnit === index ? 'unit__details show' : 'unit__details'} key={idx}>
+                                                                                        <Box sx={{ flexGrow: 1 }}>
+                                                                                            <Grid container spacing={1}>
+                                                                                                <Grid item xs={5}>
+                                                                                                    <h6 className='fs-14'>{detail.name}</h6>
+                                                                                                </Grid>
+                                                                                                <Grid item xs={1}>
+                                                                                                    <p className='details__stanrd'>
+                                                                                                        {detail.outputStandard == null ? (
+                                                                                                            <p className='bg-chapter'></p>
+                                                                                                        ) : (
+                                                                                                            <p className='details__stanrd text-center'>{detail.outputStandard.code}</p>
+                                                                                                        )}
+                                                                                                    </p>
+                                                                                                </Grid>
+                                                                                                <Grid item xs={2}>
+                                                                                                    <p className='details__mins'>{detail.duration} mins</p>
+                                                                                                </Grid>
+                                                                                                <Grid item xs={2}>
+                                                                                                    <p>
+                                                                                                        {detail.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
+                                                                                                    </p>
+                                                                                                </Grid>
+                                                                                                <Grid item xs={1}>
+                                                                                                    {detail.deliveryType.name === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
+                                                                                                    {detail.deliveryType.name === 'Assignment/Lab' && <i class="bi bi-bookmark-check"></i>}
+                                                                                                    {detail.deliveryType.name === 'Test/Quiz' && <i class="bi bi-card-checklist"></i>}
+                                                                                                    {detail.deliveryType.name === 'Exam' && <i class="bi bi-journal-bookmark-fill"></i>}
+                                                                                                    {detail.deliveryType.name === 'Guide/Review' && <i class="bi bi-hand-thumbs-up"></i>}
+                                                                                                    {detail.deliveryType.name === 'Seminar/Workshop' && <i class="bi bi-person-workspace"></i>}
+                                                                                                    {detail.deliveryType.name === 'Class Meeting' && <i class="bi bi-people"></i>}
+                                                                                                    {detail.deliveryType.name === 'Tour/Outdoor' && <i class="bi bi-globe-central-south-asia"></i>}
+                                                                                                </Grid>
+                                                                                                <Grid item xs={1}>
 
-                                                                                    <Box sx={{ flexGrow: 1 }}>
-                                                                                        <Grid container spacing={1}>
-                                                                                            <Grid item xs={5}>
-                                                                                                <h6 className='fs-14'>{detail.name}</h6>
-                                                                                            </Grid>
-                                                                                            <Grid item xs={1}>
-                                                                                                <p className='details__stanrd'>
-                                                                                                    {detail.outputStandard == null ? (
-                                                                                                        <p className='bg-chapter'></p>
-                                                                                                    ) : (
-                                                                                                        <p className='details__stanrd'>{detail.outputStandard.code}</p>
-                                                                                                    )}
-                                                                                                </p>
-                                                                                            </Grid>
-                                                                                            <Grid item xs={2}>
-                                                                                                <p className='details__mins'>{detail.duration} mins</p>
-                                                                                            </Grid>
-                                                                                            <Grid item xs={2}>
-                                                                                                <p>
-                                                                                                    {detail.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
-                                                                                                </p>
-                                                                                            </Grid>
-                                                                                            <Grid item xs={1}>
-                                                                                                {detail.deliveryType.name === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
-                                                                                                {detail.deliveryType.name === 'Assignment/Lab' && <i class="bi bi-bookmark-check"></i>}
-                                                                                                {detail.deliveryType.name === 'Test/Quiz' && <i class="bi bi-card-checklist"></i>}
-                                                                                                {detail.deliveryType.name === 'Exam' && <i class="bi bi-journal-bookmark-fill"></i>}
-                                                                                                {detail.deliveryType.name === 'Guide/Review' && <i class="bi bi-hand-thumbs-up"></i>}
-                                                                                                {detail.deliveryType.name === 'Seminar/Workshop' && <i class="bi bi-person-workspace"></i>}
-                                                                                                {detail.deliveryType.name === 'Class Meeting' && <i class="bi bi-people"></i>}
-                                                                                                {detail.deliveryType.name === 'Tour/Outdoor' && <i class="bi bi-globe-central-south-asia"></i>}
+                                                                                                    <React.Fragment>
+                                                                                                        <Button
+                                                                                                            backgroundColor="bg-core"
+                                                                                                            className="border border-0 text-white rounded me-3 px-1 bg-core"
+                                                                                                            onClick={() => handleOpenModal(idx)}
+                                                                                                        >
+                                                                                                            <i class="bi bi-folder2-open"></i>
+                                                                                                        </Button>
+                                                                                                        <Modal open={open[idx] || false} onClose={() => handleCloseModal(idx)}>
+                                                                                                            <ModalDialog className='w-50'>
+                                                                                                                <div className="border border-black rounded-top">
+                                                                                                                    <h5 className="bg-core rounded-top text-white p-2">Matreial</h5>
+                                                                                                                    <div>
+                                                                                                                        {/* <div className="w-100 d-flex my-2">
+                                                                                                                        <h5 className="ms-2 fs-18">Unit {unit.unitNo}</h5>
+                                                                                                                        <h5 className="ms-2 fs-18">{unit.name}</h5>
+                                                                                                                    </div> */}
+                                                                                                                        <div className="w-100">
 
+                                                                                                                            <div>
+                                                                                                                                {
+                                                                                                                                    detail.materials.map((material) => (
+                                                                                                                                        <div className='d-flex justify-content-center'>
+                                                                                                                                            <div className='bg-chapter d-flex w-98 row rounded'>
+                                                                                                                                                <a href="" className="material__link col-md-4 fs-14">{material.name.slice(0, 25)}...</a>
+                                                                                                                                                <span className='col-md-6 fs-14'>by {material.createdBy} on {material.createdDate.slice(0, 10)}</span>
+                                                                                                                                                <div className='col-md-2 row'>
+                                                                                                                                                    <i class="bi bi-pencil col-md-6 text-primary"></i>
+                                                                                                                                                    <i class="bi bi-trash3 col-md-6 text-primary"></i>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    ))
+                                                                                                                                }
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+
+                                                                                                                    <div className='w-100 d-flex justify-content-center'>
+                                                                                                                        <button className="bg-core text-white rounded border-0 my-2 p-1">Upload new</button>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </ModalDialog>
+                                                                                                        </Modal>
+                                                                                                    </React.Fragment>
+                                                                                                </Grid>
                                                                                             </Grid>
-                                                                                            <Grid item xs={1}>
-                                                                                                <i class="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
-                                                                                            </Grid>
-                                                                                        </Grid>
-                                                                                    </Box>
-                                                                                </div>
-                                                                            ))}
+                                                                                        </Box>
+
+
+                                                                                        {/* <TrainMaterial property={importOpen} syllabusData={detail.materials} /> */}
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+
+
 
                                                                         </div>
                                                                     ))}
