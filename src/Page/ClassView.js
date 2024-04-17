@@ -275,7 +275,7 @@ const ClassView = () => {
                                                 </div>
                                                 <div className='col-md-9 row class__view-syllabus-content'>
                                                     <div className='col-md-12 d-flex'>
-                                                        <h5 onClick={() => toggleSyllabus(indexSyllabus)}><b>{itemSyllabus.name}</b></h5><p className='bg-core text-white text-center h-20p ms-3 rounded'>{itemSyllabus.status}</p>
+                                                        <h5 className='pointer' onClick={() => toggleSyllabus(indexSyllabus)}><b>{itemSyllabus.name}</b></h5><p className='bg-core text-white text-center h-20p ms-3 rounded'>{itemSyllabus.status}</p>
                                                     </div>
                                                     <div className='col-md-12'>
                                                         <div className='d-flex fw-normal'>
@@ -295,7 +295,7 @@ const ClassView = () => {
                                                         <div className='accordion accordion__wa'>
                                                             <div className='item'>
                                                                 <div className='title w-98'>
-                                                                    <h6 className='outline__days ms-3' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
+                                                                    <h6 className='outline__days ms-3 pointer' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
                                                                 </div>
                                                                 <div className={selectedDay === i ? 'content show' : 'content'}>
                                                                     {day1.syllabusUnits.map((unit, index) => (
@@ -304,7 +304,7 @@ const ClassView = () => {
                                                                                 <div className='d-flex mb-2'>
                                                                                     <p className="unit__number">Unit {unit.unitNo}</p>
                                                                                     <div className='ms-4'>
-                                                                                        <p className="unit__title">{unit.name}</p>
+                                                                                        <p className="unit__title pointer">{unit.name}</p>
                                                                                         <span className="unit__time fs-14">{unit.duration} hours</span>
                                                                                     </div>
 
