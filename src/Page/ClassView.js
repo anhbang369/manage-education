@@ -81,31 +81,33 @@ const ClassView = () => {
 
 
     //show syllabus
-    // const [selectedSyllabus, setSelectedSyllabus] = useState(null)
-    // const toggleSyllabus = (indexSyllabus) => {
-    //     if (selectedSyllabus === indexSyllabus) {
-    //         return setSelectedSyllabus(null)
-    //     }
+    const [selectedSyllabus, setSelectedSyllabus] = useState(null)
+    const toggleSyllabus = (indexSyllabus) => {
+        if (selectedSyllabus === indexSyllabus) {
+            return setSelectedSyllabus(null)
+        }
 
-    //     setSelectedSyllabus(indexSyllabus)
-    // }
+        setSelectedSyllabus(indexSyllabus)
+    }
 
+
+    const [selectedDay, setSelectedDay] = useState(null)
+    const togglesDay = (detail) => {
+        if (selectedDay === detail) {
+            return setSelectedDay(null)
+        }
+
+        setSelectedDay(detail)
+    }
+
+
+    //show chapter
     const [selectedUnit, setSelectedUnit] = useState(null);
 
     // Function to toggle the visibility of a unit
     const toggleUnit = (index) => {
         setSelectedUnit(prevIndex => (prevIndex === index ? null : index));
     };
-
-
-    // const [selectedChapter, setSelectedChapter] = useState(null)
-    // const togglesChapter = (detail) => {
-    //     if (selectedChapter === detail) {
-    //         return setSelectedChapter(null)
-    //     }
-
-    //     setSelectedChapter(detail)
-    // }
 
     return (
         <>
@@ -248,7 +250,7 @@ const ClassView = () => {
                                         </div>
                                     </div>
                                     <h6 className='text-white bg-core rounded-top w-15 text-center m-0 ms-3 mt-3'>Training program</h6>
-                                    <div className='bg-core text-white border border-white ms-3 rounded-top-end p-1'>
+                                    <div className='bg-core text-white border border-white ms-3 rounded-top-end p-1' >
                                         <h5 className='ms-3'>{item.trainingProgram.name}</h5>
                                         <div className='d-flex ms-3'>
                                             <p>{item.trainingProgram.day} days ({item.trainingProgram.hours} hours)</p>
@@ -273,7 +275,7 @@ const ClassView = () => {
                                                 </div>
                                                 <div className='col-md-9 row class__view-syllabus-content'>
                                                     <div className='col-md-12 d-flex'>
-                                                        <h5><b>{itemSyllabus.name}</b></h5><p className='bg-core text-white text-center h-20p ms-3 rounded'>{itemSyllabus.status}</p>
+                                                        <h5 onClick={() => toggleSyllabus(indexSyllabus)}><b>{itemSyllabus.name}</b></h5><p className='bg-core text-white text-center h-20p ms-3 rounded'>{itemSyllabus.status}</p>
                                                     </div>
                                                     <div className='col-md-12'>
                                                         <div className='d-flex fw-normal'>
@@ -287,15 +289,15 @@ const ClassView = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="show__syllabus show_s">
+                                            <div className={selectedSyllabus === indexSyllabus ? 'show__syllabus show_s' : 'show__syllabus'}>
                                                 {itemSyllabus.syllabusDays && Array.isArray(itemSyllabus.syllabusDays) && itemSyllabus.syllabusDays.map((day1, i) => (
                                                     <div className="wrapper" key={i}>
                                                         <div className='accordion accordion__wa'>
                                                             <div className='item'>
                                                                 <div className='title w-98'>
-                                                                    <h6 className='outline__days ms-3'>{day1.dayNo} day</h6>
+                                                                    <h6 className='outline__days ms-3' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
                                                                 </div>
-                                                                <div className="content show">
+                                                                <div className={selectedDay === i ? 'content show' : 'content'}>
                                                                     {day1.syllabusUnits.map((unit, index) => (
                                                                         <div className="unit" key={index} >
                                                                             <div className="unit__component" onClick={() => toggleUnit(index)}>
