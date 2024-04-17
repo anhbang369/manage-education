@@ -4,6 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { getSyllabusProgram } from "../../services/SyllabusService";
+import { createTrainingProgram } from "../../services/TrainingProgramService";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const TrainingProgramStepTwo = ({ classDto }) => {
 
@@ -11,6 +14,9 @@ const TrainingProgramStepTwo = ({ classDto }) => {
     const [syllabusData, setSyllabusData] = useState(null);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [openNo, setOpenNo] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,6 +58,40 @@ const TrainingProgramStepTwo = ({ classDto }) => {
     const handleDeleteItem = (idToDelete) => {
         const newData = selectedItems.filter(item => item.id !== idToDelete);
         setSelectedItems(newData);
+    };
+
+    //request body
+    const requestBody = {
+        name: classDto.classNameP,
+        version: "1.0",
+        status: "ACTIVE",
+        programSyllabuses: selectedItems.map((syllabus, index) => ({
+            syllabusId: syllabus.id,
+            position: index
+        })),
+        template: true
+    };
+    console.log(requestBody)
+
+    //create
+    const handleSave = async () => {
+        setLoading(true);
+
+        try {
+
+            await createTrainingProgram(requestBody);
+            setLoading(false);
+            setNotificationMessage('Create successful.');
+            setOpenNo(true);
+        } catch (error) {
+            console.error('Error while saving training program:', error);
+            setLoading(false);
+        }
+    };
+
+    //notification
+    const handleCloseNo = () => {
+        setOpenNo(false);
     };
 
 
@@ -163,43 +203,24 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                             <button className="bg-transparent border-0 text-white rounded p-2 my-4"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
                         </Grid>
                         <Grid item xs={1}>
-                            <button className="bg-secondary border-0 text-white rounded p-2 my-4">Save</button>
+                            <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleSave}
+                                disabled={loading}>Save</button>
                         </Grid>
                     </Grid>
                 </Box>
+                <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
+                    <Alert
+                        onClose={handleCloseNo}
+                        severity="success"
+                        variant="filled"
+                        sx={{ width: '100%' }}
+                    >
+                        {notificationMessage}
+                    </Alert>
+                </Snackbar>
             </div >
         </>
     )
 }
 
 export default TrainingProgramStepTwo
-
-const Data = [
-    {
-        id: 1,
-        title: "Linux",
-        status: "Active",
-        programName: "LIN v2.0",
-        duration: "4 days (12 hours)",
-        modifiedDate: "23/07/2024",
-        modifiedBy: "jonhy Deep"
-    },
-    {
-        id: 2,
-        title: "Linux",
-        status: "Active",
-        programName: "LIN v2.0",
-        duration: "4 days (12 hours)",
-        modifiedDate: "23/07/2024",
-        modifiedBy: "jonhy Deep"
-    },
-    {
-        id: 3,
-        title: "Linux",
-        status: "Active",
-        programName: "LIN v2.0",
-        duration: "4 days (12 hours)",
-        modifiedDate: "23/07/2024",
-        modifiedBy: "jonhy Deep"
-    }
-]

@@ -39,6 +39,33 @@ export const importTrainingProgram = async (file) => {
     }
 };
 
+export const createTrainingProgram = async (dto) => {
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program', {
+            method: 'POST',
+            body: JSON.stringify(dto),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMzM2NjExOSwiZXhwIjoxNzEzNDUyNTE5fQ.RozTiFx5-vzl-blxJStGQbTWyIUSmbSdqYFvijEImJA"
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Create successful', data);
+            console.log(response.status);
+            return data;
+        } else {
+            console.error('Create failed');
+            throw new Error('Create failed');
+        }
+    } catch (error) {
+        console.error('Error Create:', error);
+        throw error;
+    }
+};
+
+
 export const deleteTrainingProgram = async (itemId) => {
     try {
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}`, {
