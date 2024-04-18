@@ -1,6 +1,6 @@
 import React from 'react';
 import "./outlineCreate.css";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
 import TrainMaterial from '../trainMaterial/TrainMaterial';
 import Box from '@mui/material/Box';
@@ -10,7 +10,8 @@ import { styled } from '@mui/material/styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import Paper from '@mui/material/Paper';
+import { getDeliveryType } from "../../services/DeliveryTypeService";
+import { getOutputStandard } from "../../services/OutputStandardService";
 
 export const data = [
     ["Task", "Hours per Day"],
@@ -66,6 +67,38 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 const OutlineCreate = () => {
 
     const [selected, setSelected] = useState(null)
+    //get list
+    const [output, setOutput] = useState(null);
+    const [delivery, setDelivery] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getOutputStandard();
+                console.log("this is dada: " + data);
+                setOutput(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getDeliveryType();
+                console.log("this is dada: " + data);
+                setDelivery(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
     const toggle = (i) => {
         if (selected === i) {
             return setSelected(null)
@@ -116,7 +149,8 @@ const OutlineCreate = () => {
                                                 </div>
 
                                                 {unit.details.map((detail, idx) => (
-                                                    <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}>
+                                                    // <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}>
+                                                    <Box sx={{ flexGrow: 1 }} className='unit__details show' key={idx}>
                                                         <Grid container spacing={2}>
                                                             <Grid item xs={5}>
                                                                 {detail.title}
@@ -140,18 +174,21 @@ const OutlineCreate = () => {
                                                     </Box>
 
                                                 ))}
-
-                                                <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'}>
+                                                {/* <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'}></Box> */}
+                                                <Box sx={{ flexGrow: 1 }} className='unit__details show'>
                                                     <Grid container spacing={2}>
                                                         <Grid item xs={5}>
                                                             <input className='w-80 rounded' type="text" />
                                                         </Grid>
                                                         <Grid item xs={2}>
                                                             <select className='w-75' name="cars" id="cars">
-                                                                <option value="volvo">Volvo</option>
-                                                                <option value="saab">Saab</option>
-                                                                <option value="mercedes">Mercedes</option>
-                                                                <option value="audi">Audi</option>
+                                                                {output ? (
+                                                                    output.map((item, index) => (
+                                                                        <option key={index} value={item.id}>{item.name}</option>
+                                                                    ))
+                                                                ) : (
+                                                                    <option>Loading...</option>
+                                                                )}
                                                             </select>
                                                         </Grid>
                                                         <Grid item xs={1}>
@@ -168,10 +205,13 @@ const OutlineCreate = () => {
                                                         </Grid>
                                                         <Grid item xs={1}>
                                                             <select className='w-130' name="cars" id="cars">
-                                                                <option value="volvo">Volvo</option>
-                                                                <option value="saab">Saab</option>
-                                                                <option value="mercedes">Mercedes</option>
-                                                                <option value="audi">Audi</option>
+                                                                {delivery ? (
+                                                                    delivery.map((item, index) => (
+                                                                        <option key={index} value={item.id}>{item.name}</option>
+                                                                    ))
+                                                                ) : (
+                                                                    <option>Loading...</option>
+                                                                )}
                                                             </select>
                                                         </Grid>
                                                         <Grid item xs={1}>
