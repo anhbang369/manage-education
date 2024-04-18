@@ -1,12 +1,29 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import "./generalCreate.css";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { getSyllabusProgram } from "../../services/SyllabusLevelService";
 
 const GeneralCreate = () => {
+    //get list
+    const [level, setLevel] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSyllabusProgram();
+                console.log("this is dada: " + data);
+                setLevel(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -19,10 +36,14 @@ const GeneralCreate = () => {
                                     <p className="fs-6">Level</p>
                                 </div>
                                 <select class="custom-select h-75 mx-3 border">
-                                    <option selected>All level</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    {level ? (
+                                        level.map((item, index) => (
+                                            <option key={index} value={item.id}>{item.name}</option>
+                                        ))
+                                    ) : (
+                                        <option>Loading...</option>
+                                    )}
+
                                 </select>
 
                             </div>
@@ -50,7 +71,6 @@ const GeneralCreate = () => {
                             editor={ClassicEditor}
                             data="<p>Hello from CKEditor&nbsp;5!</p>"
                             onReady={editor => {
-                                // You can store the "editor" and use when it is needed.
                                 console.log('Editor is ready to use!', editor);
                             }}
                             onChange={(event) => {

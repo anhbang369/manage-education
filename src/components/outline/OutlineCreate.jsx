@@ -6,6 +6,11 @@ import TrainMaterial from '../trainMaterial/TrainMaterial';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { styled } from '@mui/material/styles';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import Paper from '@mui/material/Paper';
 
 export const data = [
     ["Task", "Hours per Day"],
@@ -23,6 +28,40 @@ export const options = {
     pieSliceText: "label",
     pieStartAngle: 100,
 };
+
+//toggle
+const Android12Switch = styled(Switch)(({ theme }) => ({
+    padding: 8,
+    '& .MuiSwitch-track': {
+        borderRadius: 22 / 2,
+        '&::before, &::after': {
+            content: '""',
+            position: 'absolute',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: 16,
+            height: 16,
+        },
+        '&::before': {
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                theme.palette.getContrastText(theme.palette.primary.main),
+            )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
+            left: 12,
+        },
+        '&::after': {
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                theme.palette.getContrastText(theme.palette.primary.main),
+            )}" d="M19,13H5V11H19V13Z" /></svg>')`,
+            right: 12,
+        },
+    },
+    '& .MuiSwitch-thumb': {
+        boxShadow: 'none',
+        width: 16,
+        height: 16,
+        margin: 2,
+    },
+}));
 
 const OutlineCreate = () => {
 
@@ -62,14 +101,14 @@ const OutlineCreate = () => {
                                         {item.units.map((unit, index) => (
                                             <div className="unit" key={index} onClick={() => toggles(i)}>
                                                 <div className="unit__component">
-                                                    <div className='unit__com'>
-                                                        <p className="unit__number">Unit{index + 1}</p>
-                                                        <div className='title__div'>
-                                                            <p className="unit__title">{unit.title}</p>
-                                                            <span className="unit__time">{unit.duration}</span>
+                                                    <div className='d-flex'>
+                                                        <p className='fs-14'>Unit{index + 1}</p>
+                                                        <div className='ms-4'>
+                                                            <p className='fs-14'>{unit.title}</p>
+                                                            <span className="fs-14">{unit.duration}</span>
                                                         </div>
-                                                        <div className='unit__edit'>
-                                                            <i class="bi bi-pencil pen__edit"></i>
+                                                        <div>
+                                                            <i class="bi bi-pencil p-2 bg-core rounded ms-3 text-white"></i>
                                                         </div>
 
                                                     </div>
@@ -77,44 +116,70 @@ const OutlineCreate = () => {
                                                 </div>
 
                                                 {unit.details.map((detail, idx) => (
-                                                    <div className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}>
-                                                        <h6 className='details__title'>{detail.title}</h6>
-                                                        <p className='details__stanrd'>{detail.standard}</p>
-                                                        <p className='details__mins'>{detail.duration}</p>
-                                                        <p className='details__onl'>{detail.type}</p>
-                                                        <i className={detail.icons[0]}></i>
-                                                        <i className={detail.icons[1]} onClick={() => setImportOpen(true)}></i>
-                                                    </div>
+                                                    <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}>
+                                                        <Grid container spacing={2}>
+                                                            <Grid item xs={5}>
+                                                                {detail.title}
+                                                            </Grid>
+                                                            <Grid item xs={2}>
+                                                                {detail.standard}
+                                                            </Grid>
+                                                            <Grid item xs={1}>
+                                                                {detail.duration}
+                                                            </Grid>
+                                                            <Grid item xs={1} className='ms-3 me-3'>
+                                                                {detail.type}
+                                                            </Grid>
+                                                            <Grid item xs={1}>
+                                                                <i className={detail.icons[0]}></i>
+                                                            </Grid>
+                                                            <Grid item xs={1}>
+                                                                <i className={detail.icons[1]} onClick={() => setImportOpen(true)}></i>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Box>
+
                                                 ))}
-                                                <div className={selectedMore === i ? 'unit__details show' : 'unit__details'}>
-                                                    <h4 className='details__title'><input className='input__edit-title' type="text" /></h4>
-                                                    <select className='select__stand' name="cars" id="cars">
-                                                        <option value="volvo">Volvo</option>
-                                                        <option value="saab">Saab</option>
-                                                        <option value="mercedes">Mercedes</option>
-                                                        <option value="audi">Audi</option>
-                                                    </select>
-                                                    <input className='input__mi-enter' type="text" />
 
-                                                    <label for="switch"
-                                                        class="toggle">
-                                                        <p className='togg'>
-                                                            Onl
-                                                        </p>
-                                                        <p className='togg'>
-                                                            Off
-                                                        </p>
+                                                <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'}>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item xs={5}>
+                                                            <input className='w-80 rounded' type="text" />
+                                                        </Grid>
+                                                        <Grid item xs={2}>
+                                                            <select className='w-75' name="cars" id="cars">
+                                                                <option value="volvo">Volvo</option>
+                                                                <option value="saab">Saab</option>
+                                                                <option value="mercedes">Mercedes</option>
+                                                                <option value="audi">Audi</option>
+                                                            </select>
+                                                        </Grid>
+                                                        <Grid item xs={1}>
+                                                            <input className='rounded w-80' type="text" />
+                                                        </Grid>
+                                                        <Grid item xs={1} className='ms-3 me-3'>
+                                                            <FormGroup>
+                                                                <FormControlLabel
+                                                                    control={<Android12Switch defaultChecked />}
+                                                                    label=""
+                                                                />
+                                                            </FormGroup>
 
-                                                    </label>
+                                                        </Grid>
+                                                        <Grid item xs={1}>
+                                                            <select className='w-130' name="cars" id="cars">
+                                                                <option value="volvo">Volvo</option>
+                                                                <option value="saab">Saab</option>
+                                                                <option value="mercedes">Mercedes</option>
+                                                                <option value="audi">Audi</option>
+                                                            </select>
+                                                        </Grid>
+                                                        <Grid item xs={1}>
+                                                            <i className="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Box>
 
-                                                    <select className='select__stand' name="cars" id="cars">
-                                                        <option value="volvo">Volvo</option>
-                                                        <option value="saab">Saab</option>
-                                                        <option value="mercedes">Mercedes</option>
-                                                        <option value="audi">Audi</option>
-                                                    </select>
-                                                    <i className="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
-                                                </div>
                                             </div>
                                         ))}
 

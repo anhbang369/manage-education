@@ -6,15 +6,15 @@
   border-bottom: 1px solid;
 }
 
-.pen__edit{
+/* .pen__edit{
     padding: 10px;
     background-color: #47505f;
     border-radius: 8px;
     margin-bottom: -20px;
     margin-left: 20px;
-}
+} */
 
-.toggle {
+/* .toggle {
     border: none;
     display: flex !important;
     justify-content: space-between;
@@ -25,9 +25,9 @@
     background-color: red;
     border-radius: 30px;
     border: 2px solid gray;
-}
+} */
        
-/* After slide changes */
+/* After slide changes
 .toggle:after {
     content: '';
     position: absolute;
@@ -39,44 +39,44 @@
     left: 1px;
     transition:  all 0.5s;
 }
-       
+        */
 /* Toggle text */
-p {
+/* p {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
 }
        
 /* Checkbox checked effect */
-.checkbox:checked + .toggle::after {
+/* .checkbox:checked + .toggle::after {
     left : 49px; 
-}
+} */ 
        
 /* Checkbox checked toggle label bg color */
-.checkbox:checked + .toggle {
+/* .checkbox:checked + .toggle {
     background-color: green;
-}
+} */
        
 /* Checkbox vanished */
 .checkbox { 
     display : none;
 }
 
-  .input__edit-title{
+  /* .input__edit-title{
     border-radius: 10px;
     height: 27px;
     width: 55%;
-  }
+  } */
 
-  .input__mi-enter{
+  /* .input__mi-enter{
     width: 30px;
     height: 27px;
     border-radius: 8px;
-  }
+  } */
 
-  .select__stand{
+  /* .select__stand{
     width: 73px;
-  }
-
+  } */
+/* 
   .togg{
     color: #FFF;
     font-size: 12px;
@@ -85,7 +85,7 @@ p {
   .switch{
     display: flex;
     justify-content: space-between;
-  }
+  } */
 
   .btn__create-unit{
     background-color: #47505f;
