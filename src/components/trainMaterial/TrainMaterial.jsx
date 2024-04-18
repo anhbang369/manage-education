@@ -14,8 +14,6 @@ const TrainMaterial = ({ property, syllabusData }) => {
         setImportOpen(false);
     };
 
-    console.log("This is data in UI" + dataArray)
-
     return (
         <>
             {syllabusData && Array.isArray(syllabusData) && syllabusData.map((item) => (

@@ -15,7 +15,6 @@ const GeneralCreate = () => {
         const fetchData = async () => {
             try {
                 const data = await getSyllabusProgram();
-                console.log("this is dada: " + data);
                 setLevel(data);
             } catch (error) {
                 console.log(error)
