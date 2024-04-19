@@ -2,7 +2,6 @@ import * as React from 'react';
 import "./outlineCreate.css";
 import { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
-import TrainMaterial from '../trainMaterial/TrainMaterial';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,10 +9,11 @@ import { styled } from '@mui/material/styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { SwitchProps } from '@mui/material/Switch';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import { getDeliveryType } from "../../services/DeliveryTypeService";
 import { getOutputStandard } from "../../services/OutputStandardService";
+import Button from '@mui/joy/Button';
+import Modal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
 
 export const data = [
     ["Task", "Hours per Day"],
@@ -68,7 +68,13 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 
 
 const OutlineCreate = () => {
-    // const [formData, setFormData] = useState([]);
+    const [formData, setFormData] = useState({
+        title: '',
+        standard: '',
+        duration: '',
+        type: '',
+        online: false
+    });
 
 
     const [selected, setSelected] = useState(null)
@@ -76,19 +82,41 @@ const OutlineCreate = () => {
     //get list
     const [output, setOutput] = useState(null);
     const [delivery, setDelivery] = useState(null);
-    const [unitName, setUnitName] = useState('');
     const [syllabusDays, setSyllabusDays] = useState([]);
+    const [unitName, setUnitName] = useState(Array(syllabusDays.length).fill(''));
 
     const [dayFormData, setDayFormData] = useState({
         dayNo: 1,
         status: 'AVAILABLE'
     });
+    //popup material
+    const [open, setOpen] = useState({});
+    const handleOpenModal = (index) => {
+        setOpen(prevOpen => ({
+            ...prevOpen,
+            [index]: true,
+        }));
+    };
+
+    const handleCloseModal = (index) => {
+        setOpen(prevOpen => ({
+            ...prevOpen,
+            [index]: false,
+        }));
+    };
 
     const handleAddDay = () => {
+        const newUnit = {
+            name: "Default Unit", // Tên của unit mặc định
+            unitNo: 1, // Số thứ tự của unit mặc định, ở đây là 1
+            duration: 0, // Thời lượng của unit mặc định, ở đây là 0
+            syllabusUnitChapters: [] // Các chương của unit mặc định, ở đây là một mảng trống
+        };
+
         const newDay = {
             dayNo: dayFormData.dayNo,
             status: dayFormData.status,
-            syllabusUnits: []
+            syllabusUnits: [newUnit] // Thêm unit mặc định vào mảng syllabusUnits của ngày mới
         };
 
         setSyllabusDays(prevSyllabusDays => [...prevSyllabusDays, newDay]);
@@ -99,21 +127,56 @@ const OutlineCreate = () => {
             dayNo: prevDayFormData.dayNo + 1
         }));
     };
+
     console.log("days: " + JSON.stringify(syllabusDays))
 
     const handleAddUnit = (dayIndex) => {
         const newUnit = {
-            name: unitName,
-            unitNo: syllabusDays[dayIndex].syllabusUnits.length + 1, // Bắt đầu từ 1 và tăng dần
+            name: unitName[dayIndex],
+            unitNo: (syllabusDays[dayIndex]?.syllabusUnits?.length || 0) + 1,
             duration: 0,
             syllabusUnitChapters: []
         };
+
         setSyllabusDays(prevSyllabusDays => {
             const updatedSyllabusDays = [...prevSyllabusDays];
             updatedSyllabusDays[dayIndex].syllabusUnits.push(newUnit);
             return updatedSyllabusDays;
         });
     };
+
+    const handleChange = (field, value) => {
+        setFormData({
+            ...formData,
+            [field]: value
+        });
+    };
+
+    const handleAddChapter = (dayIndex, unitIndex) => {
+        const newChapter = {
+            title: formData.title,
+            standard: formData.standard,
+            duration: formData.duration,
+            type: formData.type,
+            online: formData.online
+        };
+
+        setSyllabusDays(prevSyllabusDays => {
+            const updatedSyllabusDays = [...prevSyllabusDays];
+            const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
+            if (unitToUpdate) {
+                unitToUpdate.syllabusUnitChapters.push(newChapter);
+            }
+            return updatedSyllabusDays;
+        });
+    };
+
+
+    // const handleUnitNameChange = (dayIndex, value) => {
+    //     const updatedUnitNames = [...unitName];
+    //     updatedUnitNames[dayIndex] = value;
+    //     setUnitName(updatedUnitNames);
+    // };
     // const [syllabusDays, setSyllabusDays] = useState([]);
 
     // const handleAddDay = () => {
@@ -241,42 +304,44 @@ const OutlineCreate = () => {
                                         <div className='title'>
                                             <h6 className='outline__days'>{day.dayNo} <i class="bi bi-dash-circle red"></i> <i class="bi bi-exclamation-triangle red"></i></h6>
                                         </div>
-                                        <div className='content show'>
-                                            <div className="unit" >
-                                                <div className="unit__component">
-                                                    <div className='d-flex'>
-                                                        <p className='fs-14'>Unit</p>
-                                                        <div className='ms-4'>
-                                                            <p className='fs-14'>DOC .NET</p>
-                                                            <span className="fs-14">3.5hours</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="bi bi-pencil p-2 bg-core rounded ms-3 text-white"></i>
-                                                        </div>
 
+                                        {day.syllabusUnits.map((unit, idxUnit) => (
+                                            <div className='content show'>
+                                                <div className="unit" >
+                                                    <div className="unit__component">
+                                                        <div className='d-flex'>
+                                                            <p className='fs-14'>Unit</p>
+                                                            <div className='ms-4'>
+                                                                <p className='fs-14'>{unit.unitNo}</p>
+                                                                <span className="fs-14">{unit.duration} hours</span>
+                                                            </div>
+                                                            <div>
+                                                                <i class="bi bi-pencil p-2 bg-core rounded ms-3 text-white"></i>
+                                                            </div>
+
+                                                        </div>
+                                                        <i className='bi bi-caret-down-fill'></i>
                                                     </div>
-                                                    <i className='bi bi-caret-down-fill'></i>
-                                                </div>
 
-                                                {/* // <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}> */}
-                                                <Box sx={{ flexGrow: 1 }} className='unit__details show' >
-                                                    <Grid container spacing={2}>
-                                                        <Grid item xs={5}>
-                                                            {/* {detail.title} */}
-                                                        </Grid>
-                                                        <Grid item xs={2}>
-                                                            {/* <div className="bg-core rounded text-white w-50">{detail.standard.code}</div> */}
-                                                        </Grid>
-                                                        <Grid item xs={1} cl>
-                                                            {/* {detail.duration} mins */}
-                                                        </Grid>
-                                                        <Grid item xs={1} className='ms-3 me-3'>
-                                                            {/* <p>
+                                                    {/* // <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}> */}
+                                                    <Box sx={{ flexGrow: 1 }} className='unit__details show' >
+                                                        <Grid container spacing={2}>
+                                                            <Grid item xs={5}>
+                                                                {/* {detail.title} */}
+                                                            </Grid>
+                                                            <Grid item xs={2}>
+                                                                {/* <div className="bg-core rounded text-white w-50">{detail.standard.code}</div> */}
+                                                            </Grid>
+                                                            <Grid item xs={1} cl>
+                                                                {/* {detail.duration} mins */}
+                                                            </Grid>
+                                                            <Grid item xs={1} className='ms-3 me-3'>
+                                                                {/* <p>
                                                                             {detail.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
                                                                         </p> */}
-                                                        </Grid>
-                                                        <Grid item xs={1}>
-                                                            {/* {detail.type.name === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
+                                                            </Grid>
+                                                            <Grid item xs={1}>
+                                                                {/* {detail.type.name === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
                                                                         {detail.type.name === 'Assignment/Lab' && <i class="bi bi-bookmark-check"></i>}
                                                                         {detail.type.name === 'Test/Quiz' && <i class="bi bi-card-checklist"></i>}
                                                                         {detail.type.name === 'Exam' && <i class="bi bi-journal-bookmark-fill"></i>}
@@ -284,103 +349,153 @@ const OutlineCreate = () => {
                                                                         {detail.type.name === 'Seminar/Workshop' && <i class="bi bi-person-workspace"></i>}
                                                                         {detail.type.name === 'Class Meeting' && <i class="bi bi-people"></i>}
                                                                         {detail.type.name === 'Tour/Outdoor' && <i class="bi bi-globe-central-south-asia"></i>} */}
+                                                            </Grid>
+                                                            <Grid item xs={1}>
+                                                                <i className="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
+                                                            </Grid>
                                                         </Grid>
-                                                        <Grid item xs={1}>
-                                                            <i className="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
+                                                    </Box>
+                                                    {/* <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'}></Box> */}
+                                                    <Box sx={{ flexGrow: 1 }} className='unit__details show'>
+                                                        <Grid container spacing={2}>
+                                                            <Grid item xs={5}>
+                                                                <input className='w-80 rounded' type="text" value={formData.title} onChange={(e) => handleChange('title', e.target.value)} />
+                                                            </Grid>
+                                                            <Grid item xs={2}>
+                                                                <select
+                                                                    className='w-75'
+                                                                    name="cars"
+                                                                    id="cars"
+                                                                    value={formData.standard} onChange={(e) => handleChange('standard', e.target.value)}
+
+                                                                >
+                                                                    {output ? (
+                                                                        output.map((item, index) => (
+                                                                            <option key={index} value={item.id}>{item.name}</option>
+                                                                        ))
+                                                                    ) : (
+                                                                        <option>Loading...</option>
+                                                                    )}
+                                                                </select>
+
+                                                            </Grid>
+                                                            <Grid item xs={1}>
+                                                                <input className='rounded w-80' type="number" value={formData.duration} onChange={(e) => handleChange('duration', e.target.value)} />
+                                                            </Grid>
+                                                            <Grid item xs={1} className='ms-3 me-3'>
+                                                                <FormGroup>
+                                                                    <FormControlLabel
+                                                                        control={<Android12Switch checked={!!formData.online}
+                                                                            onChange={(e) => setFormData({ ...formData, online: e.target.checked })} />}
+                                                                        label=""
+                                                                    />
+
+
+                                                                </FormGroup>
+
+
+                                                            </Grid>
+                                                            <Grid item xs={1}>
+                                                                <select
+                                                                    className='w-130'
+                                                                    name="cars"
+                                                                    id="cars"
+                                                                    // value={formData.type ? formData.type.id : ''}
+                                                                    // onChange={(e) => {
+                                                                    //     const selectedType = delivery.find(item => item.id === e.target.value);
+                                                                    //     setFormData({ ...formData, type: selectedType });
+                                                                    // }}
+                                                                    value={formData.type} onChange={(e) => handleChange('type', e.target.value)}
+                                                                >
+                                                                    {delivery ? (
+                                                                        delivery.map((item, index) => (
+                                                                            <option key={index} value={item.id}>{item.name}</option>
+                                                                        ))
+                                                                    ) : (
+                                                                        <option>Loading...</option>
+                                                                    )}
+                                                                </select>
+
+                                                            </Grid>
+                                                            <Grid item xs={1}>
+                                                                {/* <i className="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i> */}
+                                                                <React.Fragment>
+                                                                    <Button
+                                                                        backgroundColor="bg-core"
+                                                                        className="border border-0 text-white rounded me-3 px-1 bg-core"
+                                                                        onClick={() => handleOpenModal(idx)}
+                                                                    >
+                                                                        <i class="bi bi-folder2-open"></i>
+                                                                    </Button>
+                                                                    <Modal open={open[idx] || false} onClose={() => handleCloseModal(idx)}>
+                                                                        <ModalDialog className='w-50'>
+                                                                            <div className="border border-black rounded-top">
+                                                                                <h5 className="bg-core rounded-top text-white p-2">Matreial</h5>
+                                                                                <div>
+                                                                                    {/* <div className="w-100 d-flex my-2">
+                                                                                                                        <h5 className="ms-2 fs-18">Unit {unit.unitNo}</h5>
+                                                                                                                        <h5 className="ms-2 fs-18">{unit.name}</h5>
+                                                                                                                    </div> */}
+                                                                                    <div className="w-100">
+
+                                                                                        <div>
+                                                                                            {
+                                                                                                detail.materials.map((material) => (
+                                                                                                    <div className='d-flex justify-content-center'>
+                                                                                                        <div className='bg-chapter d-flex w-98 row rounded'>
+                                                                                                            <a href="" className="material__link col-md-4 fs-14">{material.name.slice(0, 25)}...</a>
+                                                                                                            <span className='col-md-6 fs-14'>by {material.createdBy} on {material.createdDate.slice(0, 10)}</span>
+                                                                                                            <div className='col-md-2 row'>
+                                                                                                                <i class="bi bi-pencil col-md-6 text-primary"></i>
+                                                                                                                <i class="bi bi-trash3 col-md-6 text-primary"></i>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                ))
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div className='w-100 d-flex justify-content-center'>
+                                                                                    <button className="bg-core text-white rounded border-0 my-2 p-1">Upload new</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </ModalDialog>
+                                                                    </Modal>
+                                                                </React.Fragment>
+                                                            </Grid>
+
                                                         </Grid>
-                                                    </Grid>
-                                                </Box>
-                                                {/* <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'}></Box> */}
-                                                <Box sx={{ flexGrow: 1 }} className='unit__details show'>
-                                                    <Grid container spacing={2}>
-                                                        <Grid item xs={5}>
-                                                            <input className='w-80 rounded' type="text" />
-                                                        </Grid>
-                                                        <Grid item xs={2}>
-                                                            <select
-                                                                className='w-75'
-                                                                name="cars"
-                                                                id="cars"
+                                                    </Box>
+                                                    <button className='border-0 rounded text-white bg-core py-1 px-2 mb-2 ms-5' onClick={() => handleAddChapter(idxDay, idxUnit)} ><i class="bi bi-plus-circle"></i></button>
 
-                                                            >
-                                                                {output ? (
-                                                                    output.map((item, index) => (
-                                                                        <option key={index} value={item.id}>{item.name}</option>
-                                                                    ))
-                                                                ) : (
-                                                                    <option>Loading...</option>
-                                                                )}
-                                                            </select>
+                                                </div>
 
-                                                        </Grid>
-                                                        <Grid item xs={1}>
-                                                            <input className='rounded w-80' type="number" />
-                                                        </Grid>
-                                                        <Grid item xs={1} className='ms-3 me-3'>
-                                                            <FormGroup>
-                                                                {/* <FormControlLabel
-                                                                            control={<Android12Switch checked={!!formData.online}
-                                                                                onChange={(e) => setFormData({ ...formData, online: e.target.checked })} />}
-                                                                            label=""
-                                                                        /> */}
+                                                <div className="unit" >
+                                                    <div className="unit__component">
+                                                        <div className='unit__com'>
+                                                            <p className="unit__number">Unit 7</p>
+                                                            <div className='title__div'>
+                                                                <p className="unit__title-create">Unit name</p>
+                                                                <span className="unit__time"><input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" value={unitName[idxDay]} />
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <button className="bg-day border-0 rounded p-1 text-white mt-4 mb-1 ms-5" onClick={() => handleAddUnit(idxDay)}>Create</button>
+                                                            </div>
 
-
-                                                            </FormGroup>
-
-
-                                                        </Grid>
-                                                        <Grid item xs={1}>
-                                                            <select
-                                                                className='w-130'
-                                                                name="cars"
-                                                                id="cars"
-                                                            // value={formData.type ? formData.type.id : ''}
-                                                            // onChange={(e) => {
-                                                            //     const selectedType = delivery.find(item => item.id === e.target.value);
-                                                            //     setFormData({ ...formData, type: selectedType });
-                                                            // }}
-                                                            >
-                                                                {delivery ? (
-                                                                    delivery.map((item, index) => (
-                                                                        <option key={index} value={item.id}>{item.name}</option>
-                                                                    ))
-                                                                ) : (
-                                                                    <option>Loading...</option>
-                                                                )}
-                                                            </select>
-
-                                                        </Grid>
-                                                        <Grid item xs={1}>
-                                                            <i className="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
-                                                        </Grid>
-
-                                                    </Grid>
-                                                </Box>
-                                                <button className='border-0 rounded text-white bg-core py-1 px-2 mb-2 ms-5' ><i class="bi bi-plus-circle"></i></button>
-
-                                            </div>
-
-                                            <div className="unit" >
-                                                <div className="unit__component">
-                                                    <div className='unit__com'>
-                                                        <p className="unit__number">Unit 7</p>
-                                                        <div className='title__div'>
-                                                            <p className="unit__title-create">Unit name</p>
-                                                            <span className="unit__time"><input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" value={unitName} onChange={(e) => setUnitName(e.target.value)} /></span>
                                                         </div>
-                                                        <div>
-                                                            <button className="bg-day border-0 rounded p-1 text-white mt-4 mb-1 ms-5" onClick={() => handleAddUnit(idxDay)}>Create</button>
-                                                        </div>
-
+                                                        {/* <i className={selectedMore === idxDay ? 'bi bi-caret-down-fill' : 'bi bi-caret-left-fill'}></i> */}
                                                     </div>
-                                                    {/* <i className={selectedMore === idxDay ? 'bi bi-caret-down-fill' : 'bi bi-caret-left-fill'}></i> */}
+                                                </div>
+
+                                                <div>
+                                                    <button className="border-0 p-1 rounded ms-3 mt-1 bg-day text-white mb-3"><i class="bi bi-plus-circle"></i> Add unit</button>
                                                 </div>
                                             </div>
+                                        ))}
 
-                                            <div>
-                                                <button className="border-0 p-1 rounded ms-3 mt-1 bg-day text-white mb-3"><i class="bi bi-plus-circle"></i> Add unit</button>
-                                            </div>
-                                        </div>
                                     </div>
 
 
@@ -428,7 +543,7 @@ const OutlineCreate = () => {
                 </Grid>
             </Box>
 
-            <TrainMaterial property={importOpen}></TrainMaterial>
+            {/* <TrainMaterial property={importOpen}></TrainMaterial> */}
         </>
     )
 }
