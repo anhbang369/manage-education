@@ -324,24 +324,25 @@ const OutlineCreate = () => {
                                                     </div>
 
                                                     {/* // <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}> */}
-                                                    <Box sx={{ flexGrow: 1 }} className='unit__details show' >
-                                                        <Grid container spacing={2}>
-                                                            <Grid item xs={5}>
-                                                                {/* {detail.title} */}
-                                                            </Grid>
-                                                            <Grid item xs={2}>
-                                                                {/* <div className="bg-core rounded text-white w-50">{detail.standard.code}</div> */}
-                                                            </Grid>
-                                                            <Grid item xs={1} cl>
-                                                                {/* {detail.duration} mins */}
-                                                            </Grid>
-                                                            <Grid item xs={1} className='ms-3 me-3'>
-                                                                {/* <p>
-                                                                            {detail.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
-                                                                        </p> */}
-                                                            </Grid>
-                                                            <Grid item xs={1}>
-                                                                {/* {detail.type.name === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
+                                                    {unit.syllabusUnitChapters.map((chapter, idxChapter) => (
+                                                        <Box sx={{ flexGrow: 1 }} className='unit__details show' >
+                                                            <Grid container spacing={2}>
+                                                                <Grid item xs={5}>
+                                                                    {chapter.title}
+                                                                </Grid>
+                                                                <Grid item xs={2}>
+                                                                    <div className="bg-core rounded text-white w-50">{chapter.standard}</div>
+                                                                </Grid>
+                                                                <Grid item xs={1} cl>
+                                                                    {chapter.duration} mins
+                                                                </Grid>
+                                                                <Grid item xs={1} className='ms-3 me-3'>
+                                                                    <p>
+                                                                        {chapter.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
+                                                                    </p>
+                                                                </Grid>
+                                                                <Grid item xs={1}>
+                                                                    {/* {detail.type.name === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
                                                                         {detail.type.name === 'Assignment/Lab' && <i class="bi bi-bookmark-check"></i>}
                                                                         {detail.type.name === 'Test/Quiz' && <i class="bi bi-card-checklist"></i>}
                                                                         {detail.type.name === 'Exam' && <i class="bi bi-journal-bookmark-fill"></i>}
@@ -349,12 +350,57 @@ const OutlineCreate = () => {
                                                                         {detail.type.name === 'Seminar/Workshop' && <i class="bi bi-person-workspace"></i>}
                                                                         {detail.type.name === 'Class Meeting' && <i class="bi bi-people"></i>}
                                                                         {detail.type.name === 'Tour/Outdoor' && <i class="bi bi-globe-central-south-asia"></i>} */}
+                                                                </Grid>
+                                                                <Grid item xs={1}>
+                                                                    <React.Fragment>
+                                                                        <Button
+                                                                            backgroundColor="bg-core"
+                                                                            className="border border-0 text-white rounded me-3 px-1 bg-core"
+                                                                            onClick={() => handleOpenModal(idxChapter)}
+                                                                        >
+                                                                            <i class="bi bi-folder2-open"></i>
+                                                                        </Button>
+                                                                        <Modal open={open[idxChapter] || false} onClose={() => handleCloseModal(idxChapter)}>
+                                                                            <ModalDialog className='w-50'>
+                                                                                <div className="border border-black rounded-top">
+                                                                                    <h5 className="bg-core rounded-top text-white p-2">Matreial</h5>
+                                                                                    <div>
+                                                                                        {/* <div className="w-100 d-flex my-2">
+                                                                                                                        <h5 className="ms-2 fs-18">Unit {unit.unitNo}</h5>
+                                                                                                                        <h5 className="ms-2 fs-18">{unit.name}</h5>
+                                                                                                                    </div> */}
+                                                                                        <div className="w-100">
+
+                                                                                            <div>
+                                                                                                {/* {
+                                                                                                detail.materials.map((material) => ( */}
+                                                                                                <div className='d-flex justify-content-center'>
+                                                                                                    <div className='bg-chapter d-flex w-98 row rounded'>
+                                                                                                        <a href="" className="material__link col-md-4 fs-14">hah.ptxj</a>
+                                                                                                        <span className='col-md-6 fs-14'>by BangDA on 13/01/2022</span>
+                                                                                                        <div className='col-md-2 row'>
+                                                                                                            <i class="bi bi-pencil col-md-6 text-primary"></i>
+                                                                                                            <i class="bi bi-trash3 col-md-6 text-primary"></i>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                {/* ))
+                                                                                            } */}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div className='w-100 d-flex justify-content-center'>
+                                                                                        <button className="bg-core text-white rounded border-0 my-2 p-1">Upload new</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </ModalDialog>
+                                                                        </Modal>
+                                                                    </React.Fragment>
+                                                                </Grid>
                                                             </Grid>
-                                                            <Grid item xs={1}>
-                                                                <i className="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Box>
+                                                        </Box>
+                                                    ))}
                                                     {/* <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'}></Box> */}
                                                     <Box sx={{ flexGrow: 1 }} className='unit__details show'>
                                                         <Grid container spacing={2}>
@@ -419,51 +465,7 @@ const OutlineCreate = () => {
                                                             </Grid>
                                                             <Grid item xs={1}>
                                                                 {/* <i className="bi bi-folder2-open" onClick={() => setImportOpen(true)}></i> */}
-                                                                <React.Fragment>
-                                                                    <Button
-                                                                        backgroundColor="bg-core"
-                                                                        className="border border-0 text-white rounded me-3 px-1 bg-core"
-                                                                        onClick={() => handleOpenModal(idx)}
-                                                                    >
-                                                                        <i class="bi bi-folder2-open"></i>
-                                                                    </Button>
-                                                                    <Modal open={open[idx] || false} onClose={() => handleCloseModal(idx)}>
-                                                                        <ModalDialog className='w-50'>
-                                                                            <div className="border border-black rounded-top">
-                                                                                <h5 className="bg-core rounded-top text-white p-2">Matreial</h5>
-                                                                                <div>
-                                                                                    {/* <div className="w-100 d-flex my-2">
-                                                                                                                        <h5 className="ms-2 fs-18">Unit {unit.unitNo}</h5>
-                                                                                                                        <h5 className="ms-2 fs-18">{unit.name}</h5>
-                                                                                                                    </div> */}
-                                                                                    <div className="w-100">
 
-                                                                                        <div>
-                                                                                            {
-                                                                                                detail.materials.map((material) => (
-                                                                                                    <div className='d-flex justify-content-center'>
-                                                                                                        <div className='bg-chapter d-flex w-98 row rounded'>
-                                                                                                            <a href="" className="material__link col-md-4 fs-14">{material.name.slice(0, 25)}...</a>
-                                                                                                            <span className='col-md-6 fs-14'>by {material.createdBy} on {material.createdDate.slice(0, 10)}</span>
-                                                                                                            <div className='col-md-2 row'>
-                                                                                                                <i class="bi bi-pencil col-md-6 text-primary"></i>
-                                                                                                                <i class="bi bi-trash3 col-md-6 text-primary"></i>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                ))
-                                                                                            }
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <div className='w-100 d-flex justify-content-center'>
-                                                                                    <button className="bg-core text-white rounded border-0 my-2 p-1">Upload new</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </ModalDialog>
-                                                                    </Modal>
-                                                                </React.Fragment>
                                                             </Grid>
 
                                                         </Grid>
