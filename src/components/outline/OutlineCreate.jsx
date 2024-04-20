@@ -85,6 +85,8 @@ const OutlineCreate = () => {
     const [syllabusDays, setSyllabusDays] = useState([]);
     const [unitName, setUnitName] = useState(Array(syllabusDays.length).fill(''));
 
+
+
     const [dayFormData, setDayFormData] = useState({
         dayNo: 1,
         status: 'AVAILABLE'
@@ -158,7 +160,8 @@ const OutlineCreate = () => {
             standard: formData.standard,
             duration: formData.duration,
             type: formData.type,
-            online: formData.online
+            online: formData.online,
+            materials: []
         };
 
         setSyllabusDays(prevSyllabusDays => {
@@ -166,10 +169,74 @@ const OutlineCreate = () => {
             const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
             if (unitToUpdate) {
                 unitToUpdate.syllabusUnitChapters.push(newChapter);
+                // const chapterIndex = unitToUpdate.syllabusUnitChapters.length - 1;
+                // handleAddMaterial(dayIndex, unitIndex, chapterIndex);
             }
             return updatedSyllabusDays;
         });
     };
+
+    const [chapterMaterials, setChapterMaterials] = useState([{ name: '', url: '' }]); // Khởi tạo mảng với một phần tử rỗng
+
+
+    const handleAddMaterial = (dayIndex, unitIndex, chapterIndex) => {
+        // Lấy giá trị từ input của chapter cụ thể
+        const newName = chapterMaterials[chapterIndex]?.name || '';
+        const newUrl = chapterMaterials[chapterIndex]?.url || '';
+
+        // Kiểm tra xem liệu dữ liệu nhập có hợp lệ không
+        if (newName.trim() === '' || newUrl.trim() === '') {
+            console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
+            return;
+        }
+
+        // Tạo một vật liệu mới
+        const newMaterial = { name: newName, url: newUrl };
+
+        // Thêm vật liệu vào chương
+        setSyllabusDays(prevSyllabusDays => {
+            const updatedSyllabusDays = [...prevSyllabusDays];
+            const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
+            if (unitToUpdate) {
+                const chapterToUpdate = unitToUpdate.syllabusUnitChapters[chapterIndex];
+                if (chapterToUpdate) {
+                    chapterToUpdate.materials.push(newMaterial);
+                }
+            }
+            return updatedSyllabusDays;
+        });
+
+        // Đặt lại giá trị của input về mặc định sau khi thêm vật liệu
+        const updatedMaterials = [...chapterMaterials];
+        updatedMaterials[chapterIndex] = { name: '', url: '' };
+        setChapterMaterials(updatedMaterials);
+    };
+
+    const handleMaterialChange = (index, field, value) => {
+        const updatedMaterials = [...chapterMaterials];
+        if (updatedMaterials[index]) {
+            updatedMaterials[index][field] = value;
+            setChapterMaterials(updatedMaterials);
+        }
+    };
+
+
+    const handleDeleteMaterial = (dayIndex, unitIndex, chapterIndex, materialIndex) => {
+        setSyllabusDays(prevSyllabusDays => {
+            const updatedSyllabusDays = [...prevSyllabusDays];
+            const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
+            if (unitToUpdate) {
+                const chapterToUpdate = unitToUpdate.syllabusUnitChapters[chapterIndex];
+                if (chapterToUpdate) {
+                    chapterToUpdate.materials.splice(materialIndex, 1);
+                }
+            }
+            return updatedSyllabusDays;
+        });
+    };
+
+
+
 
 
     // const handleUnitNameChange = (dayIndex, value) => {
@@ -372,18 +439,44 @@ const OutlineCreate = () => {
                                                                                         <div className="w-100">
 
                                                                                             <div>
-                                                                                                {/* {
-                                                                                                detail.materials.map((material) => ( */}
-                                                                                                <div className='d-flex justify-content-center'>
-                                                                                                    <div className='bg-chapter d-flex w-98 row rounded'>
-                                                                                                        <a href="" className="material__link col-md-4 fs-14">hah.ptxj</a>
-                                                                                                        <span className='col-md-6 fs-14'>by BangDA on 13/01/2022</span>
-                                                                                                        <div className='col-md-2 row'>
-                                                                                                            <i class="bi bi-pencil col-md-6 text-primary"></i>
-                                                                                                            <i class="bi bi-trash3 col-md-6 text-primary"></i>
+                                                                                                {
+                                                                                                    chapter.materials.map((material, idxMaterial) => (
+                                                                                                        <div className='d-flex justify-content-center' key={idxMaterial}>
+                                                                                                            <div className='bg-chapter d-flex w-98 row rounded'>
+                                                                                                                <a href="" className="material__link col-md-4 fs-14">{material.name}</a>
+                                                                                                                <span className='col-md-6 fs-14'>{material.url}</span>
+                                                                                                                <div className='col-md-2 row'>
+                                                                                                                    <i class="bi bi-pencil col-md-6 text-primary"></i>
+                                                                                                                    <i className="bi bi-trash3 col-md-6 text-primary pointer" onClick={() => handleDeleteMaterial(idxDay, idxUnit, idxChapter, idxMaterial)}></i>
+                                                                                                                </div>
+                                                                                                            </div>
+
                                                                                                         </div>
+                                                                                                    ))}
+                                                                                                <div className='ms-2 bg-chapter d-flex w-98 row rounded'>
+                                                                                                    <input
+                                                                                                        type='text'
+                                                                                                        className='rounded col-md-4'
+                                                                                                        value={chapterMaterials[idxChapter]?.name || ''} // Sử dụng giá trị từ chapterMaterials
+                                                                                                        onChange={(e) => handleMaterialChange(idxChapter, 'name', e.target.value)}
+                                                                                                        placeholder="Enter name" // Thêm placeholder cho phần nhập liệu
+                                                                                                    />
+                                                                                                    <p className='col-md-1'></p>
+                                                                                                    <input
+                                                                                                        type='text'
+                                                                                                        className='rounded col-md-5'
+                                                                                                        value={chapterMaterials[idxChapter]?.url || ''} // Sử dụng giá trị từ chapterMaterials
+                                                                                                        onChange={(e) => handleMaterialChange(idxChapter, 'url', e.target.value)}
+                                                                                                        placeholder="Enter URL" // Thêm placeholder cho phần nhập liệu
+                                                                                                    />
+                                                                                                    <div className='col-md-2 row'>
+                                                                                                        <button onClick={() => handleAddMaterial(idxDay, idxUnit, idxChapter)}>
+                                                                                                            <i className="bi bi-cloud-plus col-md-4 text-primary"></i> Add
+                                                                                                        </button>
                                                                                                     </div>
                                                                                                 </div>
+
+
                                                                                                 {/* ))
                                                                                             } */}
                                                                                             </div>
@@ -550,41 +643,41 @@ const OutlineCreate = () => {
     )
 }
 
-const data1 = [
-    {
-        day: "Day 1",
-        units: [
-            {
-                title: ".NET Introduction",
-                duration: "3hrs",
-                details: [
-                    {
-                        title: ".NET Introduction",
-                        standard: "SD4H",
-                        duration: "30mins",
-                        type: "Online",
-                        icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-                    },
-                    {
-                        title: ".NET Introduction",
-                        standard: "SD4H",
-                        duration: "30mins",
-                        type: "Online",
-                        icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-                    },
-                    {
-                        title: ".NET Introduction",
-                        standard: "SD4H",
-                        duration: "30mins",
-                        type: "Online",
-                        icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-                    },
-                ]
-            },
-            // Thêm unit thứ hai của ngày 1 ở đây
-        ]
-    },
-    // Thêm các ngày và unit khác ở đây
-];
+// const data1 = [
+//     {
+//         day: "Day 1",
+//         units: [
+//             {
+//                 title: ".NET Introduction",
+//                 duration: "3hrs",
+//                 details: [
+//                     {
+//                         title: ".NET Introduction",
+//                         standard: "SD4H",
+//                         duration: "30mins",
+//                         type: "Online",
+//                         icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
+//                     },
+//                     {
+//                         title: ".NET Introduction",
+//                         standard: "SD4H",
+//                         duration: "30mins",
+//                         type: "Online",
+//                         icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
+//                     },
+//                     {
+//                         title: ".NET Introduction",
+//                         standard: "SD4H",
+//                         duration: "30mins",
+//                         type: "Online",
+//                         icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
+//                     },
+//                 ]
+//             },
+//             // Thêm unit thứ hai của ngày 1 ở đây
+//         ]
+//     },
+//     // Thêm các ngày và unit khác ở đây
+// ];
 
 export default OutlineCreate
