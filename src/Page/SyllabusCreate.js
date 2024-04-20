@@ -48,6 +48,20 @@ function valuetext(value) {
 const SyllabusCreate = () => {
 
     const [activeTab, setActiveTab] = useState('General');
+    const [syllabusHead, setsyllabusHead] = useState({
+        name: '',
+        code: 'NLP',
+        version: '1.0'
+    });
+
+    const handleNameChange = (e) => {
+        const newName = e.target.value;
+        setsyllabusHead(prevSyllabusHead => ({
+            ...prevSyllabusHead,
+            name: newName
+        }));
+    };
+    console.log(syllabusHead)
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -79,7 +93,7 @@ const SyllabusCreate = () => {
                                 <div className='mt-2 d-flex justify-content-md-between text-black w-64'>
                                     <div className='d-flex'>
                                         <p className='mx-4'>Syllabus Name*</p>
-                                        <input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" />
+                                        <input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" value={syllabusHead.name} onChange={handleNameChange} />
                                     </div>
                                     <p className='option__code'><b>Code:</b>  NLP</p>
                                     <p className='option__version'><b>Version:</b>  1.0</p>

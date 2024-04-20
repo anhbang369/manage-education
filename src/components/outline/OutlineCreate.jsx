@@ -102,7 +102,9 @@ const OutlineCreate = () => {
     const [output, setOutput] = useState(null);
     const [delivery, setDelivery] = useState(null);
     const [syllabusDays, setSyllabusDays] = useState([]);
-    const [unitName, setUnitName] = useState([]);
+    const [unitName, setUnitName] = useState({
+        name: '',
+    });
 
 
 
@@ -181,8 +183,9 @@ const OutlineCreate = () => {
     console.log("days: " + JSON.stringify(syllabusDays))
 
     const handleAddUnit = (dayIndex) => {
+
         const newUnit = {
-            name: unitName[dayIndex],
+            name: unitName.name[dayIndex],
             unitNo: (syllabusDays[dayIndex]?.syllabusUnits?.length || 0) + 1,
             duration: 0,
             syllabusUnitChapters: []
@@ -193,11 +196,8 @@ const OutlineCreate = () => {
             updatedSyllabusDays[dayIndex].syllabusUnits.push(newUnit);
             return updatedSyllabusDays;
         });
-    };
-    const handleUnitNameChange = (e, dayIndex) => {
-        const updatedUnitName = [...unitName];
-        updatedUnitName[dayIndex] = e.target.value;
-        setUnitName(updatedUnitName);
+
+
     };
 
 
@@ -425,9 +425,9 @@ const OutlineCreate = () => {
                                                 <div className="unit" >
                                                     <div className="unit__component">
                                                         <div className='d-flex'>
-                                                            <p className='fs-14'>Unit</p>
+                                                            <p className='fs-14'>Unit {unit.unitNo}</p>
                                                             <div className='ms-4'>
-                                                                <p className='fs-14'>{unit.unitNo}</p>
+                                                                <p className='fs-14'>{unit.name}</p>
                                                                 <span className="fs-14">{unit.duration} hours</span>
                                                             </div>
                                                             <div>
@@ -615,30 +615,30 @@ const OutlineCreate = () => {
 
                                                 </div>
 
-                                                <div className="unit" >
-                                                    <div className="unit__component">
-                                                        <div className='unit__com'>
-                                                            <p className="unit__number">Unit 7</p>
-                                                            <div className='title__div'>
-                                                                <p className="unit__title-create">Unit name</p>
-                                                                <span className="unit__time">
-                                                                    <input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" value={unitName[idxDay]} onChange={(e) => handleUnitNameChange(e, idxDay)} />
-                                                                </span>
-                                                            </div>
-                                                            <div>
-                                                                <button className="bg-day border-0 rounded p-1 text-white mt-4 mb-1 ms-5" onClick={() => handleAddUnit(idxDay)}>Create</button>
-                                                            </div>
-
-                                                        </div>
-                                                        {/* <i className={selectedMore === idxDay ? 'bi bi-caret-down-fill' : 'bi bi-caret-left-fill'}></i> */}
-                                                    </div>
-                                                </div>
-
-                                                <div>
+                                                {/* <div>
                                                     <button className="border-0 p-1 rounded ms-3 mt-1 bg-day text-white mb-3"><i class="bi bi-plus-circle"></i> Add unit</button>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         ))}
+                                        <div className="unit" >
+                                            <div className="unit__component">
+                                                <div className='d-flex'>
+                                                    <p className="fs-14">Unit</p>
+                                                    <div className='ms-3'>
+                                                        <p className="fs-14">Unit name</p>
+                                                        <span className="unit__time">
+                                                            <input type="text" class="form-control h-50 w-100 p-0 me-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" value={unitName.name}
+                                                                onChange={(e) => setUnitName({ ...unitName, name: e.target.value })} />
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <button className="bg-day border-0 rounded p-1 text-white mt-4 mb-1 ms-5" onClick={() => handleAddUnit(idxDay)}>Create</button>
+                                                    </div>
+
+                                                </div>
+                                                {/* <i className={selectedMore === idxDay ? 'bi bi-caret-down-fill' : 'bi bi-caret-left-fill'}></i> */}
+                                            </div>
+                                        </div>
 
                                     </div>
 
@@ -648,7 +648,7 @@ const OutlineCreate = () => {
 
                             <div>
                                 <input
-                                    type="text"
+                                    type="hidden"
                                     value={dayFormData.dayNo}
                                     onChange={(e) => setDayFormData({ ...dayFormData, dayNo: e.target.value })}
                                 />
