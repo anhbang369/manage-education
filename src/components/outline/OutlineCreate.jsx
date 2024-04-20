@@ -14,6 +14,9 @@ import { getOutputStandard } from "../../services/OutputStandardService";
 import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
+import Typography from '@mui/material/Typography';
+import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
 
 export const data = [
     ["Task", "Hours per Day"],
@@ -66,8 +69,24 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
     },
 }));
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
 
 const OutlineCreate = () => {
+    const [openHour, setOpenHour] = React.useState(false);
+    const handleOpenHour = () => setOpenHour(true);
+    const handleCloseHour = () => setOpenHour(false);
+
     const [formData, setFormData] = useState({
         title: '',
         standard: '',
@@ -386,7 +405,7 @@ const OutlineCreate = () => {
                                 <div className='item'>
                                     <div>
                                         <div className='title'>
-                                            <h6 className='outline__days'>{day.dayNo} <i className="bi bi-dash-circle red pointer" onClick={() => handleDeleteDay(idxDay)}></i>  {calculateTotalDurationOfDay(day) > 8 * 60 && <i className="bi bi-exclamation-triangle red"></i>}</h6>
+                                            <h6 className='outline__days'>{day.dayNo} <i className="bi bi-dash-circle red pointer" onClick={() => handleDeleteDay(idxDay)}></i>  {calculateTotalDurationOfDay(day) > 8 * 60 && <i className="bi bi-exclamation-triangle red" onClick={handleOpenHour}></i>}</h6>
                                         </div>
 
                                         {day.syllabusUnits.map((unit, idxUnit) => (
@@ -656,7 +675,33 @@ const OutlineCreate = () => {
                 </Grid>
             </Box>
 
-            {/* <TrainMaterial property={importOpen}></TrainMaterial> */}
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={openHour}
+                onClose={handleCloseHour}
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },
+                }}
+            >
+                <Fade in={openHour}>
+                    <Box sx={style}>
+                        <Typography id="transition-modal-title" variant="h6" component="h2">
+                            <div className="d-flex">
+                                <i className="bi bi-exclamation-triangle red"></i><h5 className='text-primary fw-bold mt-1 ms-2'>Learning hours</h5>
+                            </div>
+                        </Typography>
+                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                            <p>Learning hours of a day cannot exceed 8 hours.</p>
+                            <p>Save and modify later?</p>
+                        </Typography>
+                    </Box>
+                </Fade>
+            </Modal>
         </>
     )
 }
