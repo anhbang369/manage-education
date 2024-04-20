@@ -83,7 +83,7 @@ const OutlineCreate = () => {
     const [output, setOutput] = useState(null);
     const [delivery, setDelivery] = useState(null);
     const [syllabusDays, setSyllabusDays] = useState([]);
-    const [unitName, setUnitName] = useState(Array(syllabusDays.length).fill(''));
+    const [unitName, setUnitName] = useState([]);
 
 
 
@@ -130,6 +130,23 @@ const OutlineCreate = () => {
         }));
     };
 
+    //delete day
+    const handleDeleteDay = (dayIndex) => {
+        const updatedSyllabusDays = syllabusDays.filter((day, index) => index !== dayIndex);
+        setSyllabusDays(updatedSyllabusDays);
+    };
+
+    //calulate mins
+    const calculateTotalDurationOfDay = (day) => {
+        let totalDuration = 0;
+        day.syllabusUnits.forEach((unit) => {
+            unit.syllabusUnitChapters.forEach((chapter) => {
+                totalDuration += parseInt(chapter.duration);
+            });
+        });
+        return totalDuration;
+    };
+
     console.log("days: " + JSON.stringify(syllabusDays))
 
     const handleAddUnit = (dayIndex) => {
@@ -146,6 +163,13 @@ const OutlineCreate = () => {
             return updatedSyllabusDays;
         });
     };
+    const handleUnitNameChange = (e, dayIndex) => {
+        const updatedUnitName = [...unitName];
+        updatedUnitName[dayIndex] = e.target.value;
+        setUnitName(updatedUnitName);
+    };
+
+
 
     const handleChange = (field, value) => {
         setFormData({
@@ -169,31 +193,25 @@ const OutlineCreate = () => {
             const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
             if (unitToUpdate) {
                 unitToUpdate.syllabusUnitChapters.push(newChapter);
-                // const chapterIndex = unitToUpdate.syllabusUnitChapters.length - 1;
-                // handleAddMaterial(dayIndex, unitIndex, chapterIndex);
             }
             return updatedSyllabusDays;
         });
     };
 
-    const [chapterMaterials, setChapterMaterials] = useState([{ name: '', url: '' }]); // Khởi tạo mảng với một phần tử rỗng
+    const [chapterMaterials, setChapterMaterials] = useState([{ name: '', url: '' }]);
 
 
     const handleAddMaterial = (dayIndex, unitIndex, chapterIndex) => {
-        // Lấy giá trị từ input của chapter cụ thể
         const newName = chapterMaterials[chapterIndex]?.name || '';
         const newUrl = chapterMaterials[chapterIndex]?.url || '';
 
-        // Kiểm tra xem liệu dữ liệu nhập có hợp lệ không
         if (newName.trim() === '' || newUrl.trim() === '') {
             console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
             return;
         }
 
-        // Tạo một vật liệu mới
         const newMaterial = { name: newName, url: newUrl };
 
-        // Thêm vật liệu vào chương
         setSyllabusDays(prevSyllabusDays => {
             const updatedSyllabusDays = [...prevSyllabusDays];
             const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
@@ -206,7 +224,6 @@ const OutlineCreate = () => {
             return updatedSyllabusDays;
         });
 
-        // Đặt lại giá trị của input về mặc định sau khi thêm vật liệu
         const updatedMaterials = [...chapterMaterials];
         updatedMaterials[chapterIndex] = { name: '', url: '' };
         setChapterMaterials(updatedMaterials);
@@ -369,7 +386,7 @@ const OutlineCreate = () => {
                                 <div className='item'>
                                     <div>
                                         <div className='title'>
-                                            <h6 className='outline__days'>{day.dayNo} <i class="bi bi-dash-circle red"></i> <i class="bi bi-exclamation-triangle red"></i></h6>
+                                            <h6 className='outline__days'>{day.dayNo} <i className="bi bi-dash-circle red pointer" onClick={() => handleDeleteDay(idxDay)}></i>  {calculateTotalDurationOfDay(day) > 8 * 60 && <i className="bi bi-exclamation-triangle red"></i>}</h6>
                                         </div>
 
                                         {day.syllabusUnits.map((unit, idxUnit) => (
@@ -573,7 +590,8 @@ const OutlineCreate = () => {
                                                             <p className="unit__number">Unit 7</p>
                                                             <div className='title__div'>
                                                                 <p className="unit__title-create">Unit name</p>
-                                                                <span className="unit__time"><input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" value={unitName[idxDay]} />
+                                                                <span className="unit__time">
+                                                                    <input type="text" class="form-control h-50 w-100 p-0 mx-3 my-1" placeholder='Type unit name' aria-describedby="basic-addon1" value={unitName[idxDay]} onChange={(e) => handleUnitNameChange(e, idxDay)} />
                                                                 </span>
                                                             </div>
                                                             <div>
