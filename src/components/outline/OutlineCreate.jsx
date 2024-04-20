@@ -127,6 +127,7 @@ const OutlineCreate = () => {
     };
 
     const handleAddDay = () => {
+        const maxDayNo = syllabusDays.reduce((max, day) => Math.max(max, day.dayNo), 0);
         const newUnit = {
             name: "Default Unit", // Tên của unit mặc định
             unitNo: 1, // Số thứ tự của unit mặc định, ở đây là 1
@@ -135,7 +136,7 @@ const OutlineCreate = () => {
         };
 
         const newDay = {
-            dayNo: dayFormData.dayNo,
+            dayNo: maxDayNo + 1,
             status: dayFormData.status,
             syllabusUnits: [newUnit] // Thêm unit mặc định vào mảng syllabusUnits của ngày mới
         };
@@ -151,9 +152,20 @@ const OutlineCreate = () => {
 
     //delete day
     const handleDeleteDay = (dayIndex) => {
-        const updatedSyllabusDays = syllabusDays.filter((day, index) => index !== dayIndex);
+        // Xóa ngày cần xóa khỏi mảng ngày
+        const updatedSyllabusDays = syllabusDays.filter((_, index) => index !== dayIndex);
+
+        // Cập nhật lại số ngày của các ngày sau ngày bị xóa để dồn chúng lên
+        updatedSyllabusDays.forEach((day, index) => {
+            day.dayNo = index + 1; // Cập nhật số ngày
+        });
+
+        // Cập nhật lại mảng ngày sau khi dồn
         setSyllabusDays(updatedSyllabusDays);
     };
+
+
+
 
     //calulate mins
     const calculateTotalDurationOfDay = (day) => {
