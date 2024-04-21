@@ -103,7 +103,7 @@ const SyllabusCreate = () => {
                                     <button className={`tabs__outline ${activeTab === 'Outline' ? 'active' : ''}`} onClick={() => handleTabClick('Outline')}>Outline</button>
                                     <button className={`tabs__outline ${activeTab === 'Others' ? 'active' : ''}`} onClick={() => handleTabClick('Others')}>Others</button>
                                 </div>
-                                {activeTab === 'General' && <GeneralCreate />}
+                                {activeTab === 'General' && <GeneralCreate syllabusHead={syllabusHead} />}
                                 {activeTab === 'Outline' && <OutlineCreate />}
                                 {activeTab === 'Others' && <OthersCreate />}
                             </div>

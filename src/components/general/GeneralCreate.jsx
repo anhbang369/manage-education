@@ -6,8 +6,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getSyllabusProgram } from "../../services/SyllabusLevelService";
+import OutlineCreate from '../outline/OutlineCreate';
 
-const GeneralCreate = () => {
+const GeneralCreate = ({ syllabusHead }) => {
     //get list
     const [level, setLevel] = useState(null);
     const [syllabusGeneral, setsyllabusGeneral] = useState({
@@ -40,6 +41,28 @@ const GeneralCreate = () => {
 
         fetchData();
     }, []);
+
+    //request body
+    let requestBody = {
+        name: syllabusHead.name,
+        code: syllabusHead.code,
+        version: syllabusHead.version,
+        attendeeNumber: syllabusGeneral.attendeeNumber,
+        technicalRequirement: syllabusGeneral.technicalRequirement,
+        courseObjective: syllabusGeneral.courseObjective,
+        status: syllabusGeneral.status,
+        syllabusLevel: syllabusGeneral.syllabusLevel,
+        template: syllabusGeneral.template,
+    };
+
+    const [nextClicked, setNextClicked] = useState(false);
+
+    // requestBody là props bạn đã truyền vào button, bạn có thể truyền vào hàm xử lý sự kiện nếu cần
+    const handleNextClick = (requestBody) => {
+        // Xử lý logic khi click vào button "Next"
+        // Ví dụ: chuyển trạng thái để hiển thị tab OutlineCreate
+        setNextClicked(true);
+    };
 
     return (
         <>
@@ -125,7 +148,10 @@ const GeneralCreate = () => {
                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                     </Grid>
                     <Grid item xs={1}>
-                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                        {/* Khi nextClicked là true, chuyển sang tab OutlineCreate, ngược lại hiển thị button "Next" */}
+                        {nextClicked ? <OutlineCreate /> : (
+                            <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleNextClick}>Next</button>
+                        )}
                     </Grid>
                 </Grid>
             </Box>
