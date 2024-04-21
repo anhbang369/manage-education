@@ -13,6 +13,7 @@ export const getTrainingProgram = async () => {
 
 export const importTrainingProgram = async (file) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const formData = new FormData();
         formData.append('file', file);
 
@@ -20,7 +21,7 @@ export const importTrainingProgram = async (file) => {
             method: 'POST',
             body: formData,
             headers: {
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMzE0ODQxNywiZXhwIjoxNzEzMjM0ODE3fQ.E6mVH7BbclqyLNBALDUnUeyGZzR5pdsGuZ_jdfbpFm0"
+                'Authorization': 'Bearer ' + accessToken
             }
         });
 
@@ -41,12 +42,13 @@ export const importTrainingProgram = async (file) => {
 
 export const createTrainingProgram = async (dto) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program', {
             method: 'POST',
             body: JSON.stringify(dto),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMzM2NjExOSwiZXhwIjoxNzEzNDUyNTE5fQ.RozTiFx5-vzl-blxJStGQbTWyIUSmbSdqYFvijEImJA"
+                'Authorization': 'Bearer ' + accessToken
             }
         });
 
@@ -127,10 +129,11 @@ export const getByIdProgram = async (itemId) => {
 
 const duplicatedTrainingProgram = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}/duplicated`, {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMzEwNDcyOSwiZXhwIjoxNzEzMTkxMTI5fQ._CNbKhWKc0PjqLsZK2W1NIBfbNMrC_BmU2OeHo8pOFA"
+                'Authorization': 'Bearer ' + accessToken
             }
         });
 

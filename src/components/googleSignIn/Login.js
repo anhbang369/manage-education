@@ -29,8 +29,13 @@ const Login = () => {
           .then((token) => {
             authAPI({ token })
               .then((data) => {
-                const accessToken = data.access_token;
-                console.log('Access Token:', accessToken);
+                if (data && data.access_token) {
+                  const accessToken = data.access_token;
+                  console.log('Access Token:', accessToken);
+                  localStorage.setItem('jwt', accessToken);
+                } else {
+                  console.error('Access token not found in response data.');
+                }
                 setLoggedIn(true);
               })
               .catch((error) => {
@@ -53,8 +58,13 @@ const Login = () => {
           .then((token) => {
             authAPI({ token })
               .then((data) => {
-                const accessToken = data.access_token;
-                console.log('Access Token:', accessToken);
+                if (data && data.access_token) {
+                  const accessToken = data.access_token;
+                  console.log('Access Token:', accessToken);
+                  localStorage.setItem('jwt', accessToken);
+                } else {
+                  console.error('Access token not found in response data.');
+                }
                 setLoggedIn(true);
               })
               .catch((error) => {

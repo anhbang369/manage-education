@@ -54,10 +54,11 @@ export const getByIdTrainingClass = async (itemId) => {
 
 const duplicatedTrainingClass = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/training-class/${itemId}/duplicated`, {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMzE4NDM1MSwiZXhwIjoxNzEzMjcwNzUxfQ.kmR4UBnSaIs5cWmyeE0xJ0hKBJNgEwnwVhmBBxkDbxE"
+                'Authorization': 'Bearer ' + accessToken
             }
         });
 
