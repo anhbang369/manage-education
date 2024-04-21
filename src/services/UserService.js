@@ -26,6 +26,7 @@ export const getUserById = async (itemId) => {
 
 export const importUser = async (file) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const formData = new FormData();
         formData.append('file', file);
 
@@ -33,7 +34,7 @@ export const importUser = async (file) => {
             method: 'POST',
             body: formData,
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMjk5ODcyMywiZXhwIjoxNzEzMDg1MTIzfQ.dIh2K5k3ncL4d7OQLBOqcPd-EV82XLfroswC7JNBEpM'
+                'Authorization': 'Bearer ' + accessToken
             }
         });
 
@@ -55,10 +56,11 @@ export const importUser = async (file) => {
 
 export const deActiveUser = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/${itemId}/de-active`, {
             method: 'PUT',
             headers: {
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMjk4MzI1NiwiZXhwIjoxNzEzMDY5NjU2fQ.jA8ijVU2w15aLVAed1x7b9aY_9ohuiL5W0mdQAq0XYA"
+                'Authorization': 'Bearer ' + accessToken
             }
         });
 
@@ -80,10 +82,11 @@ export const deActiveUser = async (itemId) => {
 
 export const deleteUser = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/${itemId}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': 'Bearer ' + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYW1hbmhiYW5nQGdtYWlsLmNvbSIsImlhdCI6MTcxMjk4MzI1NiwiZXhwIjoxNzEzMDY5NjU2fQ.jA8ijVU2w15aLVAed1x7b9aY_9ohuiL5W0mdQAq0XYA"
+                'Authorization': 'Bearer ' + accessToken
             }
         });
 

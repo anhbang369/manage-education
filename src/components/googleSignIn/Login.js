@@ -4,6 +4,7 @@ import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { Redirect } from 'react-router-dom';
 import "./login.css";
 import Image from "../../assets/image.png";
+import { authAPI } from "../../services/AuthService";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -24,7 +25,26 @@ const Login = () => {
         const email = result.user.email;
         localStorage.setItem('email', email);
         setUser(email);
-        setLoggedIn(true); // Set loggedIn to true after successful sign-in
+        result.user.getIdToken()
+          .then((token) => {
+            authAPI({ token })
+              .then((data) => {
+                if (data && data.access_token) {
+                  const accessToken = data.access_token;
+                  console.log('Access Token:', accessToken);
+                  localStorage.setItem('jwt', accessToken);
+                } else {
+                  console.error('Access token not found in response data.');
+                }
+                setLoggedIn(true);
+              })
+              .catch((error) => {
+                console.error('Error calling authAPI:', error);
+              });
+          })
+          .catch((error) => {
+            console.error('Error getting token:', error);
+          });
       })
       .catch((error) => {
         console.error('Google Sign-in Error:', error);
@@ -34,11 +54,26 @@ const Login = () => {
   const handleEmailSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
-        const email = userCredential.user.email;
-        localStorage.setItem('email', email);
-        setUser(email);
-        setLoggedIn(true); // Set loggedIn to true after successful sign-in
+        userCredential.user.getIdToken()
+          .then((token) => {
+            authAPI({ token })
+              .then((data) => {
+                if (data && data.access_token) {
+                  const accessToken = data.access_token;
+                  console.log('Access Token:', accessToken);
+                  localStorage.setItem('jwt', accessToken);
+                } else {
+                  console.error('Access token not found in response data.');
+                }
+                setLoggedIn(true);
+              })
+              .catch((error) => {
+                console.error('Error calling authAPI:', error);
+              });
+          })
+          .catch((error) => {
+            console.error('Error getting token:', error);
+          });
       })
       .catch((error) => {
         console.error('Email Sign-in Error:', error);
