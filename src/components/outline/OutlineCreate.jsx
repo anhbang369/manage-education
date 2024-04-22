@@ -131,21 +131,20 @@ const OutlineCreate = () => {
     const handleAddDay = () => {
         const maxDayNo = syllabusDays.reduce((max, day) => Math.max(max, day.dayNo), 0);
         const newUnit = {
-            name: "Default Unit", // Tên của unit mặc định
-            unitNo: 1, // Số thứ tự của unit mặc định, ở đây là 1
-            duration: 0, // Thời lượng của unit mặc định, ở đây là 0
-            syllabusUnitChapters: [] // Các chương của unit mặc định, ở đây là một mảng trống
+            name: "Default Unit",
+            unitNo: 1,
+            duration: 0,
+            syllabusUnitChapters: []
         };
 
         const newDay = {
             dayNo: maxDayNo + 1,
             status: dayFormData.status,
-            syllabusUnits: [newUnit] // Thêm unit mặc định vào mảng syllabusUnits của ngày mới
+            syllabusUnits: [newUnit]
         };
 
         setSyllabusDays(prevSyllabusDays => [...prevSyllabusDays, newDay]);
 
-        // Tăng số ngày lên 1 để chuẩn bị cho ngày tiếp theo
         setDayFormData(prevDayFormData => ({
             ...prevDayFormData,
             dayNo: prevDayFormData.dayNo + 1
@@ -154,15 +153,12 @@ const OutlineCreate = () => {
 
     //delete day
     const handleDeleteDay = (dayIndex) => {
-        // Xóa ngày cần xóa khỏi mảng ngày
         const updatedSyllabusDays = syllabusDays.filter((_, index) => index !== dayIndex);
 
-        // Cập nhật lại số ngày của các ngày sau ngày bị xóa để dồn chúng lên
         updatedSyllabusDays.forEach((day, index) => {
-            day.dayNo = index + 1; // Cập nhật số ngày
+            day.dayNo = index + 1;
         });
 
-        // Cập nhật lại mảng ngày sau khi dồn
         setSyllabusDays(updatedSyllabusDays);
     };
 
@@ -183,22 +179,33 @@ const OutlineCreate = () => {
     console.log("days: " + JSON.stringify(syllabusDays))
 
     const handleAddUnit = (dayIndex) => {
+        if (!handleAddUnit.called) {
+            handleAddUnit.called = true;
 
-        const newUnit = {
-            name: unitName.name[dayIndex],
-            unitNo: (syllabusDays[dayIndex]?.syllabusUnits?.length || 0) + 1,
-            duration: 0,
-            syllabusUnitChapters: []
-        };
+            setSyllabusDays(prevSyllabusDays => {
+                const updatedSyllabusDays = [...prevSyllabusDays];
+                const newName = unitName.name;
 
-        setSyllabusDays(prevSyllabusDays => {
-            const updatedSyllabusDays = [...prevSyllabusDays];
-            updatedSyllabusDays[dayIndex].syllabusUnits.push(newUnit);
-            return updatedSyllabusDays;
-        });
+                const existingUnitIndex = updatedSyllabusDays[dayIndex]?.syllabusUnits.findIndex(unit => unit.name === newName);
+                if (existingUnitIndex !== -1) {
+                    updatedSyllabusDays[dayIndex].syllabusUnits.splice(existingUnitIndex, 1);
+                }
 
+                const newUnit = {
+                    name: newName,
+                    unitNo: (updatedSyllabusDays[dayIndex]?.syllabusUnits?.length || 0) + 1,
+                    duration: 0,
+                    syllabusUnitChapters: []
+                };
+                updatedSyllabusDays[dayIndex].syllabusUnits.push(newUnit);
 
+                return updatedSyllabusDays;
+            });
+        }
     };
+
+    handleAddUnit.called = false;
+
 
 
 
@@ -232,33 +239,50 @@ const OutlineCreate = () => {
     const [chapterMaterials, setChapterMaterials] = useState([{ name: '', url: '' }]);
 
 
+
     const handleAddMaterial = (dayIndex, unitIndex, chapterIndex) => {
-        const newName = chapterMaterials[chapterIndex]?.name || '';
-        const newUrl = chapterMaterials[chapterIndex]?.url || '';
+        if (!handleAddMaterial.called) {
+            handleAddMaterial.called = true;
 
-        if (newName.trim() === '' || newUrl.trim() === '') {
-            console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
-            return;
-        }
+            const newName = chapterMaterials[chapterIndex]?.name || '';
+            const newUrl = chapterMaterials[chapterIndex]?.url || '';
 
-        const newMaterial = { name: newName, url: newUrl };
-
-        setSyllabusDays(prevSyllabusDays => {
-            const updatedSyllabusDays = [...prevSyllabusDays];
-            const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
-            if (unitToUpdate) {
-                const chapterToUpdate = unitToUpdate.syllabusUnitChapters[chapterIndex];
-                if (chapterToUpdate) {
-                    chapterToUpdate.materials.push(newMaterial);
-                }
+            if (newName.trim() === '' || newUrl.trim() === '') {
+                console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
+                return;
             }
-            return updatedSyllabusDays;
-        });
 
-        const updatedMaterials = [...chapterMaterials];
-        updatedMaterials[chapterIndex] = { name: '', url: '' };
-        setChapterMaterials(updatedMaterials);
+            const isMaterialExist = syllabusDays[dayIndex]?.syllabusUnits[unitIndex]?.syllabusUnitChapters[chapterIndex]?.materials.some(material => material.name === newName && material.url === newUrl);
+            if (isMaterialExist) {
+                console.log('Vật liệu đã tồn tại.');
+                return;
+            }
+
+            const newMaterial = { name: newName, url: newUrl };
+
+            setSyllabusDays(prevSyllabusDays => {
+                const updatedSyllabusDays = [...prevSyllabusDays];
+                const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
+                if (unitToUpdate) {
+                    const chapterToUpdate = unitToUpdate.syllabusUnitChapters[chapterIndex];
+                    if (chapterToUpdate) {
+                        chapterToUpdate.materials.push(newMaterial);
+                    }
+                }
+                return updatedSyllabusDays;
+            });
+
+            const updatedMaterials = [...chapterMaterials];
+            updatedMaterials[chapterIndex] = { name: '', url: '' };
+            setChapterMaterials(updatedMaterials);
+        }
     };
+    handleAddMaterial.called = false;
+
+
+
+
+
 
     const handleMaterialChange = (index, field, value) => {
         const updatedMaterials = [...chapterMaterials];
@@ -413,14 +437,14 @@ const OutlineCreate = () => {
                 <div className="outline__content">
                     <div className="wrapper">
                         <div className='accordion'>
-                            {syllabusDays.map((day, idxDay) => (
+                            {syllabusDays?.map((day, idxDay) => (
                                 <div className='item'>
                                     <div>
                                         <div className='title'>
                                             <h6 className='outline__days'>{day.dayNo} <i className="bi bi-dash-circle red pointer" onClick={() => handleDeleteDay(idxDay)}></i>  {calculateTotalDurationOfDay(day) > 8 * 60 && <i className="bi bi-exclamation-triangle red" onClick={handleOpenHour}></i>}</h6>
                                         </div>
 
-                                        {day.syllabusUnits.map((unit, idxUnit) => (
+                                        {day.syllabusUnits?.map((unit, idxUnit) => (
                                             <div className='content show'>
                                                 <div className="unit" >
                                                     <div className="unit__component">
@@ -439,7 +463,7 @@ const OutlineCreate = () => {
                                                     </div>
 
                                                     {/* // <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}> */}
-                                                    {unit.syllabusUnitChapters.map((chapter, idxChapter) => (
+                                                    {unit.syllabusUnitChapters?.map((chapter, idxChapter) => (
                                                         <Box sx={{ flexGrow: 1 }} className='unit__details show' >
                                                             <Grid container spacing={2}>
                                                                 <Grid item xs={5}>
@@ -488,7 +512,7 @@ const OutlineCreate = () => {
 
                                                                                             <div>
                                                                                                 {
-                                                                                                    chapter.materials.map((material, idxMaterial) => (
+                                                                                                    chapter.materials?.map((material, idxMaterial) => (
                                                                                                         <div className='d-flex justify-content-center' key={idxMaterial}>
                                                                                                             <div className='bg-chapter d-flex w-98 row rounded'>
                                                                                                                 <a href="" className="material__link col-md-4 fs-14">{material.name}</a>

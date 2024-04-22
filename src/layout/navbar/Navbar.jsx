@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
     const handleLogout = () => {
         setUser(null);
         setLoggedIn(false);
-        // Chuyển hướng người dùng sang trang /login sau khi đăng xuất
+        localStorage.removeItem("jwt")
         history.push('/login');
     };
 
