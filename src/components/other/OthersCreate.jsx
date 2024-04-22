@@ -17,7 +17,7 @@ export const data = [
     ["Exam", 6],
 ];
 
-const OthersCreate = () => {
+const OthersCreate = ({ onPreviousClick }) => {
 
     const [scheme, setScheme] = useState({
         assignment: 0,
@@ -55,6 +55,13 @@ const OthersCreate = () => {
 
     console.log(scheme)
     console.log(principle)
+
+    const handlePreviousClick = () => {
+        // Thực hiện các hành động cần thiết khi nhấn vào nút "Previous"
+
+        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
+        onPreviousClick(); // Đây là hàm được truyền từ SyllabusCreate
+    };
 
     return (
         <>
@@ -173,7 +180,7 @@ const OthersCreate = () => {
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-                        <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3">Previous</button>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3" onClick={handlePreviousClick}>Previous</button>
                     </Grid>
                     <Grid item xs={1}>
                         <button className="bg-transparent border-0 text-white rounded p-2 my-4"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>

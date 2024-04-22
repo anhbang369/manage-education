@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { getSyllabusProgram } from "../../services/SyllabusLevelService";
 import OutlineCreate from '../outline/OutlineCreate';
 
-const GeneralCreate = ({ syllabusHead }) => {
+const GeneralCreate = ({ syllabusHead, onNextClick }) => {
     //get list
     const [level, setLevel] = useState(null);
     const [syllabusGeneral, setsyllabusGeneral] = useState({
@@ -55,14 +55,14 @@ const GeneralCreate = ({ syllabusHead }) => {
         template: syllabusGeneral.template,
     };
 
-    const [nextClicked, setNextClicked] = useState(false);
+    const handleNextClick = () => {
+        // Thực hiện các hành động cần thiết khi nhấn vào nút "Next"
+        // Ví dụ: Lưu dữ liệu, kiểm tra tính hợp lệ, v.v.
 
-    // requestBody là props bạn đã truyền vào button, bạn có thể truyền vào hàm xử lý sự kiện nếu cần
-    const handleNextClick = (requestBody) => {
-        // Xử lý logic khi click vào button "Next"
-        // Ví dụ: chuyển trạng thái để hiển thị tab OutlineCreate
-        setNextClicked(true);
+        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
+        onNextClick(); // Đây là hàm được truyền từ SyllabusCreate
     };
+
 
     return (
         <>
@@ -148,10 +148,7 @@ const GeneralCreate = ({ syllabusHead }) => {
                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                     </Grid>
                     <Grid item xs={1}>
-                        {/* Khi nextClicked là true, chuyển sang tab OutlineCreate, ngược lại hiển thị button "Next" */}
-                        {nextClicked ? <OutlineCreate /> : (
-                            <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleNextClick}>Next</button>
-                        )}
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleNextClick}>Next</button>
                     </Grid>
                 </Grid>
             </Box>

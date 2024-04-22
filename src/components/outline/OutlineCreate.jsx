@@ -82,7 +82,7 @@ const style = {
 };
 
 
-const OutlineCreate = () => {
+const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
     const [openHour, setOpenHour] = React.useState(false);
     const handleOpenHour = () => setOpenHour(true);
     const handleCloseHour = () => setOpenHour(false);
@@ -131,21 +131,20 @@ const OutlineCreate = () => {
     const handleAddDay = () => {
         const maxDayNo = syllabusDays.reduce((max, day) => Math.max(max, day.dayNo), 0);
         const newUnit = {
-            name: "Default Unit", // Tên của unit mặc định
-            unitNo: 1, // Số thứ tự của unit mặc định, ở đây là 1
-            duration: 0, // Thời lượng của unit mặc định, ở đây là 0
-            syllabusUnitChapters: [] // Các chương của unit mặc định, ở đây là một mảng trống
+            name: "Default Unit",
+            unitNo: 1,
+            duration: 0,
+            syllabusUnitChapters: []
         };
 
         const newDay = {
             dayNo: maxDayNo + 1,
             status: dayFormData.status,
-            syllabusUnits: [newUnit] // Thêm unit mặc định vào mảng syllabusUnits của ngày mới
+            syllabusUnits: [newUnit]
         };
 
         setSyllabusDays(prevSyllabusDays => [...prevSyllabusDays, newDay]);
 
-        // Tăng số ngày lên 1 để chuẩn bị cho ngày tiếp theo
         setDayFormData(prevDayFormData => ({
             ...prevDayFormData,
             dayNo: prevDayFormData.dayNo + 1
@@ -154,15 +153,12 @@ const OutlineCreate = () => {
 
     //delete day
     const handleDeleteDay = (dayIndex) => {
-        // Xóa ngày cần xóa khỏi mảng ngày
         const updatedSyllabusDays = syllabusDays.filter((_, index) => index !== dayIndex);
 
-        // Cập nhật lại số ngày của các ngày sau ngày bị xóa để dồn chúng lên
         updatedSyllabusDays.forEach((day, index) => {
-            day.dayNo = index + 1; // Cập nhật số ngày
+            day.dayNo = index + 1;
         });
 
-        // Cập nhật lại mảng ngày sau khi dồn
         setSyllabusDays(updatedSyllabusDays);
     };
 
@@ -183,22 +179,33 @@ const OutlineCreate = () => {
     console.log("days: " + JSON.stringify(syllabusDays))
 
     const handleAddUnit = (dayIndex) => {
+        if (!handleAddUnit.called) {
+            handleAddUnit.called = true;
 
-        const newUnit = {
-            name: unitName.name[dayIndex],
-            unitNo: (syllabusDays[dayIndex]?.syllabusUnits?.length || 0) + 1,
-            duration: 0,
-            syllabusUnitChapters: []
-        };
+            setSyllabusDays(prevSyllabusDays => {
+                const updatedSyllabusDays = [...prevSyllabusDays];
+                const newName = unitName.name;
 
-        setSyllabusDays(prevSyllabusDays => {
-            const updatedSyllabusDays = [...prevSyllabusDays];
-            updatedSyllabusDays[dayIndex].syllabusUnits.push(newUnit);
-            return updatedSyllabusDays;
-        });
+                const existingUnitIndex = updatedSyllabusDays[dayIndex]?.syllabusUnits.findIndex(unit => unit.name === newName);
+                if (existingUnitIndex !== -1) {
+                    updatedSyllabusDays[dayIndex].syllabusUnits.splice(existingUnitIndex, 1);
+                }
 
+                const newUnit = {
+                    name: newName,
+                    unitNo: (updatedSyllabusDays[dayIndex]?.syllabusUnits?.length || 0) + 1,
+                    duration: 0,
+                    syllabusUnitChapters: []
+                };
+                updatedSyllabusDays[dayIndex].syllabusUnits.push(newUnit);
 
+                return updatedSyllabusDays;
+            });
+        }
     };
+
+    handleAddUnit.called = false;
+
 
 
 
@@ -232,33 +239,57 @@ const OutlineCreate = () => {
     const [chapterMaterials, setChapterMaterials] = useState([{ name: '', url: '' }]);
 
 
+
     const handleAddMaterial = (dayIndex, unitIndex, chapterIndex) => {
-        const newName = chapterMaterials[chapterIndex]?.name || '';
-        const newUrl = chapterMaterials[chapterIndex]?.url || '';
+        if (!handleAddMaterial.called) {
+            handleAddMaterial.called = true;
 
-        if (newName.trim() === '' || newUrl.trim() === '') {
-            console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
-            return;
-        }
+            // Lấy giá trị từ input
+            const newName = chapterMaterials[chapterIndex]?.name || '';
+            const newUrl = chapterMaterials[chapterIndex]?.url || '';
 
-        const newMaterial = { name: newName, url: newUrl };
-
-        setSyllabusDays(prevSyllabusDays => {
-            const updatedSyllabusDays = [...prevSyllabusDays];
-            const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
-            if (unitToUpdate) {
-                const chapterToUpdate = unitToUpdate.syllabusUnitChapters[chapterIndex];
-                if (chapterToUpdate) {
-                    chapterToUpdate.materials.push(newMaterial);
-                }
+            // Kiểm tra xem có tên và URL đã tồn tại không
+            if (newName.trim() === '' || newUrl.trim() === '') {
+                console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
+                handleAddMaterial.called = false; // Đặt lại giá trị cho lần sau
+                return;
             }
-            return updatedSyllabusDays;
-        });
 
-        const updatedMaterials = [...chapterMaterials];
-        updatedMaterials[chapterIndex] = { name: '', url: '' };
-        setChapterMaterials(updatedMaterials);
+            // Kiểm tra xem vật liệu đã tồn tại trong danh sách chưa
+            const isMaterialExistIndex = syllabusDays[dayIndex]?.syllabusUnits[unitIndex]?.syllabusUnitChapters[chapterIndex]?.materials.findIndex(material => material.name === newName);
+            if (isMaterialExistIndex >= 0) {
+                console.log('Vật liệu đã tồn tại.');
+                handleAddMaterial.called = false; // Đặt lại giá trị cho lần sau
+                return;
+            }
+
+            // Tạo một vật liệu mới
+            const newMaterial = { name: newName, url: newUrl };
+
+            // Thêm vật liệu vào chương
+            setSyllabusDays(prevSyllabusDays => {
+                const updatedSyllabusDays = [...prevSyllabusDays];
+                const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
+                if (unitToUpdate) {
+                    const chapterToUpdate = unitToUpdate.syllabusUnitChapters[chapterIndex];
+                    if (chapterToUpdate) {
+                        chapterToUpdate.materials.push(newMaterial);
+                    }
+                }
+                return updatedSyllabusDays;
+            });
+
+            // Đặt lại giá trị của input về mặc định sau khi thêm vật liệu
+            const updatedMaterials = [...chapterMaterials];
+            updatedMaterials[chapterIndex] = { name: '', url: '' };
+            setChapterMaterials(updatedMaterials);
+        }
     };
+
+    // Khởi tạo biến called
+    handleAddMaterial.called = false;
+
+
 
     const handleMaterialChange = (index, field, value) => {
         const updatedMaterials = [...chapterMaterials];
@@ -361,6 +392,21 @@ const OutlineCreate = () => {
         fetchData();
     }, []);
 
+    const handleNextClick = () => {
+        // Thực hiện các hành động cần thiết khi nhấn vào nút "Next"
+        // Ví dụ: Lưu dữ liệu, kiểm tra tính hợp lệ, v.v.
+
+        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
+        onNextClick(); // Đây là hàm được truyền từ SyllabusCreate
+    };
+
+    const handlePreviousClick = () => {
+        // Thực hiện các hành động cần thiết khi nhấn vào nút "Previous"
+
+        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
+        onPreviousClick(); // Đây là hàm được truyền từ SyllabusCreate
+    };
+
     // const toggle = (i) => {
     //     if (selected === i) {
     //         return setSelected(null)
@@ -413,14 +459,14 @@ const OutlineCreate = () => {
                 <div className="outline__content">
                     <div className="wrapper">
                         <div className='accordion'>
-                            {syllabusDays.map((day, idxDay) => (
+                            {syllabusDays?.map((day, idxDay) => (
                                 <div className='item'>
                                     <div>
                                         <div className='title'>
                                             <h6 className='outline__days'>{day.dayNo} <i className="bi bi-dash-circle red pointer" onClick={() => handleDeleteDay(idxDay)}></i>  {calculateTotalDurationOfDay(day) > 8 * 60 && <i className="bi bi-exclamation-triangle red" onClick={handleOpenHour}></i>}</h6>
                                         </div>
 
-                                        {day.syllabusUnits.map((unit, idxUnit) => (
+                                        {day.syllabusUnits?.map((unit, idxUnit) => (
                                             <div className='content show'>
                                                 <div className="unit" >
                                                     <div className="unit__component">
@@ -439,7 +485,7 @@ const OutlineCreate = () => {
                                                     </div>
 
                                                     {/* // <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'} key={idx}> */}
-                                                    {unit.syllabusUnitChapters.map((chapter, idxChapter) => (
+                                                    {unit.syllabusUnitChapters?.map((chapter, idxChapter) => (
                                                         <Box sx={{ flexGrow: 1 }} className='unit__details show' >
                                                             <Grid container spacing={2}>
                                                                 <Grid item xs={5}>
@@ -488,7 +534,7 @@ const OutlineCreate = () => {
 
                                                                                             <div>
                                                                                                 {
-                                                                                                    chapter.materials.map((material, idxMaterial) => (
+                                                                                                    chapter.materials?.map((material, idxMaterial) => (
                                                                                                         <div className='d-flex justify-content-center' key={idxMaterial}>
                                                                                                             <div className='bg-chapter d-flex w-98 row rounded'>
                                                                                                                 <a href="" className="material__link col-md-4 fs-14">{material.name}</a>
@@ -505,7 +551,7 @@ const OutlineCreate = () => {
                                                                                                     <input
                                                                                                         type='text'
                                                                                                         className='rounded col-md-4'
-                                                                                                        value={chapterMaterials[idxChapter]?.name || ''} // Sử dụng giá trị từ chapterMaterials
+                                                                                                        value={chapterMaterials.name} // Sử dụng giá trị từ chapterMaterials
                                                                                                         onChange={(e) => handleMaterialChange(idxChapter, 'name', e.target.value)}
                                                                                                         placeholder="Enter name" // Thêm placeholder cho phần nhập liệu
                                                                                                     />
@@ -513,7 +559,7 @@ const OutlineCreate = () => {
                                                                                                     <input
                                                                                                         type='text'
                                                                                                         className='rounded col-md-5'
-                                                                                                        value={chapterMaterials[idxChapter]?.url || ''} // Sử dụng giá trị từ chapterMaterials
+                                                                                                        value={chapterMaterials.url} // Sử dụng giá trị từ chapterMaterials
                                                                                                         onChange={(e) => handleMaterialChange(idxChapter, 'url', e.target.value)}
                                                                                                         placeholder="Enter URL" // Thêm placeholder cho phần nhập liệu
                                                                                                     />
@@ -673,7 +719,7 @@ const OutlineCreate = () => {
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-                        <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3">Previous</button>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3" onClick={handlePreviousClick}>Previous</button>
                     </Grid>
                     <Grid item xs={1}>
                         <button className="bg-transparent border-0 text-white rounded p-2 my-4"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
@@ -682,7 +728,7 @@ const OutlineCreate = () => {
                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                     </Grid>
                     <Grid item xs={1}>
-                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleNextClick}>Next</button>
                     </Grid>
                 </Grid>
             </Box>
