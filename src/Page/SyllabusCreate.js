@@ -67,6 +67,22 @@ const SyllabusCreate = () => {
         setActiveTab(tab);
     };
 
+    const handleNextTab = () => {
+        setActiveTab('Outline');
+    };
+
+    const handleNextOtherTab = () => {
+        setActiveTab('Others');
+    };
+
+    const handlePreviousTab = () => {
+        setActiveTab('Outline');
+    };
+
+    const handlePreviousGeneralTab = () => {
+        setActiveTab('General');
+    };
+
     return (
         <>
             <Navbar></Navbar>
@@ -103,9 +119,9 @@ const SyllabusCreate = () => {
                                     <button className={`tabs__outline ${activeTab === 'Outline' ? 'active' : ''}`} onClick={() => handleTabClick('Outline')}>Outline</button>
                                     <button className={`tabs__outline ${activeTab === 'Others' ? 'active' : ''}`} onClick={() => handleTabClick('Others')}>Others</button>
                                 </div>
-                                {activeTab === 'General' && <GeneralCreate syllabusHead={syllabusHead} />}
-                                {activeTab === 'Outline' && <OutlineCreate />}
-                                {activeTab === 'Others' && <OthersCreate />}
+                                {activeTab === 'General' && <GeneralCreate syllabusHead={syllabusHead} onNextClick={handleNextTab} />}
+                                {activeTab === 'Outline' && <OutlineCreate onNextClick={handleNextOtherTab} onPreviousClick={handlePreviousGeneralTab} />}
+                                {activeTab === 'Others' && <OthersCreate onPreviousClick={handlePreviousTab} />}
                             </div>
                         </ Box>
                     </Container>

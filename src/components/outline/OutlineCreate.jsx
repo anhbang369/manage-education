@@ -82,7 +82,7 @@ const style = {
 };
 
 
-const OutlineCreate = () => {
+const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
     const [openHour, setOpenHour] = React.useState(false);
     const handleOpenHour = () => setOpenHour(true);
     const handleCloseHour = () => setOpenHour(false);
@@ -244,22 +244,29 @@ const OutlineCreate = () => {
         if (!handleAddMaterial.called) {
             handleAddMaterial.called = true;
 
+            // Lấy giá trị từ input
             const newName = chapterMaterials[chapterIndex]?.name || '';
             const newUrl = chapterMaterials[chapterIndex]?.url || '';
 
+            // Kiểm tra xem có tên và URL đã tồn tại không
             if (newName.trim() === '' || newUrl.trim() === '') {
                 console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
+                handleAddMaterial.called = false; // Đặt lại giá trị cho lần sau
                 return;
             }
 
-            const isMaterialExist = syllabusDays[dayIndex]?.syllabusUnits[unitIndex]?.syllabusUnitChapters[chapterIndex]?.materials.some(material => material.name === newName && material.url === newUrl);
-            if (isMaterialExist) {
+            // Kiểm tra xem vật liệu đã tồn tại trong danh sách chưa
+            const isMaterialExistIndex = syllabusDays[dayIndex]?.syllabusUnits[unitIndex]?.syllabusUnitChapters[chapterIndex]?.materials.findIndex(material => material.name === newName);
+            if (isMaterialExistIndex >= 0) {
                 console.log('Vật liệu đã tồn tại.');
+                handleAddMaterial.called = false; // Đặt lại giá trị cho lần sau
                 return;
             }
 
+            // Tạo một vật liệu mới
             const newMaterial = { name: newName, url: newUrl };
 
+            // Thêm vật liệu vào chương
             setSyllabusDays(prevSyllabusDays => {
                 const updatedSyllabusDays = [...prevSyllabusDays];
                 const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
@@ -272,15 +279,15 @@ const OutlineCreate = () => {
                 return updatedSyllabusDays;
             });
 
+            // Đặt lại giá trị của input về mặc định sau khi thêm vật liệu
             const updatedMaterials = [...chapterMaterials];
             updatedMaterials[chapterIndex] = { name: '', url: '' };
             setChapterMaterials(updatedMaterials);
         }
     };
+
+    // Khởi tạo biến called
     handleAddMaterial.called = false;
-
-
-
 
 
 
@@ -384,6 +391,21 @@ const OutlineCreate = () => {
 
         fetchData();
     }, []);
+
+    const handleNextClick = () => {
+        // Thực hiện các hành động cần thiết khi nhấn vào nút "Next"
+        // Ví dụ: Lưu dữ liệu, kiểm tra tính hợp lệ, v.v.
+
+        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
+        onNextClick(); // Đây là hàm được truyền từ SyllabusCreate
+    };
+
+    const handlePreviousClick = () => {
+        // Thực hiện các hành động cần thiết khi nhấn vào nút "Previous"
+
+        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
+        onPreviousClick(); // Đây là hàm được truyền từ SyllabusCreate
+    };
 
     // const toggle = (i) => {
     //     if (selected === i) {
@@ -529,7 +551,7 @@ const OutlineCreate = () => {
                                                                                                     <input
                                                                                                         type='text'
                                                                                                         className='rounded col-md-4'
-                                                                                                        value={chapterMaterials[idxChapter]?.name || ''} // Sử dụng giá trị từ chapterMaterials
+                                                                                                        value={chapterMaterials.name} // Sử dụng giá trị từ chapterMaterials
                                                                                                         onChange={(e) => handleMaterialChange(idxChapter, 'name', e.target.value)}
                                                                                                         placeholder="Enter name" // Thêm placeholder cho phần nhập liệu
                                                                                                     />
@@ -537,7 +559,7 @@ const OutlineCreate = () => {
                                                                                                     <input
                                                                                                         type='text'
                                                                                                         className='rounded col-md-5'
-                                                                                                        value={chapterMaterials[idxChapter]?.url || ''} // Sử dụng giá trị từ chapterMaterials
+                                                                                                        value={chapterMaterials.url} // Sử dụng giá trị từ chapterMaterials
                                                                                                         onChange={(e) => handleMaterialChange(idxChapter, 'url', e.target.value)}
                                                                                                         placeholder="Enter URL" // Thêm placeholder cho phần nhập liệu
                                                                                                     />
@@ -697,7 +719,7 @@ const OutlineCreate = () => {
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-                        <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3">Previous</button>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3" onClick={handlePreviousClick}>Previous</button>
                     </Grid>
                     <Grid item xs={1}>
                         <button className="bg-transparent border-0 text-white rounded p-2 my-4"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
@@ -706,7 +728,7 @@ const OutlineCreate = () => {
                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                     </Grid>
                     <Grid item xs={1}>
-                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleNextClick}>Next</button>
                     </Grid>
                 </Grid>
             </Box>
