@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./othersCreate.css";
 import { Chart } from "react-google-charts";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -17,7 +17,8 @@ export const data = [
     ["Exam", 6],
 ];
 
-const OthersCreate = ({ onPreviousClick }) => {
+const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
+    console.log('haha' + JSON.stringify(updatedRequestBody))
 
     const [scheme, setScheme] = useState({
         assignment: 0,
@@ -53,14 +54,22 @@ const OthersCreate = ({ onPreviousClick }) => {
         }));
     };
 
+    useEffect(() => {
+        const updatedRequestBodyy = {
+            ...updatedRequestBody,
+            assessmentScheme: scheme,
+            deliveryPrinciple: principle
+        };
+        console.log('Full: ' + JSON.stringify(updatedRequestBodyy))
+        console.log('Full second: ' + JSON.stringify(updatedRequestBody))
+    }, [scheme, principle]);
+
+
     console.log(scheme)
     console.log(principle)
 
     const handlePreviousClick = () => {
-        // Thực hiện các hành động cần thiết khi nhấn vào nút "Previous"
-
-        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
-        onPreviousClick(); // Đây là hàm được truyền từ SyllabusCreate
+        onPreviousClick();
     };
 
     return (

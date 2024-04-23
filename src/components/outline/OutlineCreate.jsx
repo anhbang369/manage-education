@@ -82,7 +82,7 @@ const style = {
 };
 
 
-const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
+const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyllabusDays, onUpdatedRequestBody }) => {
     const [openHour, setOpenHour] = React.useState(false);
     const handleOpenHour = () => setOpenHour(true);
     const handleCloseHour = () => setOpenHour(false);
@@ -315,57 +315,6 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
     };
 
 
-
-
-
-    // const handleUnitNameChange = (dayIndex, value) => {
-    //     const updatedUnitNames = [...unitName];
-    //     updatedUnitNames[dayIndex] = value;
-    //     setUnitName(updatedUnitNames);
-    // };
-    // const [syllabusDays, setSyllabusDays] = useState([]);
-
-    // const handleAddDay = () => {
-    //     const newDay = {
-    //         dayNo: 0,
-    //         status: 'AVAILABLE',
-    //         syllabusUnits: []
-    //     };
-    //     setSyllabusDays(prevSyllabusDays => [...prevSyllabusDays, newDay]);
-    // };
-
-    // const handleAddUnit = (dayIndex) => {
-    //     const newUnit = {
-    //         name: 'string',
-    //         unitNo: 0,
-    //         duration: 0,
-    //         syllabusUnitChapters: []
-    //     };
-    //     setSyllabusDays(prevSyllabusDays => {
-    //         const updatedSyllabusDays = [...prevSyllabusDays];
-    //         updatedSyllabusDays[dayIndex].syllabusUnits.push(newUnit);
-    //         return updatedSyllabusDays;
-    //     });
-    // };
-
-    // const handleAddChapter = (dayIndex, unitIndex) => {
-    //     const newChapter = {
-    //         name: 'string',
-    //         duration: 0,
-    //         outputStandardId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    //         deliveryTypeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    //         materials: null,
-    //         online: true
-    //     };
-    //     setSyllabusDays(prevSyllabusDays => {
-    //         const updatedSyllabusDays = [...prevSyllabusDays];
-    //         updatedSyllabusDays[dayIndex].syllabusUnits[unitIndex].syllabusUnitChapters.push(newChapter);
-    //         return updatedSyllabusDays;
-    //     });
-    // };
-
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -393,18 +342,39 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
     }, []);
 
     const handleNextClick = () => {
-        // Thực hiện các hành động cần thiết khi nhấn vào nút "Next"
-        // Ví dụ: Lưu dữ liệu, kiểm tra tính hợp lệ, v.v.
-
-        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
-        onNextClick(); // Đây là hàm được truyền từ SyllabusCreate
+        const updatedRequestBody = {
+            ...requestBody,
+            syllabusDays: syllabusDays,
+            assessmentScheme: {
+                assignment: 0,
+                quiz: 0,
+                exam: 0,
+                gpa: 0,
+                finalPoint: 0,
+                finalTheory: 0,
+                finalPractice: 0
+            },
+            deliveryPrinciple: {
+                trainees: "",
+                trainer: "",
+                training: "",
+                re_test: "",
+                marking: "",
+                waiverCriteria: "",
+                others: ""
+            }
+        };
+        onUpdateSyllabusDays(updatedRequestBody);
+        onUpdatedRequestBody(updatedRequestBody);
+        console.log('first' + JSON.stringify(updatedRequestBody))
+        console.log('after' + JSON.stringify(syllabusDays))
+        onNextClick();
     };
 
-    const handlePreviousClick = () => {
-        // Thực hiện các hành động cần thiết khi nhấn vào nút "Previous"
 
-        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
-        onPreviousClick(); // Đây là hàm được truyền từ SyllabusCreate
+    const handlePreviousClick = () => {
+        onUpdateSyllabusDays(syllabusDays);
+        onPreviousClick();
     };
 
     // const toggle = (i) => {
@@ -423,34 +393,6 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
 
     //     setSelectedMore(i)
     // }
-
-
-    // const handleAddItem = () => {
-    //     const newItem = {
-    //         title: formData.title,
-    //         standard: formData.standard,
-    //         duration: formData.duration,
-    //         type: formData.type,
-    //         online: formData.online
-    //     };
-
-    // setFormData(prevDetails => {
-    //     if (Array.isArray(prevDetails)) {
-    //         return [...newItem, newItem];
-    //     } else {
-    //         console.error('prevDetails is not an array:', prevDetails);
-    //         return [newItem]; // Trả về prevDetails nếu không phải là một mảng
-    //     }
-    // });
-    //     setFormData(prevFormData => ({
-    //         ...prevFormData,
-    //         haha: [...(prevFormData.list || []), newItem]
-    //     }));
-
-    // };
-
-
-    // console.log("this is list syllabus:" + JSON.stringify(formData));
 
 
     return (
