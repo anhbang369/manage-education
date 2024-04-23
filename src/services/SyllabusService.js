@@ -26,6 +26,34 @@ export const getSyllabusProgram = async () => {
 };
 
 
+export const createSyllabus = async (dto) => {
+    try {
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/syllabus', {
+            method: 'POST',
+            body: JSON.stringify(dto),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            }
+        });
+
+        if (response.ok) {
+            const data = await response;
+            console.log('Create successful', data);
+            console.log(response.status);
+            return data;
+        } else {
+            console.error('Create failed');
+            throw new Error('Create failed');
+        }
+    } catch (error) {
+        console.error('Error Create:', error);
+        throw error;
+    }
+};
+
+
 export const importSyllabus = async (file) => {
     try {
         const accessToken = localStorage.getItem('jwt');

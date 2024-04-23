@@ -88,10 +88,10 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
     const handleCloseHour = () => setOpenHour(false);
 
     const [formData, setFormData] = useState({
-        title: '',
-        standard: '',
+        name: '',
+        outputStandardId: '',
         duration: '',
-        type: '',
+        deliveryTypeId: '',
         online: false
     });
 
@@ -218,10 +218,10 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
 
     const handleAddChapter = (dayIndex, unitIndex) => {
         const newChapter = {
-            title: formData.title,
-            standard: formData.standard,
+            name: formData.name,
+            outputStandardId: formData.outputStandardId,
             duration: formData.duration,
-            type: formData.type,
+            deliveryTypeId: formData.deliveryTypeId,
             online: formData.online,
             materials: []
         };
@@ -534,14 +534,14 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                     <Box sx={{ flexGrow: 1 }} className='unit__details show'>
                                                         <Grid container spacing={2}>
                                                             <Grid item xs={5}>
-                                                                <input className='w-80 rounded' type="text" value={formData.title} onChange={(e) => handleChange('title', e.target.value)} />
+                                                                <input className='w-80 rounded' type="text" value={formData.name} onChange={(e) => handleChange('name', e.target.value)} />
                                                             </Grid>
                                                             <Grid item xs={2}>
                                                                 <select
                                                                     className='w-75'
                                                                     name="cars"
                                                                     id="cars"
-                                                                    value={formData.standard} onChange={(e) => handleChange('standard', e.target.value)}
+                                                                    value={formData.outputStandardId} onChange={(e) => handleChange('outputStandardId', e.target.value)}
 
                                                                 >
                                                                     {output ? (
@@ -580,7 +580,7 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                                     //     const selectedType = delivery.find(item => item.id === e.target.value);
                                                                     //     setFormData({ ...formData, type: selectedType });
                                                                     // }}
-                                                                    value={formData.type} onChange={(e) => handleChange('type', e.target.value)}
+                                                                    value={formData.deliveryTypeId} onChange={(e) => handleChange('deliveryTypeId', e.target.value)}
                                                                 >
                                                                     {delivery ? (
                                                                         delivery.map((item, index) => (

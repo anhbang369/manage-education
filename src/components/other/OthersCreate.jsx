@@ -7,7 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { createSyllabus } from '../../services/SyllabusService';
 export const data = [
     ["Task", "Hours per Day"],
     ["Assignment/Lab", 54],
@@ -70,6 +70,25 @@ const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
 
     const handlePreviousClick = () => {
         onPreviousClick();
+    };
+
+    const handleSaveClick = async () => {
+        try {
+            const updatedRequestBodyy = {
+                ...updatedRequestBody,
+                assessmentScheme: scheme,
+                deliveryPrinciple: principle
+            };
+            const response = await createSyllabus(updatedRequestBodyy);
+
+            if (response.ok) {
+                console.log('Create successful');
+            } else {
+                console.error('Create failed');
+            }
+        } catch (error) {
+            console.error('Error creating syllabus:', error);
+        }
     };
 
     return (
@@ -198,7 +217,7 @@ const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                     </Grid>
                     <Grid item xs={1}>
-                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleSaveClick}>Save</button>
                     </Grid>
                 </Grid>
             </Box>
