@@ -8,6 +8,10 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createSyllabus } from '../../services/SyllabusService';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { useHistory } from 'react-router-dom';
+
 export const data = [
     ["Task", "Hours per Day"],
     ["Assignment/Lab", 54],
@@ -18,7 +22,9 @@ export const data = [
 ];
 
 const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
-    console.log('haha' + JSON.stringify(updatedRequestBody))
+    const history = useHistory();
+    const [openNo, setOpenNo] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
 
     const [scheme, setScheme] = useState({
         assignment: 0,
@@ -60,8 +66,8 @@ const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
             assessmentScheme: scheme,
             deliveryPrinciple: principle
         };
-        console.log('Full: ' + JSON.stringify(updatedRequestBodyy))
-        console.log('Full second: ' + JSON.stringify(updatedRequestBody))
+        // console.log('Full: ' + JSON.stringify(updatedRequestBodyy))
+        // console.log('Full second: ' + JSON.stringify(updatedRequestBody))
     }, [scheme, principle]);
 
 
@@ -70,6 +76,10 @@ const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
 
     const handlePreviousClick = () => {
         onPreviousClick();
+    };
+
+    const handleCloseNo = () => {
+        setOpenNo(false);
     };
 
     const handleSaveClick = async () => {
@@ -83,6 +93,9 @@ const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
 
             if (response.ok) {
                 console.log('Create successful');
+                setNotificationMessage('Create successful.');
+                setOpenNo(true);
+                history.push('/syllabus');
             } else {
                 console.error('Create failed');
             }
@@ -221,6 +234,16 @@ const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
                     </Grid>
                 </Grid>
             </Box>
+            <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
+                <Alert
+                    onClose={handleCloseNo}
+                    severity="success"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {notificationMessage}
+                </Alert>
+            </Snackbar>
         </>
     )
 }

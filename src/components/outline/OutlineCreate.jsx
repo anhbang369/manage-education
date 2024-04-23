@@ -244,29 +244,24 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
         if (!handleAddMaterial.called) {
             handleAddMaterial.called = true;
 
-            // Lấy giá trị từ input
             const newName = chapterMaterials[chapterIndex]?.name || '';
             const newUrl = chapterMaterials[chapterIndex]?.url || '';
 
-            // Kiểm tra xem có tên và URL đã tồn tại không
             if (newName.trim() === '' || newUrl.trim() === '') {
                 console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
-                handleAddMaterial.called = false; // Đặt lại giá trị cho lần sau
+                handleAddMaterial.called = false;
                 return;
             }
 
-            // Kiểm tra xem vật liệu đã tồn tại trong danh sách chưa
             const isMaterialExistIndex = syllabusDays[dayIndex]?.syllabusUnits[unitIndex]?.syllabusUnitChapters[chapterIndex]?.materials.findIndex(material => material.name === newName);
             if (isMaterialExistIndex >= 0) {
                 console.log('Vật liệu đã tồn tại.');
-                handleAddMaterial.called = false; // Đặt lại giá trị cho lần sau
+                handleAddMaterial.called = false;
                 return;
             }
 
-            // Tạo một vật liệu mới
             const newMaterial = { name: newName, url: newUrl };
 
-            // Thêm vật liệu vào chương
             setSyllabusDays(prevSyllabusDays => {
                 const updatedSyllabusDays = [...prevSyllabusDays];
                 const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
@@ -279,14 +274,12 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                 return updatedSyllabusDays;
             });
 
-            // Đặt lại giá trị của input về mặc định sau khi thêm vật liệu
             const updatedMaterials = [...chapterMaterials];
             updatedMaterials[chapterIndex] = { name: '', url: '' };
             setChapterMaterials(updatedMaterials);
         }
     };
 
-    // Khởi tạo biến called
     handleAddMaterial.called = false;
 
 
