@@ -82,16 +82,16 @@ const style = {
 };
 
 
-const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
+const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyllabusDays, onUpdatedRequestBody }) => {
     const [openHour, setOpenHour] = React.useState(false);
     const handleOpenHour = () => setOpenHour(true);
     const handleCloseHour = () => setOpenHour(false);
 
     const [formData, setFormData] = useState({
-        title: '',
-        standard: '',
+        name: '',
+        outputStandardId: '',
         duration: '',
-        type: '',
+        deliveryTypeId: '',
         online: false
     });
 
@@ -218,10 +218,10 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
 
     const handleAddChapter = (dayIndex, unitIndex) => {
         const newChapter = {
-            title: formData.title,
-            standard: formData.standard,
+            name: formData.name,
+            outputStandardId: formData.outputStandardId,
             duration: formData.duration,
-            type: formData.type,
+            deliveryTypeId: formData.deliveryTypeId,
             online: formData.online,
             materials: []
         };
@@ -244,29 +244,24 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
         if (!handleAddMaterial.called) {
             handleAddMaterial.called = true;
 
-            // Lấy giá trị từ input
             const newName = chapterMaterials[chapterIndex]?.name || '';
             const newUrl = chapterMaterials[chapterIndex]?.url || '';
 
-            // Kiểm tra xem có tên và URL đã tồn tại không
             if (newName.trim() === '' || newUrl.trim() === '') {
                 console.log('Vui lòng điền đầy đủ thông tin vật liệu.');
-                handleAddMaterial.called = false; // Đặt lại giá trị cho lần sau
+                handleAddMaterial.called = false;
                 return;
             }
 
-            // Kiểm tra xem vật liệu đã tồn tại trong danh sách chưa
             const isMaterialExistIndex = syllabusDays[dayIndex]?.syllabusUnits[unitIndex]?.syllabusUnitChapters[chapterIndex]?.materials.findIndex(material => material.name === newName);
             if (isMaterialExistIndex >= 0) {
                 console.log('Vật liệu đã tồn tại.');
-                handleAddMaterial.called = false; // Đặt lại giá trị cho lần sau
+                handleAddMaterial.called = false;
                 return;
             }
 
-            // Tạo một vật liệu mới
             const newMaterial = { name: newName, url: newUrl };
 
-            // Thêm vật liệu vào chương
             setSyllabusDays(prevSyllabusDays => {
                 const updatedSyllabusDays = [...prevSyllabusDays];
                 const unitToUpdate = updatedSyllabusDays[dayIndex]?.syllabusUnits[unitIndex];
@@ -279,14 +274,12 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
                 return updatedSyllabusDays;
             });
 
-            // Đặt lại giá trị của input về mặc định sau khi thêm vật liệu
             const updatedMaterials = [...chapterMaterials];
             updatedMaterials[chapterIndex] = { name: '', url: '' };
             setChapterMaterials(updatedMaterials);
         }
     };
 
-    // Khởi tạo biến called
     handleAddMaterial.called = false;
 
 
@@ -313,57 +306,6 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
             return updatedSyllabusDays;
         });
     };
-
-
-
-
-
-    // const handleUnitNameChange = (dayIndex, value) => {
-    //     const updatedUnitNames = [...unitName];
-    //     updatedUnitNames[dayIndex] = value;
-    //     setUnitName(updatedUnitNames);
-    // };
-    // const [syllabusDays, setSyllabusDays] = useState([]);
-
-    // const handleAddDay = () => {
-    //     const newDay = {
-    //         dayNo: 0,
-    //         status: 'AVAILABLE',
-    //         syllabusUnits: []
-    //     };
-    //     setSyllabusDays(prevSyllabusDays => [...prevSyllabusDays, newDay]);
-    // };
-
-    // const handleAddUnit = (dayIndex) => {
-    //     const newUnit = {
-    //         name: 'string',
-    //         unitNo: 0,
-    //         duration: 0,
-    //         syllabusUnitChapters: []
-    //     };
-    //     setSyllabusDays(prevSyllabusDays => {
-    //         const updatedSyllabusDays = [...prevSyllabusDays];
-    //         updatedSyllabusDays[dayIndex].syllabusUnits.push(newUnit);
-    //         return updatedSyllabusDays;
-    //     });
-    // };
-
-    // const handleAddChapter = (dayIndex, unitIndex) => {
-    //     const newChapter = {
-    //         name: 'string',
-    //         duration: 0,
-    //         outputStandardId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    //         deliveryTypeId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    //         materials: null,
-    //         online: true
-    //     };
-    //     setSyllabusDays(prevSyllabusDays => {
-    //         const updatedSyllabusDays = [...prevSyllabusDays];
-    //         updatedSyllabusDays[dayIndex].syllabusUnits[unitIndex].syllabusUnitChapters.push(newChapter);
-    //         return updatedSyllabusDays;
-    //     });
-    // };
-
 
 
     useEffect(() => {
@@ -393,18 +335,39 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
     }, []);
 
     const handleNextClick = () => {
-        // Thực hiện các hành động cần thiết khi nhấn vào nút "Next"
-        // Ví dụ: Lưu dữ liệu, kiểm tra tính hợp lệ, v.v.
-
-        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
-        onNextClick(); // Đây là hàm được truyền từ SyllabusCreate
+        const updatedRequestBody = {
+            ...requestBody,
+            syllabusDays: syllabusDays,
+            assessmentScheme: {
+                assignment: 0,
+                quiz: 0,
+                exam: 0,
+                gpa: 0,
+                finalPoint: 0,
+                finalTheory: 0,
+                finalPractice: 0
+            },
+            deliveryPrinciple: {
+                trainees: "",
+                trainer: "",
+                training: "",
+                re_test: "",
+                marking: "",
+                waiverCriteria: "",
+                others: ""
+            }
+        };
+        onUpdateSyllabusDays(updatedRequestBody);
+        onUpdatedRequestBody(updatedRequestBody);
+        console.log('first' + JSON.stringify(updatedRequestBody))
+        console.log('after' + JSON.stringify(syllabusDays))
+        onNextClick();
     };
 
-    const handlePreviousClick = () => {
-        // Thực hiện các hành động cần thiết khi nhấn vào nút "Previous"
 
-        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
-        onPreviousClick(); // Đây là hàm được truyền từ SyllabusCreate
+    const handlePreviousClick = () => {
+        onUpdateSyllabusDays(syllabusDays);
+        onPreviousClick();
     };
 
     // const toggle = (i) => {
@@ -423,34 +386,6 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
 
     //     setSelectedMore(i)
     // }
-
-
-    // const handleAddItem = () => {
-    //     const newItem = {
-    //         title: formData.title,
-    //         standard: formData.standard,
-    //         duration: formData.duration,
-    //         type: formData.type,
-    //         online: formData.online
-    //     };
-
-    // setFormData(prevDetails => {
-    //     if (Array.isArray(prevDetails)) {
-    //         return [...newItem, newItem];
-    //     } else {
-    //         console.error('prevDetails is not an array:', prevDetails);
-    //         return [newItem]; // Trả về prevDetails nếu không phải là một mảng
-    //     }
-    // });
-    //     setFormData(prevFormData => ({
-    //         ...prevFormData,
-    //         haha: [...(prevFormData.list || []), newItem]
-    //     }));
-
-    // };
-
-
-    // console.log("this is list syllabus:" + JSON.stringify(formData));
 
 
     return (
@@ -592,14 +527,14 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
                                                     <Box sx={{ flexGrow: 1 }} className='unit__details show'>
                                                         <Grid container spacing={2}>
                                                             <Grid item xs={5}>
-                                                                <input className='w-80 rounded' type="text" value={formData.title} onChange={(e) => handleChange('title', e.target.value)} />
+                                                                <input className='w-80 rounded' type="text" value={formData.name} onChange={(e) => handleChange('name', e.target.value)} />
                                                             </Grid>
                                                             <Grid item xs={2}>
                                                                 <select
                                                                     className='w-75'
                                                                     name="cars"
                                                                     id="cars"
-                                                                    value={formData.standard} onChange={(e) => handleChange('standard', e.target.value)}
+                                                                    value={formData.outputStandardId} onChange={(e) => handleChange('outputStandardId', e.target.value)}
 
                                                                 >
                                                                     {output ? (
@@ -638,7 +573,7 @@ const OutlineCreate = ({ onNextClick, onPreviousClick }) => {
                                                                     //     const selectedType = delivery.find(item => item.id === e.target.value);
                                                                     //     setFormData({ ...formData, type: selectedType });
                                                                     // }}
-                                                                    value={formData.type} onChange={(e) => handleChange('type', e.target.value)}
+                                                                    value={formData.deliveryTypeId} onChange={(e) => handleChange('deliveryTypeId', e.target.value)}
                                                                 >
                                                                     {delivery ? (
                                                                         delivery.map((item, index) => (

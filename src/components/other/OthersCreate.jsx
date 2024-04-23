@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import "./othersCreate.css";
 import { Chart } from "react-google-charts";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -7,6 +7,10 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { createSyllabus } from '../../services/SyllabusService';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { useHistory } from 'react-router-dom';
 
 export const data = [
     ["Task", "Hours per Day"],
@@ -17,7 +21,10 @@ export const data = [
     ["Exam", 6],
 ];
 
-const OthersCreate = ({ onPreviousClick }) => {
+const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
+    const history = useHistory();
+    const [openNo, setOpenNo] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
 
     const [scheme, setScheme] = useState({
         assignment: 0,
@@ -53,14 +60,48 @@ const OthersCreate = ({ onPreviousClick }) => {
         }));
     };
 
+    useEffect(() => {
+        const updatedRequestBodyy = {
+            ...updatedRequestBody,
+            assessmentScheme: scheme,
+            deliveryPrinciple: principle
+        };
+        // console.log('Full: ' + JSON.stringify(updatedRequestBodyy))
+        // console.log('Full second: ' + JSON.stringify(updatedRequestBody))
+    }, [scheme, principle]);
+
+
     console.log(scheme)
     console.log(principle)
 
     const handlePreviousClick = () => {
-        // Thực hiện các hành động cần thiết khi nhấn vào nút "Previous"
+        onPreviousClick();
+    };
 
-        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
-        onPreviousClick(); // Đây là hàm được truyền từ SyllabusCreate
+    const handleCloseNo = () => {
+        setOpenNo(false);
+    };
+
+    const handleSaveClick = async () => {
+        try {
+            const updatedRequestBodyy = {
+                ...updatedRequestBody,
+                assessmentScheme: scheme,
+                deliveryPrinciple: principle
+            };
+            const response = await createSyllabus(updatedRequestBodyy);
+
+            if (response.ok) {
+                console.log('Create successful');
+                setNotificationMessage('Create successful.');
+                setOpenNo(true);
+                history.push('/syllabus');
+            } else {
+                console.error('Create failed');
+            }
+        } catch (error) {
+            console.error('Error creating syllabus:', error);
+        }
     };
 
     return (
@@ -189,10 +230,20 @@ const OthersCreate = ({ onPreviousClick }) => {
                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                     </Grid>
                     <Grid item xs={1}>
-                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                        <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleSaveClick}>Save</button>
                     </Grid>
                 </Grid>
             </Box>
+            <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
+                <Alert
+                    onClose={handleCloseNo}
+                    severity="success"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {notificationMessage}
+                </Alert>
+            </Snackbar>
         </>
     )
 }

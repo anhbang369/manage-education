@@ -83,6 +83,52 @@ const SyllabusCreate = () => {
         setActiveTab('General');
     };
 
+    const [syllabusDays, setSyllabusDays] = useState(null);
+
+    const handleUpdateSyllabusDays = (updatedSyllabusDays) => {
+        setSyllabusDays(updatedSyllabusDays);
+    };
+
+    const [requestBody, setRequestBody] = useState({
+        name: '',
+        code: '',
+        version: '',
+        attendeeNumber: 0,
+        technicalRequirement: '',
+        courseObjective: '',
+        status: '',
+        assessmentScheme: {
+            assignment: 0,
+            quiz: 0,
+            exam: 0,
+            gpa: 0,
+            finalPoint: 0,
+            finalTheory: 0,
+            finalPractice: 0
+        },
+        deliveryPrinciple: {
+            trainees: '',
+            trainer: '',
+            training: '',
+            re_test: '',
+            marking: '',
+            waiverCriteria: '',
+            others: ''
+        },
+        syllabusLevel: '',
+        syllabusDays: syllabusDays,
+        template: true
+    });
+    const [updatedRequestBody, setUpdatedRequestBody] = useState(null);
+
+    const handleUpdateRequestBody = (updatedRequestBody) => {
+        setRequestBody(updatedRequestBody);
+    };
+
+    const handleUpdatedRequestBody = (updatedRequestBody) => {
+        setUpdatedRequestBody(updatedRequestBody);
+    };
+
     return (
         <>
             <Navbar></Navbar>
@@ -119,9 +165,9 @@ const SyllabusCreate = () => {
                                     <button className={`tabs__outline ${activeTab === 'Outline' ? 'active' : ''}`} onClick={() => handleTabClick('Outline')}>Outline</button>
                                     <button className={`tabs__outline ${activeTab === 'Others' ? 'active' : ''}`} onClick={() => handleTabClick('Others')}>Others</button>
                                 </div>
-                                {activeTab === 'General' && <GeneralCreate syllabusHead={syllabusHead} onNextClick={handleNextTab} />}
-                                {activeTab === 'Outline' && <OutlineCreate onNextClick={handleNextOtherTab} onPreviousClick={handlePreviousGeneralTab} />}
-                                {activeTab === 'Others' && <OthersCreate onPreviousClick={handlePreviousTab} />}
+                                {activeTab === 'General' && <GeneralCreate syllabusHead={syllabusHead} onNextClick={handleNextTab} onUpdateRequestBody={handleUpdateRequestBody} />}
+                                {activeTab === 'Outline' && <OutlineCreate requestBody={requestBody} onNextClick={handleNextOtherTab} onPreviousClick={handlePreviousGeneralTab} onUpdateSyllabusDays={handleUpdateSyllabusDays} updatedRequestBody={updatedRequestBody} onUpdatedRequestBody={handleUpdatedRequestBody} />}
+                                {activeTab === 'Others' && <OthersCreate updatedRequestBody={updatedRequestBody} onPreviousClick={handlePreviousTab} />}
                             </div>
                         </ Box>
                     </Container>

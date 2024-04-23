@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { getSyllabusProgram } from "../../services/SyllabusLevelService";
 import OutlineCreate from '../outline/OutlineCreate';
 
-const GeneralCreate = ({ syllabusHead, onNextClick }) => {
+const GeneralCreate = ({ syllabusHead, onNextClick, onUpdateRequestBody }) => {
     //get list
     const [level, setLevel] = useState(null);
     const [syllabusGeneral, setsyllabusGeneral] = useState({
@@ -56,11 +56,12 @@ const GeneralCreate = ({ syllabusHead, onNextClick }) => {
     };
 
     const handleNextClick = () => {
-        // Thực hiện các hành động cần thiết khi nhấn vào nút "Next"
-        // Ví dụ: Lưu dữ liệu, kiểm tra tính hợp lệ, v.v.
-
-        // Sau đó, gọi hàm được truyền từ SyllabusCreate để chuyển tab
-        onNextClick(); // Đây là hàm được truyền từ SyllabusCreate
+        const updatedRequestBody = {
+            ...requestBody,
+            syllabusDays: [/* Dữ liệu của syllabusDays ở đây */]
+        };
+        onUpdateRequestBody(updatedRequestBody);
+        onNextClick();
     };
 
 
