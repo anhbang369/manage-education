@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import "./trainingClassList.css";
 import ReactPaginate from 'react-paginate';
-import Import from '../import/Import';
+import ImportTrainingClass from '../import/ImportTrainingClass';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -227,7 +227,7 @@ const TrainingClassListView = () => {
                                 renderOnZeroPageCount={null}
                             />
 
-                            <Import property={importOpen} />
+                            <ImportTrainingClass property={importOpen} />
                             <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                                 <Alert
                                     onClose={handleCloseNo}
