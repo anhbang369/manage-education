@@ -51,6 +51,35 @@ export const getByIdTrainingClass = async (itemId) => {
     }
 };
 
+export const importTrainingClass = async (file) => {
+    try {
+        const accessToken = localStorage.getItem('jwt');
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program/training-class/import', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        });
+
+        if (response.ok) {
+            const data = await response;
+            console.log('Import successful', data);
+            console.log(response.status);
+            return data;
+        } else {
+            console.error('Import failed');
+            throw new Error('Import failed');
+        }
+    } catch (error) {
+        console.error('Error importing:', error);
+        throw error;
+    }
+};
+
 
 const duplicatedTrainingClass = async (itemId) => {
     try {
