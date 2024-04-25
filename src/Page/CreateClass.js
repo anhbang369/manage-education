@@ -13,6 +13,7 @@ const CreateClass = () => {
 
     const [step, setStep] = useState(1);
     const [classDto, setClassDto] = useState(null);
+    const [selectedItems, setSelectedItems] = useState([]);
 
     const handleNextStep = (dto) => {
         setClassDto(dto);
@@ -28,8 +29,8 @@ const CreateClass = () => {
                     <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                         <div className="w-100">
                             {step === 1 && <ClassStepOne onNextStep={handleNextStep} />}
-                            {step === 2 && <ClassStepTwo classDto={classDto} />}
-                            {step === 3 && <ClassStepThree />}
+                            {step === 2 && <ClassStepTwo classDto={classDto} onNextStep={(items) => { setSelectedItems(items); handleNextStep(); }} />}
+                            {step === 3 && <ClassStepThree selectedItems={selectedItems} />}
                         </div>
                     </ Box>
                 </Container>

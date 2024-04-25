@@ -1,6 +1,6 @@
 import React from 'react';
 import "./classStepThree.css";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Form from 'react-bootstrap/Form';
@@ -9,13 +9,46 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import { getUserByRole } from '../../services/UserService';
+import { getFsu } from '../../services/FsuService';
 
 const ClassStepThree = () => {
+
+    const [admin, setAdmin] = useState(null);
+    const [fsu, setFsu] = useState(null);
 
     const [dateState, setDateState] = useState(new Date())
     const changeDate = (e) => {
         setDateState(e)
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserByRole();
+                console.log("First data: ", data);
+                setAdmin(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getFsu();
+                console.log("First data: ", data);
+                setFsu(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     //show
     const [selected, setSelected] = useState(null)
@@ -104,10 +137,11 @@ const ClassStepThree = () => {
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
                                                     <Form.Select className='select__class-three-general' aria-placeholder='exam'>
-                                                        <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {admin && admin.map((ad, index) => (
+                                                            <option key={index} value={ad.id}>{ad.fullName}</option>
+                                                        ))}
+
+
                                                     </Form.Select>
                                                 </div>
                                             </div>
@@ -117,10 +151,9 @@ const ClassStepThree = () => {
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
                                                     <Form.Select className='select__class-three-general margin' aria-placeholder='exam'>
-                                                        <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {fsu && fsu.map((ad, index) => (
+                                                            <option key={index} value={ad.id}>{ad.name}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </div>
                                                 <div className='col-md-12'>

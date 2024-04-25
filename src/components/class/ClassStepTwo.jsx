@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Grid from '@mui/material/Grid';
 import { getTrainingProgramAdd } from "../../services/TrainingProgramService";
 
-const ClassStepTwo = ({ classDto }) => {
+const ClassStepTwo = ({ classDto, onNextStep }) => {
 
     //get list
     const [programData, setProgramData] = useState(null);
@@ -57,6 +57,10 @@ const ClassStepTwo = ({ classDto }) => {
 
 
     console.log('this is: ' + JSON.stringify(selectedItems));
+
+    const handleNextButtonClick = () => {
+        onNextStep(selectedItems);
+    };
 
 
 
@@ -133,6 +137,27 @@ const ClassStepTwo = ({ classDto }) => {
 
                                 </div>
                             )}
+                            {selectedItems.map((item, index) => (
+                                <div className='class__view-syllabus row'>
+                                    <div className='col-md-3 p-2 row bg-core rounded-start'>
+
+                                    </div>
+                                    <div className='col-md-9 row box-shadow-1 rounded-end p-2'>
+                                        <div className='col-md-12 d-flex'>
+                                            <h5><b>{item.name}</b></h5>
+                                        </div>
+                                        <div className='col-md-12'>
+                                            <div className='d-flex'>
+                                                <p className='fw-normal'>{item.version}</p>
+                                                <p className='fw-normal px-2'>|</p>
+                                                <p className='fw-normal'>{item.days} days ({item.hours} hours)</p>
+                                                <p className='fw-normal px-2'>|</p>
+                                                <p className='fw-normal'>{item.createdDate.slice(0, 10)} by <b>{item.createdBy}</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
 
 
                             <Box sx={{ flexGrow: 1 }}>
@@ -146,7 +171,7 @@ const ClassStepTwo = ({ classDto }) => {
                                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                                     </Grid>
                                     <Grid item xs={1}>
-                                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                                        <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleNextButtonClick}>Next</button>
                                     </Grid>
                                 </Grid>
                             </Box>
