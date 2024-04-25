@@ -28,8 +28,8 @@ const CreateClass = () => {
                     <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                         <div className="w-100">
                             {step === 1 && <ClassStepOne onNextStep={handleNextStep} />}
-                            {step === 2 && <ClassStepThree classDto={classDto} />}
-                            {step === 3 && <ClassStepTwo />}
+                            {step === 2 && <ClassStepTwo classDto={classDto} />}
+                            {step === 3 && <ClassStepThree />}
                         </div>
                     </ Box>
                 </Container>

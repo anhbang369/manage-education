@@ -1,12 +1,65 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import "./classStepTwo.css";
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Grid from '@mui/material/Grid';
+import { getTrainingProgramAdd } from "../../services/TrainingProgramService";
 
 const ClassStepTwo = ({ classDto }) => {
+
+    //get list
+    const [programData, setProgramData] = useState(null);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getTrainingProgramAdd();
+                console.log("First data: ", data);
+                setProgramData(data);
+                setIsDataLoaded(true);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredProgram = isDataLoaded ? programData.filter((syllabus) =>
+        syllabus.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ) : [];
+
+
+    const handleItemClick = (program) => {
+        const foundIndex = selectedItems.findIndex(item => item.id === program.id);
+
+        if (foundIndex === -1) {
+            setSelectedItems([program]);
+        } else {
+            setSelectedItems(prevItems => [
+                ...prevItems.slice(0, foundIndex),
+                program,
+                ...prevItems.slice(foundIndex + 1)
+            ]);
+        }
+    };
+
+
+    console.log('this is: ' + JSON.stringify(selectedItems));
+
+
+
     return (
         <>
             <React.Fragment>
@@ -56,9 +109,31 @@ const ClassStepTwo = ({ classDto }) => {
                                 <p className='fw-normal ms-3 py-1 px-0 fs-14 text-white'>Training program name</p>
                                 <div className="input-with-icon">
                                     <i class="bi bi-search"></i>
-                                    <input type="text" className="search__by" placeholder='Search by ...' />
+                                    <input type="text" className="search__by" placeholder='Search by ...' value={searchTerm}
+                                        onChange={handleSearchChange} />
                                 </div>
                             </div>
+                            {filteredProgram.length > 0 && searchTerm && (
+                                <div className='box-shadow-1 rounded w-30 ms-4 pointer' style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                    {filteredProgram.map((program, index) => (
+                                        !selectedItems.some(selectedItem => selectedItem.id === program.id) && (
+                                            <div
+                                                className='fs-14 fw-bold ps-3 hover pb-2 pt-1'
+                                                key={index}
+                                                onClick={() => handleItemClick(program)}
+                                            >
+                                                {program.name} {program.code}
+                                                <div className='row'>
+                                                    <div className="col-md-3 fs-14 fw-normal">{program.hours} hours</div>
+                                                    <div className="col-md-9 fs-14 fw-normal">{program.createdDate.slice(0, 10)} by <b>{program.createdBy.slice(0, 10)}...</b></div>
+                                                </div>
+                                            </div>
+                                        )
+                                    ))}
+
+                                </div>
+                            )}
+
 
                             <Box sx={{ flexGrow: 1 }}>
                                 <Grid container spacing={2}>
