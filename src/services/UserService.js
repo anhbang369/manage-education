@@ -11,6 +11,19 @@ export const getUserData = async () => {
     }
 };
 
+export const getUserByRole = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/role?role=CLASS_ADMIN');
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        throw error;
+    }
+};
+
 export const getUserById = async (itemId) => {
     try {
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/${itemId}`);
