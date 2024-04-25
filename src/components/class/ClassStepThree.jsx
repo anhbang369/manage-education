@@ -2,6 +2,7 @@ import React from 'react';
 import "./classStepThree.css";
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
+// import Calendar from 'your-calendar-library';
 import 'react-calendar/dist/Calendar.css';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,23 +13,61 @@ import Grid from '@mui/material/Grid';
 import { getUserByRole } from '../../services/UserService';
 import { getFsu } from '../../services/FsuService';
 import { getAttendLevel } from '../../services/AttendLevel';
+import { getTrainingProgramById } from "../../services/TrainingProgramService";
 
-const ClassStepThree = () => {
+const ClassStepThree = ({ selectedItems }) => {
 
     const [admin, setAdmin] = useState(null);
     const [fsu, setFsu] = useState(null);
     const [attend, setAttend] = useState(null);
+    const [syllabus, setSyllabus] = useState(null);
+    const [selectedAdmins, setSelectedAdmins] = useState([]);
+    const [selectedDates, setSelectedDates] = useState([]);
+
+    const isDateSelected = (date) => {
+        return selectedDates.some(selectedDate => {
+            return (
+                selectedDate.getDate() === date.getDate() &&
+                selectedDate.getMonth() === date.getMonth() &&
+                selectedDate.getFullYear() === date.getFullYear()
+            );
+        });
+    };
+
+
+    const tileClassName = ({ date }) => {
+        if (selectedDates.some(selectedDate => {
+            return (
+                selectedDate.getDate() === date.getDate() &&
+                selectedDate.getMonth() === date.getMonth() &&
+                selectedDate.getFullYear() === date.getFullYear()
+            );
+        })) {
+            return 'text-primary bg-core fw-bolder fs-16 rounded text-white selected-date';
+        }
+    };
+
+    const handleDateClick = (date) => {
+        if (!isDateSelected(date)) {
+            setSelectedDates([...selectedDates, date]);
+        } else {
+            setSelectedDates(selectedDates.filter(selectedDate => selectedDate.getTime() !== date.getTime()));
+        }
+    };
 
     const [dateState, setDateState] = useState(new Date())
     const changeDate = (e) => {
         setDateState(e)
     }
+    console.log('check: ' + JSON.stringify(selectedItems))
+
+    // console.log('selectedDate: ' + JSON.stringify(selectedDate))
+    // console.log('dateState: ' + JSON.stringify(dateState))
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getUserByRole();
-                console.log("First data: ", data);
                 setAdmin(data);
             } catch (error) {
                 console.log(error);
@@ -42,7 +81,6 @@ const ClassStepThree = () => {
         const fetchData = async () => {
             try {
                 const data = await getFsu();
-                console.log("First data: ", data);
                 setFsu(data);
             } catch (error) {
                 console.log(error);
@@ -56,7 +94,6 @@ const ClassStepThree = () => {
         const fetchData = async () => {
             try {
                 const data = await getAttendLevel();
-                console.log("First data: ", data);
                 setAttend(data);
             } catch (error) {
                 console.log(error);
@@ -65,6 +102,31 @@ const ClassStepThree = () => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (selectedItems && selectedItems.length > 0) {
+                    const data = await getTrainingProgramById(selectedItems[0].id);
+                    setSyllabus(data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    console.log('haha: ' + JSON.stringify(selectedAdmins))
+
+    const handleAdminSelect = (e) => {
+        const selectedAdminId = e.target.value;
+        const selectedAdmin = admin.find(ad => ad.id === selectedAdminId);
+        if (selectedAdmin) {
+            setSelectedAdmins(prevAdmins => [...prevAdmins, selectedAdmin]);
+        }
+    };
 
     //show
     const [selected, setSelected] = useState(null)
@@ -132,7 +194,7 @@ const ClassStepThree = () => {
 
                             <div className='row mt-2'>
                                 <div className='col-md-4 mb-2'>
-                                    <h6 className='text-white bg-general p-1 rounded fs-14' onClick={() => toggle(1)}><i class="bi bi-calendar"></i> General</h6>
+                                    <h6 className='text-white bg-general p-1 rounded fs-14 pointer' onClick={() => toggle(1)}><i class="bi bi-calendar"></i> General</h6>
                                     <div className={selected === 1 ? 'general__contain-first show' : 'general__contain-first'}>
                                         <div className='row first__class-general'>
                                             <div className='col-md-5'><b><i class="bi bi-alarm"></i> Class time</b></div>
@@ -152,12 +214,13 @@ const ClassStepThree = () => {
                                             <div className='col-md-5'><b><i class="bi bi-star"></i> Admin</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    <Form.Select className='select__class-three-general' aria-placeholder='exam'>
-                                                        {admin && admin.map((ad, index) => (
-                                                            <option key={index} value={ad.id}>{ad.fullName}</option>
+                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.fullName}</a></div>
+                                                    ))}
+                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' onChange={handleAdminSelect}>
+                                                        {admin && admin.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
                                                         ))}
-
-
                                                     </Form.Select>
                                                 </div>
                                             </div>
@@ -197,7 +260,7 @@ const ClassStepThree = () => {
                                         </div>
                                     </div>
 
-                                    <h6 className='text-white bg-general p-1 rounded d-flex fs-14 mt-3 mb-0' onClick={() => toggle1(1)}><i class="bi bi-star"></i> Attendee
+                                    <h6 className='pointer text-white bg-general p-1 rounded d-flex fs-14 mt-3 mb-0' onClick={() => toggle1(1)}><i class="bi bi-star"></i> Attendee
                                         <Form.Select className='select__class-three h-20p' aria-placeholder='exam'>
                                             {attend && attend.map((ad, index) => (
                                                 <option key={index} value={ad.id}>{ad.name}</option>
@@ -223,15 +286,30 @@ const ClassStepThree = () => {
                                 </div>
                                 <div className='col-md-7 '>
                                     <div className='text-white bg-general p-1 rounded d-flex'>
-                                        <p className='container__first-text'><i class="bi bi-calendar"></i> Time frame</p>
-                                        <p className='container__first-text time'><input type='datetime-local' /></p>
+                                        <p className='container__first-text fs-14'><i class="bi bi-calendar"></i> Time frame</p>
+                                        <div className="row">
+                                            <p className='col-md-2'>Start date</p>
+                                            <p className='container__first-text time col-md-4'><input type='datetime-local' /></p>
+                                            <p className='col-md-2'>End date</p>
+                                            <p className='container__first-text time col-md-4'><input type='datetime-local' /></p>
+                                        </div>
                                     </div>
                                     <div className='row'>
                                         <div className='col-md-6'>
                                             <Calendar
-                                                value={dateState}
-                                                onChange={changeDate}
+                                                tileClassName={tileClassName}
+                                                value={new Date()}
+                                                onClickDay={handleDateClick}
                                             />
+
+                                            <div>
+                                                <h2>Ngày đã chọn:</h2>
+                                                <ul>
+                                                    {selectedDates.map((selectedDate, index) => (
+                                                        <li key={index}>{selectedDate.toDateString()}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div className='col-md-6'>
                                             <Calendar
@@ -243,31 +321,32 @@ const ClassStepThree = () => {
                                 </div>
                             </div>
                             <h6 className='bg-core rounded-top w-15 text-white p-1 ms-2 text-center mb-0'>Training program</h6>
-                            <div className='bg-core text-white border border-white p-2 rounded-top-end ms-2'>
-                                <h5>DevOps Foundation <button><i class="bi bi-pencil p-1 text-white border-0 rounded bg-chapter"></i></button></h5>
-                                <div className='d-flex'>
-                                    <p className='fw-normal'>31 days (97 hours)</p>
-                                    <p className='fw-normal mx-1'>|</p>
-                                    <p className='fw-normal'>Modified on 23/05/2023 by <b>Anh Bang</b></p>
+                            {selectedItems.map((program, idxProgram) => (
+                                <div className='bg-core text-white border border-white p-2 rounded-top-end ms-2' key={idxProgram}>
+                                    <h5>{program.name} <button><i class="bi bi-pencil p-1 text-white border-0 rounded bg-chapter"></i></button></h5>
+                                    <div className='d-flex'>
+                                        <p className='fw-normal'>{program.days} days ({program.hours} hours)</p>
+                                        <p className='fw-normal mx-1'>|</p>
+                                        <p className='fw-normal'>Modified on {program.createdDate.slice(0, 10)} by <b>{program.createdBy}</b></p>
+                                    </div>
                                 </div>
-                            </div>
-
-                            {Data.map((item, index) => (
-                                <div className='class__view-syllabus row'>
+                            ))}
+                            {syllabus && syllabus.syllabuses.map((syllabus, idxSyllabus) => (
+                                <div className='class__view-syllabus row' key={idxSyllabus}>
                                     <div className='col-md-3 p-2 row bg-core rounded-start'>
 
                                     </div>
                                     <div className='col-md-9 row box-shadow-1 rounded-end p-2'>
                                         <div className='col-md-12 d-flex'>
-                                            <h5><b>{item.title}</b></h5><p className='bg-chapter rounded h-20p p-1 text-center text-white'>{item.status}</p>
+                                            <h5><b>{syllabus.name}</b></h5><p className='bg-core rounded h-20p px-1 text-center text-white ms-2'>{syllabus.status}</p>
                                         </div>
                                         <div className='col-md-12'>
                                             <div className='d-flex'>
-                                                <p className='fw-normal'>{item.lin}</p>
+                                                <p className='fw-normal'>{syllabus.code} {syllabus.version}</p>
                                                 <p className='fw-normal px-2'>|</p>
-                                                <p className='fw-normal'>{item.days}</p>
+                                                <p className='fw-normal'>{syllabus.days} days ({syllabus.hours} hours)</p>
                                                 <p className='fw-normal px-2'>|</p>
-                                                <p className='fw-normal'>{item.modify}<b>{item.name}</b></p>
+                                                <p className='fw-normal'>{syllabus.createdDate.slice(0, 10)}<b>{syllabus.createdBy}</b></p>
                                             </div>
                                         </div>
                                     </div>
@@ -300,75 +379,3 @@ const ClassStepThree = () => {
 }
 
 export default ClassStepThree
-
-const Data = [
-    {
-        id: 1,
-        images: {
-            image: "Image",
-            image1: "Image",
-            image2: "Image",
-        },
-        title: "Linux",
-        status: "Active",
-        lin: "LIN v2.0",
-        days: "31 days (97 hours)",
-        modify: "Modified on 23/05/2023 by ",
-        name: "Anh Bang"
-    },
-    {
-        id: 2,
-        images: {
-            image: "Image",
-            image1: "Image",
-            image2: "Image",
-        },
-        title: "Linux",
-        status: "Active",
-        lin: "LIN v2.0",
-        days: "31 days (97 hours)",
-        modify: "Modified on 23/05/2023 by ",
-        name: "Anh Bang"
-    },
-    {
-        id: 3,
-        images: {
-            image: "Image",
-            image1: "Image",
-            image2: "Image",
-            image3: "Image",
-        },
-        title: "Linux",
-        status: "Active",
-        lin: "LIN v2.0",
-        days: "31 days (97 hours)",
-        modify: "Modified on 23/05/2023 by ",
-        name: "Anh Bang"
-    },
-    {
-        id: 4,
-        images: {
-            image: "Image",
-            image1: "Image",
-        },
-        title: "Linux",
-        status: "Active",
-        lin: "LIN v2.0",
-        days: "31 days (97 hours)",
-        modify: "Modified on 23/05/2023 by ",
-        name: "Anh Bang"
-    },
-    {
-        id: 5,
-        images: {
-            image: "Image",
-        },
-        title: "Linux",
-        status: "Active",
-        lin: "LIN v2.0",
-        days: "31 days (97 hours)",
-        modify: "Modified on 23/05/2023 by ",
-        name: "Anh Bang"
-    },
-
-]
