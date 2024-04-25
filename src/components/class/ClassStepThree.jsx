@@ -11,11 +11,13 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { getUserByRole } from '../../services/UserService';
 import { getFsu } from '../../services/FsuService';
+import { getAttendLevel } from '../../services/AttendLevel';
 
 const ClassStepThree = () => {
 
     const [admin, setAdmin] = useState(null);
     const [fsu, setFsu] = useState(null);
+    const [attend, setAttend] = useState(null);
 
     const [dateState, setDateState] = useState(new Date())
     const changeDate = (e) => {
@@ -42,6 +44,20 @@ const ClassStepThree = () => {
                 const data = await getFsu();
                 console.log("First data: ", data);
                 setFsu(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getAttendLevel();
+                console.log("First data: ", data);
+                setAttend(data);
             } catch (error) {
                 console.log(error);
             }
@@ -183,10 +199,9 @@ const ClassStepThree = () => {
 
                                     <h6 className='text-white bg-general p-1 rounded d-flex fs-14 mt-3 mb-0' onClick={() => toggle1(1)}><i class="bi bi-star"></i> Attendee
                                         <Form.Select className='select__class-three h-20p' aria-placeholder='exam'>
-                                            <option>Permission</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            {attend && attend.map((ad, index) => (
+                                                <option key={index} value={ad.id}>{ad.name}</option>
+                                            ))}
                                         </Form.Select>
                                     </h6>
                                     <div className={selected1 === 1 ? 'row attendee__component show' : 'row attendee__component'}>
