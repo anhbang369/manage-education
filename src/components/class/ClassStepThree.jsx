@@ -49,11 +49,18 @@ const ClassStepThree = ({ selectedItems }) => {
 
     const handleDateClick = (date) => {
         if (!isDateSelected(date)) {
-            setSelectedDates([...selectedDates, date]);
+            if (selectedDates.length < selectedItems[0].days) {
+                setSelectedDates([...selectedDates, date]);
+            }
         } else {
-            setSelectedDates(selectedDates.filter(selectedDate => selectedDate.getTime() !== date.getTime()));
+            if (selectedDates.length <= selectedItems[0].days) {
+                setSelectedDates(selectedDates.filter(selectedDate => selectedDate.getTime() !== date.getTime()));
+            }
         }
     };
+
+
+    console.log('ngay: ' + selectedItems[0].days)
 
     const [dateState, setDateState] = useState(new Date())
     const changeDate = (e) => {
@@ -118,7 +125,6 @@ const ClassStepThree = ({ selectedItems }) => {
         fetchData();
     }, []);
 
-    console.log('haha: ' + JSON.stringify(selectedAdmins))
 
     const handleAdminSelect = (e) => {
         const selectedAdminId = e.target.value;
@@ -313,8 +319,9 @@ const ClassStepThree = ({ selectedItems }) => {
                                         </div>
                                         <div className='col-md-6'>
                                             <Calendar
-                                                value={dateState}
-                                                onChange={changeDate}
+                                                tileClassName={tileClassName}
+                                                value={new Date()}
+                                                onClickDay={handleDateClick}
                                             />
                                         </div>
                                     </div>
