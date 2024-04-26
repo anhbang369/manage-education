@@ -227,3 +227,7 @@ body{
 .selected-date {
   background-color: #2d3748 !important;
 }
+
+.h-30{
+  height: 30px !important;
+}

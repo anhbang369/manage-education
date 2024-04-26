@@ -14,6 +14,13 @@ const ClassStepTwo = ({ classDto, onNextStep }) => {
     const [programData, setProgramData] = useState(null);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]);
+    const [programTwo, setProgramTwo] = useState([]);
+
+    useEffect(() => {
+        if (classDto) {
+            setProgramTwo([classDto]);
+        }
+    }, [classDto]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -59,10 +66,8 @@ const ClassStepTwo = ({ classDto, onNextStep }) => {
     console.log('this is: ' + JSON.stringify(selectedItems));
 
     const handleNextButtonClick = () => {
-        onNextStep(selectedItems);
+        onNextStep(programTwo, selectedItems);
     };
-
-
 
     return (
         <>
@@ -75,7 +80,7 @@ const ClassStepTwo = ({ classDto, onNextStep }) => {
                                 <h6>Class</h6>
                                 <div className='row'>
                                     <div className='col-md-11 row'>
-                                        <div className='col-md-4'><h4 className='border-bottom border-white'>{classDto.className}</h4></div>
+                                        <div className='col-md-4'><h4 className='border-bottom border-white'>{classDto.name}</h4></div>
                                         <div className='col-md-8'><p className='border border-white rounded bg-chapter w-10 text-center'>Plaining</p></div>
                                     </div>
                                     <div className='col-md-1'>

@@ -1,16 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import "./program.css";
-import ActionMenuProgram from '../action/ActionMenuProgram';
-import TrainMaterial from '../trainMaterial/TrainMaterial';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 
-const Program = ({ programData }) => {
-
+const ClassStepFourth = ({ programData }) => {
     const [selectedSyllabus, setSelectedSyllabus] = useState(null)
     const toggleSyllabus = (indexSyllabus) => {
         if (selectedSyllabus === indexSyllabus) {
@@ -81,24 +77,6 @@ const Program = ({ programData }) => {
         <>
             {programData && Array.isArray(programData) && programData.map((item) => (
                 <div>
-                    <div className="bg-core border border-white text-white p-1">
-                        <h6 className="ms-2">Training program</h6>
-                        <div className="d-flex justify-content-between w-98">
-                            <div className='d-flex ms-2'>
-                                <div className=''>
-                                    <h4>{item.name}</h4>
-                                </div>
-                                <div className='ms-2'>
-                                    <p className='border border-white rounded text-center'>{item.status}</p>
-                                </div>
-                            </div>
-                            {/* <div className='col-md-7'></div> */}
-                            <div className=''>
-                                <ActionMenuProgram></ActionMenuProgram>
-                            </div>
-                        </div>
-                    </div>
-
                     <div className='d-flex'><p className='fw-bold ms-2 fs-20'>{item.day}</p> <span className='fs-14 mt-2'>days ({item.hours} hours)</span></div>
                     <p className='fs-14 ms-2 fw-normal'>Modified on {item.createdDate.slice(0, 10)} by <b>{item.createdBy}</b></p>
                     <h6 className="p-1 ms-3"><b>Content</b></h6>
@@ -258,6 +236,7 @@ const Program = ({ programData }) => {
 
         </>
     )
+
 }
 
-export default Program
+export default ClassStepFourth
