@@ -2,7 +2,6 @@ import React from 'react';
 import "./classStepThree.css";
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
-// import Calendar from 'your-calendar-library';
 import 'react-calendar/dist/Calendar.css';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,8 +13,26 @@ import { getUserByRole } from '../../services/UserService';
 import { getFsu } from '../../services/FsuService';
 import { getAttendLevel } from '../../services/AttendLevel';
 import { getTrainingProgramById } from "../../services/TrainingProgramService";
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 const ClassStepThree = ({ selectedItems }) => {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const [admin, setAdmin] = useState(null);
     const [fsu, setFsu] = useState(null);
@@ -23,41 +40,106 @@ const ClassStepThree = ({ selectedItems }) => {
     const [syllabus, setSyllabus] = useState(null);
     const [selectedAdmins, setSelectedAdmins] = useState([]);
     const [selectedDates, setSelectedDates] = useState([]);
+    const [time, setTime] = useState('');
 
     const isDateSelected = (date) => {
         return selectedDates.some(selectedDate => {
             return (
-                selectedDate.getDate() === date.getDate() &&
+                selectedDate.getFullYear() === date.getFullYear() &&
                 selectedDate.getMonth() === date.getMonth() &&
-                selectedDate.getFullYear() === date.getFullYear()
+                selectedDate.getDate() === date.getDate()
             );
         });
     };
 
 
+
     const tileClassName = ({ date }) => {
-        if (selectedDates.some(selectedDate => {
-            return (
-                selectedDate.getDate() === date.getDate() &&
-                selectedDate.getMonth() === date.getMonth() &&
-                selectedDate.getFullYear() === date.getFullYear()
-            );
-        })) {
+        if (isDateSelected(date)) {
             return 'text-primary bg-core fw-bolder fs-16 rounded text-white selected-date';
         }
     };
+
+
+    // const handleDateClick = (date) => {
+    //     if (!isDateSelected(date)) {
+    //         if (selectedDates.length < selectedItems[0].days) {
+    //             setSelectedDates([...selectedDates, date]);
+    //             handleOpen();
+    //         }
+    //     } else {
+    //         if (selectedDates.length <= selectedItems[0].days) {
+    //             setSelectedDates(selectedDates.filter(selectedDate => selectedDate.getTime() !== date.getTime()));
+    //             handleOpen();
+    //         }
+    //     }
+    // };
+
+    // const handleTimeChange = (event) => {
+    //     setTime(event.target.value);
+    // };
+
+    // const isDateSelected = (date) => {
+    //     return selectedDates.some(selectedDate => {
+    //         return (
+    //             selectedDate.getDate() === date.getDate() &&
+    //             selectedDate.getMonth() === date.getMonth() &&
+    //             selectedDate.getFullYear() === date.getFullYear()
+    //         );
+    //     });
+    // };
+
+    // const tileClassName = ({ date }) => {
+    //     if (isDateSelected(date)) {
+    //         return 'text-primary bg-core fw-bolder fs-16 rounded text-white selected-date';
+    //     }
+    // };
 
     const handleDateClick = (date) => {
         if (!isDateSelected(date)) {
             if (selectedDates.length < selectedItems[0].days) {
                 setSelectedDates([...selectedDates, date]);
+                handleOpen();
             }
         } else {
-            if (selectedDates.length <= selectedItems[0].days) {
-                setSelectedDates(selectedDates.filter(selectedDate => selectedDate.getTime() !== date.getTime()));
-            }
+            setSelectedDates(selectedDates.filter(selectedDate => selectedDate.getTime() !== date.getTime()));
         }
     };
+
+
+    const handleSave = () => {
+        if (time && selectedDates.length > 0) {
+            const selectedDateTime = new Date(selectedDates[selectedDates.length - 1]); // Get the last selected date
+            const [hours, minutes] = time.split(':').map(Number);
+            selectedDateTime.setHours(hours, minutes);
+
+            const updatedDates = [...selectedDates];
+            updatedDates[selectedDates.length - 1] = selectedDateTime; // Update time for the last selected date
+
+            setSelectedDates(updatedDates); // Update state with the modified date
+            handleClose();
+        }
+    };
+
+
+    const handleTimeChange = (event) => {
+        setTime(event.target.value);
+    };
+
+    // const [selectedDate, setSelectedDate] = useState(null);
+
+    // const handleDateClick = (date) => {
+    //     setSelectedDate(date); // Lưu ngày được chọn vào biến trạng thái
+    //     handleOpen(); // Mở Modal
+    // };
+
+    // const handleSave = () => {
+    //     if (selectedDate) {
+    //         setSelectedDates([...selectedDates, selectedDate]); // Thêm ngày vào danh sách
+    //         setSelectedDate(null); // Đặt lại selectedDate về null sau khi lưu
+    //         handleClose(); // Đóng Modal
+    //     }
+    // };
 
 
     console.log('ngay: ' + selectedItems[0].days)
@@ -312,7 +394,7 @@ const ClassStepThree = ({ selectedItems }) => {
                                                 <h2>Ngày đã chọn:</h2>
                                                 <ul>
                                                     {selectedDates.map((selectedDate, index) => (
-                                                        <li key={index}>{selectedDate.toDateString()}</li>
+                                                        <li key={index}>{selectedDate.toLocaleString()}</li>
                                                     ))}
                                                 </ul>
                                             </div>
@@ -324,6 +406,22 @@ const ClassStepThree = ({ selectedItems }) => {
                                                 onClickDay={handleDateClick}
                                             />
                                         </div>
+                                        <Modal
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+                                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                    Chọn thời gian
+                                                </Typography>
+                                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                    <input type='time' value={time} onChange={handleTimeChange} />
+                                                    <button onClick={handleSave}>Save</button>
+                                                </Typography>
+                                            </Box>
+                                        </Modal>
                                     </div>
                                 </div>
                             </div>
