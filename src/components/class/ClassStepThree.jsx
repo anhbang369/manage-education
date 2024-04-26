@@ -9,11 +9,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { getUserByRole } from '../../services/UserService';
+import { getUserByRole, getUserByRoleStudent } from '../../services/UserService';
 import { getFsu } from '../../services/FsuService';
 import { getAttendLevel } from '../../services/AttendLevel';
 import { getTrainingProgramById } from "../../services/TrainingProgramService";
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
@@ -29,18 +28,51 @@ const style = {
     p: 4,
 };
 
-const ClassStepThree = ({ selectedItems }) => {
+const ClassStepThree = ({ programTwo, selectedItems }) => {
+    // console.log('prgram two: ' + JSON.stringify(programTwo))
+    // console.log('classDto two: ' + JSON.stringify(classDto))
+    // console.log('selectedItems two: ' + JSON.stringify(selectedItems))
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const [admin, setAdmin] = useState(null);
+    const [trainee, setTrainee] = useState(null);
     const [fsu, setFsu] = useState(null);
     const [attend, setAttend] = useState(null);
     const [syllabus, setSyllabus] = useState(null);
     const [selectedAdmins, setSelectedAdmins] = useState([]);
+    const [selectedTrainees, setSelectedTrainees] = useState([]);
     const [selectedDates, setSelectedDates] = useState([]);
     const [time, setTime] = useState('');
+    const [formData, setFormData] = useState({
+        // name: programTwo[0].name || '',
+        // courseCode: programTwo[0].courseCode || '',
+        startTime: '',
+        endTime: '',
+        startDate: '',
+        endDate: '',
+        duration: 0,
+        reviewedBy: '',
+        reviewedDate: '',
+        approvedBy: '',
+        approvedDate: '',
+        universityCode: '',
+        plannedAttendee: '',
+        acceptedAttendee: '',
+        actualAttendee: '',
+        classLocation: null,
+        attendeeLevel: null,
+        formatType: null,
+        classStatus: null,
+        technicalGroup: null,
+        programContent: null,
+        account_admins: null,
+        account_trainers: null,
+        account_trainee: null,
+        classCalendars: null,
+        fsu: null,
+    });
 
     const isDateSelected = (date) => {
         return selectedDates.some(selectedDate => {
@@ -52,48 +84,11 @@ const ClassStepThree = ({ selectedItems }) => {
         });
     };
 
-
-
     const tileClassName = ({ date }) => {
         if (isDateSelected(date)) {
             return 'text-primary bg-core fw-bolder fs-16 rounded text-white selected-date';
         }
     };
-
-
-    // const handleDateClick = (date) => {
-    //     if (!isDateSelected(date)) {
-    //         if (selectedDates.length < selectedItems[0].days) {
-    //             setSelectedDates([...selectedDates, date]);
-    //             handleOpen();
-    //         }
-    //     } else {
-    //         if (selectedDates.length <= selectedItems[0].days) {
-    //             setSelectedDates(selectedDates.filter(selectedDate => selectedDate.getTime() !== date.getTime()));
-    //             handleOpen();
-    //         }
-    //     }
-    // };
-
-    // const handleTimeChange = (event) => {
-    //     setTime(event.target.value);
-    // };
-
-    // const isDateSelected = (date) => {
-    //     return selectedDates.some(selectedDate => {
-    //         return (
-    //             selectedDate.getDate() === date.getDate() &&
-    //             selectedDate.getMonth() === date.getMonth() &&
-    //             selectedDate.getFullYear() === date.getFullYear()
-    //         );
-    //     });
-    // };
-
-    // const tileClassName = ({ date }) => {
-    //     if (isDateSelected(date)) {
-    //         return 'text-primary bg-core fw-bolder fs-16 rounded text-white selected-date';
-    //     }
-    // };
 
     const handleDateClick = (date) => {
         if (!isDateSelected(date)) {
@@ -105,7 +100,6 @@ const ClassStepThree = ({ selectedItems }) => {
             setSelectedDates(selectedDates.filter(selectedDate => selectedDate.getTime() !== date.getTime()));
         }
     };
-
 
     const handleSave = () => {
         if (time && selectedDates.length > 0) {
@@ -121,43 +115,37 @@ const ClassStepThree = ({ selectedItems }) => {
         }
     };
 
-
     const handleTimeChange = (event) => {
         setTime(event.target.value);
     };
 
-    // const [selectedDate, setSelectedDate] = useState(null);
 
-    // const handleDateClick = (date) => {
-    //     setSelectedDate(date); // Lưu ngày được chọn vào biến trạng thái
-    //     handleOpen(); // Mở Modal
-    // };
+    // console.log('ngay: ' + selectedItems[0].days)
 
-    // const handleSave = () => {
-    //     if (selectedDate) {
-    //         setSelectedDates([...selectedDates, selectedDate]); // Thêm ngày vào danh sách
-    //         setSelectedDate(null); // Đặt lại selectedDate về null sau khi lưu
-    //         handleClose(); // Đóng Modal
-    //     }
-    // };
-
-
-    console.log('ngay: ' + selectedItems[0].days)
-
-    const [dateState, setDateState] = useState(new Date())
-    const changeDate = (e) => {
-        setDateState(e)
-    }
-    console.log('check: ' + JSON.stringify(selectedItems))
-
-    // console.log('selectedDate: ' + JSON.stringify(selectedDate))
-    // console.log('dateState: ' + JSON.stringify(dateState))
+    // const [dateState, setDateState] = useState(new Date())
+    // const changeDate = (e) => {
+    //     setDateState(e)
+    // }
+    // console.log('check: ' + JSON.stringify(selectedItems))
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getUserByRole();
                 setAdmin(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserByRoleStudent();
+                setTrainee(data);
             } catch (error) {
                 console.log(error);
             }
@@ -216,6 +204,14 @@ const ClassStepThree = ({ selectedItems }) => {
         }
     };
 
+    const handleTraineeSelect = (e) => {
+        const selectedTraineeId = e.target.value;
+        const selectedTrainee = trainee.find(ad => ad.id === selectedTraineeId);
+        if (selectedTrainee) {
+            setSelectedTrainees(prevTrainees => [...prevTrainees, selectedTrainee]);
+        }
+    };
+
     //show
     const [selected, setSelected] = useState(null)
     const toggle = (i) => {
@@ -226,6 +222,15 @@ const ClassStepThree = ({ selectedItems }) => {
         setSelected(i)
     }
 
+    const [selectedS, setSelectedS] = useState(null)
+    const toggleS = (i) => {
+        if (selectedS === i) {
+            return setSelectedS(null)
+        }
+
+        setSelectedS(i)
+    }
+
     const [selected1, setSelected1] = useState(null)
     const toggle1 = (i) => {
         if (selected1 === i) {
@@ -234,6 +239,64 @@ const ClassStepThree = ({ selectedItems }) => {
 
         setSelected1(i)
     }
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        // Nếu trường name là attendeeLevel, bạn cần cập nhật formData sao cho attendeeLevel có cấu trúc "id": "value"
+        if (name === "attendeeLevel") {
+            setFormData({
+                ...formData,
+                [name]: { id: value }
+            });
+        } else if (name === "fsu") {
+            setFormData({
+                ...formData,
+                [name]: { id: value }
+            });
+        } else {
+            // Nếu trường name không phải là attendeeLevel, cập nhật thông tin bình thường
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
+    };
+
+
+    // const handleUpdateProgramTwo = () => {
+    //     const updatedInfo = {
+    //         name: programTwo.name,
+    //         courseCode: programTwo.courseCode,
+    //         startTime: '',
+    //         endTime: '',
+    //         startDate: '',
+    //         endDate: '',
+    //         duration: 0,
+    //         reviewedBy: '',
+    //         reviewedDate: '',
+    //         approvedBy: '',
+    //         approvedDate: '',
+    //         universityCode: '',
+    //         plannedAttendee: '',
+    //         acceptedAttendee: '',
+    //         actualAttendee: '',
+    //         classLocation: null,
+    //         attendeeLevel: null,
+    //         formatType: null,
+    //         classStatus: null,
+    //         technicalGroup: null,
+    //         programContent: null,
+    //         account_admins: null,
+    //         account_trainers: null,
+    //         account_trainee: null,
+    //         classCalendars: null,
+    //         fsu: null,
+    //     };
+    //     handleUpdateProgramTwo(updatedInfo);
+    // };
+
+
+
 
     return (
         <>
@@ -286,7 +349,7 @@ const ClassStepThree = ({ selectedItems }) => {
                                     <div className={selected === 1 ? 'general__contain-first show' : 'general__contain-first'}>
                                         <div className='row first__class-general'>
                                             <div className='col-md-5'><b><i class="bi bi-alarm"></i> Class time</b></div>
-                                            <div className='col-md-7 class-general-input-time'>from <input type='time' /> to <input type='time' /></div>
+                                            <div className='col-md-7 class-general-input-time'>from <input type='time' name='startTime' value={formData.startTime} onChange={handleInputChange} /> to <input type='time' name='endTime' value={formData.endTime} onChange={handleInputChange} /></div>
                                         </div>
                                         <div className='row first__class-general gray'>
                                             <div className='col-md-5'><b><i class="bi bi-house-door"></i> Location</b></div>
@@ -317,7 +380,7 @@ const ClassStepThree = ({ selectedItems }) => {
                                             <div className='col-md-5'><b><i class="bi bi-recycle"></i> FSU</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    <Form.Select className='select__class-three-general margin' aria-placeholder='exam'>
+                                                    <Form.Select className='select__class-three-general margin' aria-placeholder='exam' name="fsu" value={formData.fsu} onChange={handleInputChange}>
                                                         {fsu && fsu.map((ad, index) => (
                                                             <option key={index} value={ad.id}>{ad.name}</option>
                                                         ))}
@@ -340,16 +403,38 @@ const ClassStepThree = ({ selectedItems }) => {
                                         </div>
                                         <div className='row first__class-general gray'>
                                             <div className='col-md-5'><b>Review</b></div>
-                                            <div className='col-md-7'></div>
+                                            <div className='col-md-7 row'>
+                                                <div className='col-md-12'>
+                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.fullName}</a></div>
+                                                    ))}
+                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' onChange={handleAdminSelect}>
+                                                        {admin && admin.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className='row first__class-general gray'>
                                             <div className='col-md-5'><b>Approve</b></div>
-                                            <div className='col-md-7'></div>
+                                            <div className='col-md-7 row'>
+                                                <div className='col-md-12'>
+                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.fullName}</a></div>
+                                                    ))}
+                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' onChange={handleAdminSelect}>
+                                                        {admin && admin.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <h6 className='pointer text-white bg-general p-1 rounded d-flex fs-14 mt-3 mb-0' onClick={() => toggle1(1)}><i class="bi bi-star"></i> Attendee
-                                        <Form.Select className='select__class-three h-20p' aria-placeholder='exam'>
+                                        <Form.Select className='select__class-three h-20p' aria-placeholder='exam' name="attendeeLevel" value={formData.attendeeLevel} onChange={handleInputChange}>
                                             {attend && attend.map((ad, index) => (
                                                 <option key={index} value={ad.id}>{ad.name}</option>
                                             ))}
@@ -358,75 +443,111 @@ const ClassStepThree = ({ selectedItems }) => {
                                     <div className={selected1 === 1 ? 'row attendee__component show' : 'row attendee__component'}>
                                         <div className='col-md-4 bg-core text-white'>
                                             <div className='col-md-12'>Planned</div>
-                                            <div className='col-md-12'><input className='attendee__input' /></div>
+                                            <div className='col-md-12'><input className='attendee__input' name='plannedAttendee' value={formData.plannedAttendee} onChange={handleInputChange} /></div>
                                         </div>
                                         <div className='col-md-4 bg-atten'>
                                             <div className='col-md-12 text-white'>Accepted</div>
-                                            <div className='col-md-12'><input className='attendee__input' /></div>
+                                            <div className='col-md-12'><input className='attendee__input' name='acceptedAttendee' value={formData.acceptedAttendee} onChange={handleInputChange} /></div>
                                         </div>
                                         <div className='col-md-4 bg-chapter'>
                                             <div className='col-md-12'>Actual</div>
-                                            <div className='col-md-12'><input className='attendee__input' /></div>
+                                            <div className='col-md-12'><input className='attendee__input' name='actualAttendee' value={formData.actualAttendee} onChange={handleInputChange} /></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className='col-md-1'>
                                 </div>
                                 <div className='col-md-7 '>
-                                    <div className='text-white bg-general p-1 rounded d-flex'>
-                                        <p className='container__first-text fs-14'><i class="bi bi-calendar"></i> Time frame</p>
-                                        <div className="row">
-                                            <p className='col-md-2'>Start date</p>
-                                            <p className='container__first-text time col-md-4'><input type='datetime-local' /></p>
-                                            <p className='col-md-2'>End date</p>
-                                            <p className='container__first-text time col-md-4'><input type='datetime-local' /></p>
+                                    <div className="">
+                                        <div className='text-white bg-general p-1 rounded d-flex'>
+                                            <p className='container__first-text fs-14'><i class="bi bi-calendar"></i> Time frame</p>
+                                            <div className="row">
+                                                <p className='col-md-2'>Start date</p>
+                                                <p className='container__first-text time col-md-4'><input type='datetime-local' name='startDate' value={formData.startDate} onChange={handleInputChange} /></p>
+                                                <p className='col-md-2'>End date</p>
+                                                <p className='container__first-text time col-md-4'><input type='datetime-local' name='endDate' value={formData.endDate} onChange={handleInputChange} /></p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className='row'>
-                                        <div className='col-md-6'>
-                                            <Calendar
-                                                tileClassName={tileClassName}
-                                                value={new Date()}
-                                                onClickDay={handleDateClick}
-                                            />
+                                        <div className='row'>
+                                            <div className='col-md-6'>
+                                                <Calendar
+                                                    tileClassName={tileClassName}
+                                                    value={new Date()}
+                                                    onClickDay={handleDateClick}
+                                                />
 
-                                            <div>
+                                                {/* <div>
                                                 <h2>Ngày đã chọn:</h2>
                                                 <ul>
-                                                    {selectedDates.map((selectedDate, index) => (
+                                                    {selectedDates && selectedDates.map((selectedDate, index) => (
                                                         <li key={index}>{selectedDate.toLocaleString()}</li>
                                                     ))}
                                                 </ul>
+                                            </div> */}
+
+                                            </div>
+                                            <div className='col-md-6'>
+                                                <Calendar
+                                                    tileClassName={tileClassName}
+                                                    value={new Date()}
+                                                    onClickDay={handleDateClick}
+                                                />
+                                            </div>
+                                            <Modal
+                                                open={open}
+                                                onClose={handleClose}
+                                                aria-labelledby="modal-modal-title"
+                                                aria-describedby="modal-modal-description"
+                                            >
+                                                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+                                                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                        Chọn thời gian
+                                                    </Typography>
+                                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                        <input type='time' value={time} onChange={handleTimeChange} />
+                                                        <button onClick={handleSave}>Save</button>
+                                                    </Typography>
+                                                </Box>
+                                            </Modal>
+                                        </div>
+                                        <div className="w-100">
+                                            <h6 className='text-white bg-general p-1 rounded fs-14 pointer' onClick={() => toggleS(1)}><i class="bi bi-calendar"></i> General</h6>
+                                            <div className={selectedS === 1 ? 'general__contain-first show' : 'general__contain-first'}>
+                                                <div className='fs-14 d-flex w-100'>
+                                                    <div className='ms-2'> <i class="bi bi-person"></i><b>   Student: </b></div>
+                                                    <div className='ms-2'>
+                                                        <Form.Select className='select__class-three-general fixed-width h-30' aria-placeholder='exam' onChange={handleTraineeSelect}>
+                                                            {trainee && trainee.map((train, idxTrainees) => (
+                                                                <option key={idxTrainees} value={train.id}>{train.fullName}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                        {selectedTrainees && selectedTrainees.map((trainees, idxTrainees) => (
+                                                            <Box sx={{ flexGrow: 1 }}>
+                                                                <Grid container spacing={7}>
+                                                                    <Grid item xs={4}>
+                                                                        <a href='#' key={idxTrainees}>Lê Huệ Lâm <i class="bi bi-x text-primary"></i></a>
+                                                                    </Grid>
+                                                                    <Grid item xs={4}>
+                                                                        <a href='#' key={idxTrainees}>Lê Huệ Lâm <i class="bi bi-x text-primary"></i></a>
+                                                                    </Grid>
+                                                                    <Grid item xs={4}>
+                                                                        <a href='#' key={idxTrainees}>Lê Huệ Lâm <i class="bi bi-x text-primary"></i></a>
+                                                                    </Grid>
+
+                                                                </Grid>
+                                                            </Box>
+                                                        ))}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className='col-md-6'>
-                                            <Calendar
-                                                tileClassName={tileClassName}
-                                                value={new Date()}
-                                                onClickDay={handleDateClick}
-                                            />
-                                        </div>
-                                        <Modal
-                                            open={open}
-                                            onClose={handleClose}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                        >
-                                            <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-                                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                                    Chọn thời gian
-                                                </Typography>
-                                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                    <input type='time' value={time} onChange={handleTimeChange} />
-                                                    <button onClick={handleSave}>Save</button>
-                                                </Typography>
-                                            </Box>
-                                        </Modal>
+
+
                                     </div>
                                 </div>
                             </div>
                             <h6 className='bg-core rounded-top w-15 text-white p-1 ms-2 text-center mb-0'>Training program</h6>
-                            {selectedItems.map((program, idxProgram) => (
+                            {selectedItems && selectedItems.map((program, idxProgram) => (
                                 <div className='bg-core text-white border border-white p-2 rounded-top-end ms-2' key={idxProgram}>
                                     <h5>{program.name} <button><i class="bi bi-pencil p-1 text-white border-0 rounded bg-chapter"></i></button></h5>
                                     <div className='d-flex'>
