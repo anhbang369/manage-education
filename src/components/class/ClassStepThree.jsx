@@ -69,7 +69,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         programContent: null,
         account_admins: null,
         account_trainers: null,
-        account_trainee: null,
+        account_trainee: [],
         classCalendars: null,
         fsu: null,
     });
@@ -209,7 +209,13 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         const selectedTrainee = trainee.find(ad => ad.id === selectedTraineeId);
         if (selectedTrainee) {
             setSelectedTrainees(prevTrainees => [...prevTrainees, selectedTrainee]);
+            updateFormData([...selectedTrainees, selectedTrainee]);
         }
+    };
+
+    const updateFormData = (trainees) => {
+        const traineeIds = trainees.map(trainee => ({ id: trainee.id }));
+        setFormData({ ...formData, account_trainee: traineeIds });
     };
 
     //show
@@ -242,25 +248,28 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        // Nếu trường name là attendeeLevel, bạn cần cập nhật formData sao cho attendeeLevel có cấu trúc "id": "value"
-        if (name === "attendeeLevel") {
+
+        if (name === "attendeeLevel" || name === "fsu") {
             setFormData({
                 ...formData,
                 [name]: { id: value }
             });
-        } else if (name === "fsu") {
+        } else if (name === "account_trainee") {
+            const updatedAccountTrainee = value.map(id => ({ id }));
             setFormData({
                 ...formData,
-                [name]: { id: value }
+                [name]: updatedAccountTrainee
             });
         } else {
-            // Nếu trường name không phải là attendeeLevel, cập nhật thông tin bình thường
             setFormData({
                 ...formData,
                 [name]: value
             });
         }
     };
+
+    console.log("lay dada: " + JSON.stringify(formData))
+
 
 
     // const handleUpdateProgramTwo = () => {
@@ -294,6 +303,11 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     //     };
     //     handleUpdateProgramTwo(updatedInfo);
     // };
+    const handleRemoveTrainee = (idx) => {
+        const updatedTrainees = selectedTrainees.filter((_, index) => index !== idx);
+        setSelectedTrainees(updatedTrainees);
+        updateFormData(updatedTrainees);
+    };
 
 
 
@@ -516,27 +530,24 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                 <div className='fs-14 d-flex w-100'>
                                                     <div className='ms-2'> <i class="bi bi-person"></i><b>   Student: </b></div>
                                                     <div className='ms-2'>
-                                                        <Form.Select className='select__class-three-general fixed-width h-30' aria-placeholder='exam' onChange={handleTraineeSelect}>
+                                                        <Form.Select className='select__class-three-general fixed-width h-30 mb-2' aria-placeholder='exam' onChange={handleTraineeSelect}>
                                                             {trainee && trainee.map((train, idxTrainees) => (
                                                                 <option key={idxTrainees} value={train.id}>{train.fullName}</option>
                                                             ))}
                                                         </Form.Select>
-                                                        {selectedTrainees && selectedTrainees.map((trainees, idxTrainees) => (
+                                                        {selectedTrainees && (
                                                             <Box sx={{ flexGrow: 1 }}>
-                                                                <Grid container spacing={7}>
-                                                                    <Grid item xs={4}>
-                                                                        <a href='#' key={idxTrainees}>Lê Huệ Lâm <i class="bi bi-x text-primary"></i></a>
-                                                                    </Grid>
-                                                                    <Grid item xs={4}>
-                                                                        <a href='#' key={idxTrainees}>Lê Huệ Lâm <i class="bi bi-x text-primary"></i></a>
-                                                                    </Grid>
-                                                                    <Grid item xs={4}>
-                                                                        <a href='#' key={idxTrainees}>Lê Huệ Lâm <i class="bi bi-x text-primary"></i></a>
-                                                                    </Grid>
+                                                                <Grid container spacing={2}>
+                                                                    {selectedTrainees.map((trainees, idxTrainees) => (
+                                                                        <Grid item xs={4}>
+                                                                            <a href='#' key={idxTrainees}>{trainees.fullName} <i class="bi bi-x text-primary" onClick={() => handleRemoveTrainee(idxTrainees)}></i></a>
+                                                                        </Grid>
+                                                                    ))}
+
 
                                                                 </Grid>
                                                             </Box>
-                                                        ))}
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
