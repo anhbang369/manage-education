@@ -223,3 +223,7 @@ body{
 .hover:hover{
   background-color: #f1f1f1;
 }
+
+.selected-date {
+  background-color: #2d3748 !important;
+}
