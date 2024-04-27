@@ -48,6 +48,8 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [selectedFsu, setSelectedFsu] = useState([]);
     const [selectedDates, setSelectedDates] = useState([]);
     const [time, setTime] = useState('');
+    const [endTime, setEndTime] = useState('');
+    const [classCalendars, setClassCalendars] = useState([]);
     const [formData, setFormData] = useState({
         name: programTwo.name || '',
         courseCode: programTwo.courseCode || '',
@@ -115,11 +117,24 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
 
             setSelectedDates(updatedDates); // Update state with the modified date
             handleClose();
+
+            const newEvent = {
+                day_no: classCalendars.length + 1,
+                dateTime: selectedDateTime.toISOString(),
+                beginTime: time,
+                endTime: endTime
+            };
+            setClassCalendars(prev => [...prev, newEvent]);
         }
+
     };
 
     const handleTimeChange = (event) => {
         setTime(event.target.value);
+    };
+
+    const handleEndTimeChange = (event) => {
+        setEndTime(event.target.value);
     };
 
 
@@ -608,14 +623,23 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                     onClickDay={handleDateClick}
                                                 />
 
-                                                {/* <div>
-                                                <h2>Ngày đã chọn:</h2>
-                                                <ul>
-                                                    {selectedDates && selectedDates.map((selectedDate, index) => (
-                                                        <li key={index}>{selectedDate.toLocaleString()}</li>
-                                                    ))}
-                                                </ul>
-                                            </div> */}
+                                                <div>
+                                                    <h2>Ngày đã chọn:</h2>
+                                                    {/* <ul>
+                                                        {selectedDates && selectedDates.map((selectedDate, index) => (
+                                                            <li key={index}>{selectedDate.toLocaleString()}</li>
+                                                        ))}
+                                                    </ul> */}
+                                                    <ul>
+                                                        {classCalendars.map(event => (
+                                                            <li key={event.day_no}>
+                                                                <div>Date: {event.dateTime}</div>
+                                                                <div>Begin Time: {event.beginTime}</div>
+                                                                <div>End Time: {event.endTime}</div>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
 
                                             </div>
                                             <div className='col-md-6'>
@@ -637,6 +661,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                     </Typography>
                                                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                                         <input type='time' value={time} onChange={handleTimeChange} />
+                                                        <input type='time' value={endTime} onChange={handleEndTimeChange} />
                                                         <button onClick={handleSave}>Save</button>
                                                     </Typography>
                                                 </Box>
