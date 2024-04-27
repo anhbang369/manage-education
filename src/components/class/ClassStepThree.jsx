@@ -29,9 +29,9 @@ const style = {
 };
 
 const ClassStepThree = ({ programTwo, selectedItems }) => {
-    // console.log('prgram two: ' + JSON.stringify(programTwo))
+    console.log('prgram two: ' + JSON.stringify(programTwo))
     // console.log('classDto two: ' + JSON.stringify(classDto))
-    // console.log('selectedItems two: ' + JSON.stringify(selectedItems))
+    console.log('selectedItems two: ' + JSON.stringify(selectedItems))
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -49,17 +49,17 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [selectedDates, setSelectedDates] = useState([]);
     const [time, setTime] = useState('');
     const [formData, setFormData] = useState({
-        // name: programTwo[0].name || '',
-        // courseCode: programTwo[0].courseCode || '',
+        name: programTwo.name || '',
+        courseCode: programTwo.courseCode || '',
         startTime: '',
         endTime: '',
         startDate: '',
         endDate: '',
         duration: 0,
         reviewedBy: '',
-        reviewedDate: '',
+        reviewedDate: new Date().toISOString(),
         approvedBy: '',
-        approvedDate: '',
+        approvedDate: new Date().toISOString(),
         universityCode: '',
         plannedAttendee: '',
         acceptedAttendee: '',
