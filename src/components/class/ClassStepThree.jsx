@@ -13,6 +13,10 @@ import { getUserByRole, getUserByRoleStudent } from '../../services/UserService'
 import { getFsu } from '../../services/FsuService';
 import { getAttendLevel } from '../../services/AttendLevel';
 import { getTrainingProgramById } from "../../services/TrainingProgramService";
+import { getTechnicalGroups } from "../../services/TechnicalGroupService";
+import { getFormatTypes } from "../../services/FormatTypeService";
+import { getProgramContents } from "../../services/ProgramContentService";
+import { getClassStatus } from "../../services/ClassStatusService";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
@@ -40,6 +44,10 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [trainee, setTrainee] = useState(null);
     const [fsu, setFsu] = useState(null);
     const [attend, setAttend] = useState(null);
+    const [technical, setTechnical] = useState(null);
+    const [format, setFormat] = useState(null);
+    const [content, setContent] = useState(null);
+    const [status, setStatus] = useState(null);
     const [syllabus, setSyllabus] = useState(null);
     const [selectedAdmins, setSelectedAdmins] = useState([]);
     const [selectedTrainees, setSelectedTrainees] = useState([]);
@@ -209,6 +217,58 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                     const data = await getTrainingProgramById(selectedItems[0].id);
                     setSyllabus(data);
                 }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getTechnicalGroups();
+                setTechnical(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getFormatTypes();
+                setFormat(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getProgramContents();
+                setContent(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getClassStatus();
+                setStatus(data);
             } catch (error) {
                 console.log(error);
             }
@@ -591,8 +651,8 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                         <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
                                                     ))}
                                                     <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {admin && admin.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        {technical && technical.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
                                                         ))}
                                                     </Form.Select>
                                                 </div>
@@ -607,8 +667,8 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                         <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
                                                     ))}
                                                     <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {admin && admin.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        {content && content.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
                                                         ))}
                                                     </Form.Select>
                                                 </div>
@@ -623,8 +683,8 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                         <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
                                                     ))}
                                                     <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {admin && admin.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        {format && format.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
                                                         ))}
                                                     </Form.Select>
                                                 </div>
@@ -639,8 +699,8 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                         <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
                                                     ))}
                                                     <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {admin && admin.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        {status && status.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
                                                         ))}
                                                     </Form.Select>
                                                 </div>
