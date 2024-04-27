@@ -45,6 +45,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [selectedTrainees, setSelectedTrainees] = useState([]);
     const [selectedApprove, setSelectedApprove] = useState([]);
     const [selectedReview, setSelectedReview] = useState([]);
+    const [selectedFsu, setSelectedFsu] = useState([]);
     const [selectedDates, setSelectedDates] = useState([]);
     const [time, setTime] = useState('');
     const [formData, setFormData] = useState({
@@ -69,7 +70,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         classStatus: null,
         technicalGroup: null,
         programContent: null,
-        account_admins: null,
+        account_admins: [],
         account_trainers: null,
         account_trainee: [],
         classCalendars: null,
@@ -203,8 +204,26 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         const selectedAdmin = admin.find(ad => ad.id === selectedAdminId);
         if (selectedAdmin) {
             setSelectedAdmins(prevAdmins => [...prevAdmins, selectedAdmin]);
+            updateFormDataA(selectedAdmin.id);
         }
     };
+
+    const updateFormDataA = (adminId) => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            account_admins: [...prevFormData.account_admins, { id: adminId }]
+        }));
+    };
+
+    const handleRemoveAdmin = (adminId) => {
+        const updatedAdmins = selectedAdmins.filter(admin => admin.id !== adminId);
+        setSelectedAdmins(updatedAdmins);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            account_admins: prevFormData.account_admins.filter(admin => admin.id !== adminId)
+        }));
+    };
+
 
     const handleTraineeSelect = (e) => {
         const selectedTraineeId = e.target.value;
@@ -272,8 +291,23 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         }
     };
 
+    const handleFsuSelect = (e) => {
+        const selectedFsuId = e.target.value;
+        const selectedFsu = fsu.find(ad => ad.id === selectedFsuId);
+        if (selectedFsu) {
+            handleInputChange(e)
+            setSelectedFsu([selectedFsu]);
+        }
+    };
 
-    console.log('apr: ' + JSON.stringify(selectedApprove));
+    const handleDeleteFsu = (fsuId) => {
+        const updatedFsus = selectedFsu.filter(fsu => fsu.id !== fsuId);
+        setSelectedFsu(updatedFsus);
+
+        if (updatedFsus.length === 0) {
+            setFormData({ ...formData, reviewedBy: null });
+        }
+    };
 
 
     //show
@@ -318,6 +352,8 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                 ...formData,
                 [name]: updatedAccountTrainee
             });
+        } else if (name === "account_admins") {
+            handleAdminSelect()
         } else {
             setFormData({
                 ...formData,
@@ -327,6 +363,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     };
 
     console.log("lay dada: " + JSON.stringify(formData))
+    console.log("lay fsu: " + JSON.stringify(fsu))
 
 
 
@@ -438,9 +475,9 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
                                                     {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
-                                                        <div><a href='#' key={idxAds}>{ads.fullName}</a></div>
+                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
                                                     ))}
-                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' onChange={handleAdminSelect}>
+                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
                                                         {admin && admin.map((ad, idxAd) => (
                                                             <option key={idxAd} value={ad.id}>{ad.fullName}</option>
                                                         ))}
@@ -452,23 +489,35 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b><i class="bi bi-recycle"></i> FSU</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    <Form.Select className='select__class-three-general margin' aria-placeholder='exam' name="fsu" value={formData.fsu} onChange={handleInputChange}>
-                                                        {fsu && fsu.map((ad, index) => (
-                                                            <option key={index} value={ad.id}>{ad.name}</option>
-                                                        ))}
-                                                    </Form.Select>
-                                                </div>
-                                                <div className='col-md-12'>
-                                                    <Form.Select className='select__class-three-general' aria-placeholder='exam'>
-                                                        <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </Form.Select>
+                                                    {selectedFsu && selectedFsu.map((fsu, idxFsus) => (
+                                                        <div key={idxFsus}>
+                                                            <div className="">
+                                                                <a href='#'>{fsu.name}</a>
+                                                                <i className="bi bi-x" onClick={() => handleDeleteFsu(fsu.id)}></i>
+                                                            </div>
+                                                            <div className="">
+                                                                {fsu.contactPoints && fsu.contactPoints.length > 0 ? (
+                                                                    fsu.contactPoints.map((contactPoint, index) => (
+                                                                        <a href="#" key={index}>{contactPoint.content}</a>
+                                                                    ))
+                                                                ) : (
+                                                                    <span>No contact points available</span>
+                                                                )}
+                                                            </div>
+
+                                                        </div>
+                                                    ))}
+                                                    {selectedFsu && selectedFsu.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='fsu' onChange={handleFsuSelect}>
+                                                            {fsu && fsu.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.name}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className='general__under'></div>
+                                        <div className='border-bottom border-black'></div>
                                         <div className='row first__class-general gray'>
                                             <div className='col-md-5'><b>Created</b></div>
                                             <div className='col-md-7'></div>
