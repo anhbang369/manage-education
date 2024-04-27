@@ -43,6 +43,8 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [syllabus, setSyllabus] = useState(null);
     const [selectedAdmins, setSelectedAdmins] = useState([]);
     const [selectedTrainees, setSelectedTrainees] = useState([]);
+    const [selectedApprove, setSelectedApprove] = useState([]);
+    const [selectedReview, setSelectedReview] = useState([]);
     const [selectedDates, setSelectedDates] = useState([]);
     const [time, setTime] = useState('');
     const [formData, setFormData] = useState({
@@ -214,9 +216,65 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     };
 
     const updateFormData = (trainees) => {
-        const traineeIds = trainees.map(trainee => ({ id: trainee.id }));
-        setFormData({ ...formData, account_trainee: traineeIds });
+        if (Array.isArray(trainees)) {
+            const traineeIds = trainees.map(trainee => ({ id: trainee.id }));
+            setFormData({ ...formData, account_trainee: traineeIds });
+        } else {
+            setFormData({ ...formData });
+        }
     };
+
+
+
+
+    const handleApproveSelect = (e) => {
+        const selectedApproveId = e.target.value;
+        const selectedApprove = admin.find(ad => ad.id === selectedApproveId);
+        if (selectedApprove) {
+            updateFormDataApprove(selectedApprove);
+            setSelectedApprove([selectedApprove]);
+        }
+    };
+
+    const updateFormDataApprove = (selectedApprove) => {
+        setFormData({ ...formData, approvedBy: selectedApprove.id });
+    };
+
+    const handleRemoveApprove = (approveId) => {
+        const updatedApproves = selectedApprove.filter(approve => approve.id !== approveId);
+        setSelectedApprove(updatedApproves);
+
+        if (updatedApproves.length === 0) {
+            setFormData({ ...formData, approvedBy: null });
+        }
+    };
+
+
+    const handleReviewSelect = (e) => {
+        const selectedReviewId = e.target.value;
+        const selectedReview = admin.find(ad => ad.id === selectedReviewId);
+        if (selectedReview) {
+            updateFormDataReview(selectedReview);
+            setSelectedReview([selectedReview]);
+        }
+    };
+
+    const updateFormDataReview = (selectedReview) => {
+        setFormData({ ...formData, reviewedBy: selectedReview.id });
+    };
+
+    const handleReviewReview = (reviewId) => {
+        const updatedReviews = selectedReview.filter(review => review.id !== reviewId);
+        setSelectedReview(updatedReviews);
+
+        if (updatedReviews.length === 0) {
+            setFormData({ ...formData, reviewedBy: null });
+        }
+    };
+
+
+    console.log('apr: ' + JSON.stringify(selectedApprove));
+
 
     //show
     const [selected, setSelected] = useState(null)
@@ -419,14 +477,20 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b>Review</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
-                                                        <div><a href='#' key={idxAds}>{ads.fullName}</a></div>
+                                                    {selectedReview && selectedReview.map((review, idxReviews) => (
+                                                        <div key={idxReviews}>
+                                                            <a href='#'>{review.fullName}</a>
+                                                            <i className="bi bi-x" onClick={() => handleReviewReview(review.id)}></i>
+                                                        </div>
                                                     ))}
-                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' onChange={handleAdminSelect}>
-                                                        {admin && admin.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                    {selectedReview && selectedReview.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' onChange={handleReviewSelect}>
+                                                            {admin && admin.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.fullName}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -434,14 +498,19 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b>Approve</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
-                                                        <div><a href='#' key={idxAds}>{ads.fullName}</a></div>
+                                                    {selectedApprove && selectedApprove.map((approve, idxApproves) => (
+                                                        <div key={idxApproves}>
+                                                            <a href='#'>{approve.fullName}</a>
+                                                            <i className="bi bi-x" onClick={() => handleRemoveApprove(approve.id)}></i>
+                                                        </div>
                                                     ))}
-                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' onChange={handleAdminSelect}>
-                                                        {admin && admin.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                    {selectedApprove && selectedApprove.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' onChange={handleApproveSelect}>
+                                                            {admin && admin.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.fullName}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
