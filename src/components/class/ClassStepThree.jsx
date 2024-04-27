@@ -125,6 +125,10 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                 endTime: endTime
             };
             setClassCalendars(prev => [...prev, newEvent]);
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                classCalendars: prevFormData.classCalendars ? [...prevFormData.classCalendars, newEvent] : [newEvent]
+            }));
         }
 
     };
@@ -138,7 +142,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     };
 
 
-    // console.log('ngay: ' + selectedItems[0].days)
+    console.log('lay ngay: ' + JSON.stringify(classCalendars))
 
     // const [dateState, setDateState] = useState(new Date())
     // const changeDate = (e) => {
@@ -433,7 +437,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                 <h6>Class</h6>
                                 <div className='row'>
                                     <div className='col-md-11 row'>
-                                        <div className='col-md-4'><h4>Fresher Develop Operation</h4></div>
+                                        <div className='col-md-4'><h4>{programTwo.name}</h4></div>
                                         <div className='col-md-8'><p className='bg-chapter border border-white w-10 rounded text-center'>Plaining</p></div>
                                     </div>
                                     <div className='col-md-1'>
@@ -575,6 +579,70 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                             ))}
                                                         </Form.Select>
                                                     )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='border-bottom border-black'></div>
+                                        <div className='row first__class-general'>
+                                            <div className='col-md-5'><b><i class="bi bi-star"></i> Tech group</b></div>
+                                            <div className='col-md-7 row'>
+                                                <div className='col-md-12'>
+                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    ))}
+                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
+                                                        {admin && admin.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='row first__class-general'>
+                                            <div className='col-md-5'><b><i class="bi bi-star"></i> Program</b></div>
+                                            <div className='col-md-7 row'>
+                                                <div className='col-md-12'>
+                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    ))}
+                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
+                                                        {admin && admin.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='row first__class-general'>
+                                            <div className='col-md-5'><b><i class="bi bi-star"></i> Format</b></div>
+                                            <div className='col-md-7 row'>
+                                                <div className='col-md-12'>
+                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    ))}
+                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
+                                                        {admin && admin.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className='row first__class-general'>
+                                            <div className='col-md-5'><b><i class="bi bi-star"></i> Status</b></div>
+                                            <div className='col-md-7 row'>
+                                                <div className='col-md-12'>
+                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    ))}
+                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
+                                                        {admin && admin.map((ad, idxAd) => (
+                                                            <option key={idxAd} value={ad.id}>{ad.fullName}</option>
+                                                        ))}
+                                                    </Form.Select>
                                                 </div>
                                             </div>
                                         </div>
