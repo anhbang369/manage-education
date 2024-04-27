@@ -53,6 +53,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [selectedTrainees, setSelectedTrainees] = useState([]);
     const [selectedApprove, setSelectedApprove] = useState([]);
     const [selectedReview, setSelectedReview] = useState([]);
+    const [selectedTeachnical, setSelectedTeachnical] = useState([]);
     const [selectedFsu, setSelectedFsu] = useState([]);
     const [selectedDates, setSelectedDates] = useState([]);
     const [time, setTime] = useState('');
@@ -370,6 +371,26 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         }
     };
 
+    //technical
+    const handleTechnicalSelect = (e) => {
+        const selectedTechnicalId = e.target.value;
+        const selectedTechnical = technical.find(ad => ad.id === selectedTechnicalId);
+        if (selectedTechnical) {
+            handleInputChange(e)
+            setSelectedTeachnical([selectedTechnical]);
+        }
+    };
+
+
+    const handleDeleteTechnical = (technicalId) => {
+        const updatedTechnicals = selectedTeachnical.filter(tech => tech.id !== technicalId);
+        setSelectedTeachnical(updatedTechnicals);
+
+        if (updatedTechnicals.length === 0) {
+            setFormData({ ...formData, technicalGroup: null });
+        }
+    };
+
     const handleFsuSelect = (e) => {
         const selectedFsuId = e.target.value;
         const selectedFsu = fsu.find(ad => ad.id === selectedFsuId);
@@ -384,7 +405,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         setSelectedFsu(updatedFsus);
 
         if (updatedFsus.length === 0) {
-            setFormData({ ...formData, reviewedBy: null });
+            setFormData({ ...formData, fsu: null });
         }
     };
 
@@ -420,7 +441,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        if (name === "attendeeLevel" || name === "fsu") {
+        if (name === "attendeeLevel" || name === "fsu" || name === "technicalGroup") {
             setFormData({
                 ...formData,
                 [name]: { id: value }
@@ -647,14 +668,16 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b><i class="bi bi-star"></i> Tech group</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
-                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    {selectedTeachnical && selectedTeachnical.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.name} <i class="bi bi-x" onClick={() => handleDeleteTechnical(ads.id)}></i></a></div>
                                                     ))}
-                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {technical && technical.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                    {selectedTeachnical && selectedTeachnical.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='technicalGroup' onChange={handleTechnicalSelect}>
+                                                            {technical && technical.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.name}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
