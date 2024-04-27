@@ -66,7 +66,7 @@ const ClassStepTwo = ({ classDto, onNextStep }) => {
     console.log('this is: ' + JSON.stringify(selectedItems));
 
     const handleNextButtonClick = () => {
-        onNextStep(programTwo, selectedItems);
+        onNextStep(classDto, selectedItems);
     };
 
     return (
