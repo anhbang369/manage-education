@@ -73,7 +73,7 @@ const ClassStepThree = ({ programTwo, selectedItems, onNextStep }) => {
         technicalGroup: null,
         programContent: null,
         account_admins: [],
-        account_trainers: null,
+        account_trainers: [],
         account_trainee: [],
         classCalendars: null,
         fsu: null,
