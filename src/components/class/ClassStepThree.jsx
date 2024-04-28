@@ -17,10 +17,11 @@ import { getTechnicalGroups } from "../../services/TechnicalGroupService";
 import { getFormatTypes } from "../../services/FormatTypeService";
 import { getProgramContents } from "../../services/ProgramContentService";
 import { getClassStatus } from "../../services/ClassStatusService";
+import { getClassLocation } from "../../services/ClassLocationService";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-const ClassStepThree = ({ programTwo, selectedItems }) => {
+const ClassStepThree = ({ programTwo, selectedItems, onNextStep }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -33,6 +34,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [format, setFormat] = useState(null);
     const [content, setContent] = useState(null);
     const [status, setStatus] = useState(null);
+    const [location, setLocation] = useState(null);
     const [syllabus, setSyllabus] = useState(null);
     const [selectedAdmins, setSelectedAdmins] = useState([]);
     const [selectedTrainees, setSelectedTrainees] = useState([]);
@@ -42,6 +44,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [selectedFormat, setSelectedFormat] = useState([]);
     const [selectedContent, setSelectedContent] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState([]);
     const [selectedFsu, setSelectedFsu] = useState([]);
     const [selectedDates, setSelectedDates] = useState([]);
     const [time, setTime] = useState('');
@@ -258,6 +261,19 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getClassLocation();
+                setLocation(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
     const handleAdminSelect = (e) => {
         const selectedAdminId = e.target.value;
@@ -302,9 +318,6 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
             setFormData({ ...formData });
         }
     };
-
-
-
 
     const handleApproveSelect = (e) => {
         const selectedApproveId = e.target.value;
@@ -421,13 +434,32 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         }
     };
 
-
     const handleDeleteStatus = (statusId) => {
         const updatedStatuss = selectedStatus.filter(status => status.id !== statusId);
         setSelectedStatus(updatedStatuss);
 
         if (updatedStatuss.length === 0) {
             setFormData({ ...formData, classStatus: null });
+        }
+    };
+
+    //technical
+    const handleLocationSelect = (e) => {
+        const selectedLocationId = e.target.value;
+        const selectedLocation = location.find(ad => ad.id === selectedLocationId);
+        if (selectedLocation) {
+            handleInputChange(e)
+            setSelectedLocation([selectedLocation]);
+        }
+    };
+
+
+    const handleDeleteLocation = (locationId) => {
+        const updatedLocations = selectedLocation.filter(location => location.id !== locationId);
+        setSelectedLocation(updatedLocations);
+
+        if (updatedLocations.length === 0) {
+            setFormData({ ...formData, classLocation: null });
         }
     };
 
@@ -481,7 +513,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        if (name === "attendeeLevel" || name === "fsu" || name === "technicalGroup" || name === "formatType" || name === "programContent" || name === "classStatus") {
+        if (name === "attendeeLevel" || name === "fsu" || name === "technicalGroup" || name === "formatType" || name === "programContent" || name === "classStatus" || name === "classLocation") {
             setFormData({
                 ...formData,
                 [name]: { id: value }
@@ -503,6 +535,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     };
 
     console.log("lay dada: " + JSON.stringify(formData))
+    console.log("lay item step 3: " + JSON.stringify(selectedItems))
 
 
 
@@ -542,6 +575,11 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         setSelectedTrainees(updatedTrainees);
         updateFormData(updatedTrainees);
     };
+
+    const handleNextButtonClick = () => {
+        onNextStep(formData, selectedItems);
+    };
+
 
 
 
@@ -599,9 +637,22 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b><i class="bi bi-alarm"></i> Class time</b></div>
                                             <div className='col-md-7 class-general-input-time'>from <input type='time' name='startTime' value={formData.startTime} onChange={handleInputChange} /> to <input type='time' name='endTime' value={formData.endTime} onChange={handleInputChange} /></div>
                                         </div>
-                                        <div className='row first__class-general gray'>
+                                        <div className='row first__class-general mt-2'>
                                             <div className='col-md-5'><b><i class="bi bi-house-door"></i> Location</b></div>
                                             <div className='col-md-7 row'>
+                                                <div className='col-md-12'>
+                                                    {selectedLocation && selectedLocation.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.name} <i class="bi bi-x" onClick={() => handleDeleteLocation(ads.id)}></i></a></div>
+                                                    ))}
+                                                    {selectedLocation && selectedLocation.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='classLocation' onChange={handleLocationSelect}>
+                                                            {location && location.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.name}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div className='row first__class-general gray'>
@@ -941,7 +992,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                                     </Grid>
                                     <Grid item xs={1}>
-                                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                                        <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={() => handleNextButtonClick()}>Next</button>
                                     </Grid>
                                 </Grid>
                             </Box>

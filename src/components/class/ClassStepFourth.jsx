@@ -1,12 +1,16 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
+import { getTrainingProgramById } from "../../services/TrainingProgramService";
 
-const ClassStepFourth = ({ programData }) => {
+const ClassStepFourth = ({ formData, selectedItems }) => {
+    console.log('requesy body :' + JSON.stringify(formData));
+    console.log('select item :' + JSON.stringify(selectedItems));
+    const [program, setProgram] = useState(null)
     const [selectedSyllabus, setSelectedSyllabus] = useState(null)
     const toggleSyllabus = (indexSyllabus) => {
         if (selectedSyllabus === indexSyllabus) {
@@ -15,6 +19,19 @@ const ClassStepFourth = ({ programData }) => {
 
         setSelectedSyllabus(indexSyllabus)
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getTrainingProgramById(selectedItems[0].id);
+                setProgram(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const [selected, setSelected] = useState(null)
     const toggle = (i) => {
@@ -36,7 +53,7 @@ const ClassStepFourth = ({ programData }) => {
 
     const [importOpen, setImportOpen] = useState(false);
 
-    console.log("program is UI" + programData)
+    console.log("program is UI" + program)
 
     const [selectedDay, setSelectedDay] = useState(null)
     const togglesDay = (detail) => {
@@ -72,11 +89,13 @@ const ClassStepFourth = ({ programData }) => {
         }));
     };
 
+    console.log('check data program: ' + JSON.stringify(program))
+
 
     return (
         <>
-            {programData && Array.isArray(programData) && programData.map((item) => (
-                <div>
+            {program && program.map((item, idx) => (
+                <div key={idx}>
                     <div className='d-flex'><p className='fw-bold ms-2 fs-20'>{item.day}</p> <span className='fs-14 mt-2'>days ({item.hours} hours)</span></div>
                     <p className='fs-14 ms-2 fw-normal'>Modified on {item.createdDate.slice(0, 10)} by <b>{item.createdBy}</b></p>
                     <h6 className="p-1 ms-3"><b>Content</b></h6>
