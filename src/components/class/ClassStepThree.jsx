@@ -635,7 +635,7 @@ const ClassStepThree = ({ programTwo, selectedItems, onNextStep }) => {
                                     <div className={selected === 1 ? 'general__contain-first show' : 'general__contain-first'}>
                                         <div className='row first__class-general'>
                                             <div className='col-md-5'><b><i class="bi bi-alarm"></i> Class time</b></div>
-                                            <div className='col-md-7 class-general-input-time'>from <input type='time' name='startTime' value={formData.startTime} onChange={handleInputChange} /> to <input type='time' name='endTime' value={formData.endTime} onChange={handleInputChange} /></div>
+                                            <div className='col-md-7 class-general-input-time'>from <input type='time' name='startTime' value={formData.startTime} onChange={handleInputChange} step="1" /> to <input type='time' name='endTime' value={formData.endTime} onChange={handleInputChange} step="1" /></div>
                                         </div>
                                         <div className='row first__class-general mt-2'>
                                             <div className='col-md-5'><b><i class="bi bi-house-door"></i> Location</b></div>
@@ -907,8 +907,8 @@ const ClassStepThree = ({ programTwo, selectedItems, onNextStep }) => {
                                                         Chọn thời gian
                                                     </Typography>
                                                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                        <input type='time' value={time} onChange={handleTimeChange} />
-                                                        <input type='time' value={endTime} onChange={handleEndTimeChange} />
+                                                        <input type='time' value={time} onChange={handleTimeChange} step="1" />
+                                                        <input type='time' value={endTime} onChange={handleEndTimeChange} step="1" />
                                                         <button onClick={handleSave}>Save</button>
                                                     </Typography>
                                                 </Box>

@@ -7,6 +7,7 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import { getTrainingProgramById } from "../../services/TrainingProgramService";
 import { getUserByRoleTrainer } from "../../services/UserService";
+import { createClass } from "../../services/TrainingClassService";
 import Form from 'react-bootstrap/Form';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -14,6 +15,9 @@ import { styled, css } from '@mui/system';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { useHistory } from 'react-router-dom';
 
 const ClassStepFourth = ({ formData, selectedItems }) => {
     // console.log('requesy body :' + JSON.stringify(formData));
@@ -51,6 +55,9 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
         fsu: formData.fsu || null,
     });
     console.log('new form: ' + JSON.stringify(newForm))
+    const history = useHistory();
+    const [openNo, setOpenNo] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
     const [openTrainer, setOpenTrainer] = React.useState(false);
     const handleOpenTrainer = () => setOpenTrainer(true);
     const handleCloseTrainer = () => setOpenTrainer(false);
@@ -79,6 +86,25 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
             ...prevFormData,
             account_trainers: prevFormData.account_trainers.filter(trainer => trainer.id !== trainerId)
         }));
+    };
+    console.log('data hah: ' + selectedItems[0].id)
+
+    //save class
+    const handleSaveClick = async () => {
+        try {
+            const response = await createClass(selectedItems[0].id, [newForm]);
+
+            if (response.ok) {
+                console.log('Create successful');
+                setNotificationMessage('Create successful.');
+                setOpenNo(true);
+                history.push('/class');
+            } else {
+                console.error('Create failed');
+            }
+        } catch (error) {
+            console.error('Error creating class:', error);
+        }
     };
 
 
@@ -167,6 +193,10 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
             ...prevOpen,
             [index]: false,
         }));
+    };
+
+    const handleCloseNo = () => {
+        setOpenNo(false);
     };
 
 
@@ -330,7 +360,16 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
                                                                                 </Box>
 
 
-                                                                                {/* <TrainMaterial property={importOpen} syllabusData={detail.materials} /> */}
+                                                                                <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
+                                                                                    <Alert
+                                                                                        onClose={handleCloseNo}
+                                                                                        severity="success"
+                                                                                        variant="filled"
+                                                                                        sx={{ width: '100%' }}
+                                                                                    >
+                                                                                        {notificationMessage}
+                                                                                    </Alert>
+                                                                                </Snackbar>
                                                                             </div>
                                                                         ))}
                                                                     </div>
@@ -356,6 +395,22 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
                     </div>
 
                 ))}
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            <button className="bg-secondary border-0 text-white rounded p-2 my-4 ms-3">Previous</button>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <button className="bg-transparent border-0 text-white rounded p-2 my-4"><a href="#" className="text-danger fw-bold p-2">Cancal</a></button>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={handleSaveClick}>Save</button>
+                        </Grid>
+                    </Grid>
+                </Box>
             </div>
 
 

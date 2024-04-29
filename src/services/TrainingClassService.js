@@ -51,6 +51,38 @@ export const getByIdTrainingClass = async (itemId) => {
     }
 };
 
+
+export const createClass = async (itemId, dto) => {
+    try {
+        const accessToken = localStorage.getItem('jwt');
+        console.log("loi string jdon: " + JSON.stringify(dto))
+        console.log("loi full jdon: " + JSON.stringify([dto]))
+        console.log("loi [] jdon: " + [dto])
+        console.log("loi chatGPT: " + JSON.stringify(dto[0]))
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}/training-class`, {
+            method: 'POST',
+            body: JSON.stringify(dto[0]),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + accessToken
+            }
+        });
+
+        if (response.ok) {
+            const data = await response;
+            console.log('Create successful', data);
+            console.log(response.status);
+            return data;
+        } else {
+            console.error('Create failed');
+            throw new Error('Create failed');
+        }
+    } catch (error) {
+        console.error('Error Create:', error);
+        throw error;
+    }
+};
+
 export const importTrainingClass = async (file) => {
     try {
         const accessToken = localStorage.getItem('jwt');
