@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Login from "../components/googleSignIn/Login";
-import SyllabusList from "../page/SyllabusList";
+import SyllabusList from "../../src/page/SyllabusList";
 import TrainingProgramList from "../page/TrainingProgramList";
 import ViewProgram from "../page/ViewProgram";
 import CreateTrainingProgram from "../page/CreateTrainingProgram";
