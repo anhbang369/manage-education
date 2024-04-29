@@ -1,0 +1,112 @@
+
+.react-calendar{
+    border: none;
+}
+
+.general__contain-first{
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px gainsboro;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0,1,0,1);
+}
+
+.general__contain-first.show{
+    height: auto;
+    max-height: 999px;
+    transition: all 0.5s cubic-bezier(1,0,1,0);
+
+}
+.row{
+    margin: 0px;
+    padding: 0px;
+}
+
+.attendee__component{
+    border-radius: 8px;
+    text-align: center;
+    background-color: #FFF;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0,1,0,1);
+}
+
+.attendee__component.show{
+    height: auto;
+    max-height: 999px;
+    transition: all 0.5s cubic-bezier(1,0,1,0);
+
+}
+
+/* .training__program-tabs{
+    color: #FFF;
+    background-color: #30344c;
+    border-radius: 8px 8px 0px 0px;
+    width: 15%;
+    text-align: center;
+    margin: 0px;
+    margin-left: 12px;
+} */
+
+/* .training__program-components{
+    background-color: #30344c;
+    color: #FFF;
+    border: 1px solid #FFF;
+    border-radius: 0px 10px 0px 0px;
+    margin-left: 12px;
+} */
+
+/* .training__program-components h5{
+    margin-left: 20px;
+} */
+
+/* .program-components-text{
+    display: flex;
+}
+
+.program-components-text p{
+    margin-left: 10px;
+}
+
+.program-components-text p:first-child{
+    margin-left: 20px;
+} */
+
+.class__view-syllabus{
+    width: 98%;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+/* .class__view-syllabus-info{
+    display: flex;
+} */
+
+/* .class__view-syllabus-info p{
+    background-color: #30344c;
+    color: #FFF;
+    height: 20px;
+    text-align: center;
+    margin-left: 15px;
+    border-radius: 8px;
+} */
+
+.program-components-text p:first-child{
+    margin-left: 0px;
+}
+
+/* .class__view-syllabus-image{
+    background-color: #30344c;
+    border-radius: 8px 0px 0px 8px;
+    padding: 8px 0px;
+} */
+
+.class__view-syllabus-content{
+    box-shadow: 1px 1px 5px gainsboro;
+    border-radius: 0px 8px 8px 0px;
+}
+
+/* .view-syllabus-image-bor{
+    width: 100%;
+    border-radius: 50%;
+} */

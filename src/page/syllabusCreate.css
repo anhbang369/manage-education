@@ -1,0 +1,23 @@
+.option__input{
+    border-radius: 8px;
+    margin-left: 10px;
+    height: 65%;
+}
+
+.option__title{
+    color: black;
+    margin-left: 20px;
+}
+
+.css-1aznpnh-MuiSlider-root{
+    height: 17px !important;
+    color: #47505f !important;
+}
+
+.css-1aznpnh-MuiSlider-root{
+    padding: 6px !important;
+}
+
+.tabs__outline{
+    margin-top: 0px;
+}
