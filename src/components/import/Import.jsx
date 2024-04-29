@@ -2,7 +2,6 @@ import React from 'react';
 import "./import.css";
 import { useState } from 'react';
 import { useEffect } from 'react';
-import Excel from "../../assets/SyllabusTemplate.xlsx";
 import { importSyllabus } from '../../services/SyllabusService';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -82,7 +81,7 @@ const Import = ({ property }) => {
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select></div>
-                        <div className="action__info"><a download={Excel} href='#' className="link">Download</a></div>
+                        <div className="action__info"><a href='http://localhost:8080/api/v1/auth/customer/syllabus/template/download' className="link">Download</a></div>
 
                     </div>
                 </div>
