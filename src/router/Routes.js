@@ -1,26 +1,17 @@
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import Login from "../components/googleSignIn/Login";
-import SyllabusList from "../page/SyllabusList";
-import TrainingProgramList from "../page/TrainingProgramList";
-// import ViewProgram from "../page/ViewProgram";
-import ViewProgram from "../page/ViewProgram";
-// import CreateTrainingProgram from "../page/CreateTrainingProgram";
-import CreateTrainingProgram from "../page/CreateTrainingProgram";
-// import TrainingClassList from "../page/TrainingClassList";
-import TrainingClassList from "../page/TrainingClassList";
-// import TrainingCalander from "../page/TrainingCalander";
-import TrainingCalander from "../page/TrainingCalander";
-// import UserManagement from "../page/UserManagement";
-import UserManagement from "../page/UserManagement";
-// import UserPermission from "../page/UserPermission";
-import UserPermission from "../page/UserPermission";
-// import ClassView from "../page/ClassView";
-import ClassView from "../page/ClassView";
-// import CreateClass from "../page/CreateClass";
-import CreateClass from "../page/CreateClass";
-// import SyllabusView from "../page/SyllabusView";
-import SyllabusView from "../page/SyllabusView";
-import SyllabusCreate from "../page/SyllabusCreate";
+import { Login } from "../components/googleSignIn/Login";
+import { SyllabusList } from "../page/SyllabusList";
+import { TrainingProgramList } from "../page/TrainingProgramList";
+import { ViewProgram } from "../page/ViewProgram";
+import { CreateTrainingProgram } from "../page/CreateTrainingProgram";
+import { TrainingClassList } from "../page/TrainingClassList";
+import { TrainingCalander } from "../page/TrainingCalander";
+import { UserManagement } from "../page/UserManagement";
+import { UserPermission } from "../page/UserPermission";
+import { ClassView } from "../page/ClassView";
+import { CreateClass } from "../page/CreateClass";
+import { SyllabusView } from "../page/SyllabusView";
+import { SyllabusCreate } from "../page/SyllabusCreate";
 
 export const Routes = () => {
     return (
