@@ -26,6 +26,10 @@ import { Link } from 'react-router-dom';
 const View = () => {
 
     //get list
+    const [searchText, setSearchText] = useState('');
+    const [searchDate, setSearchDate] = useState('');
+    const [searchHistory, setSearchHistory] = useState([]);
+
     const [syllabusData, setSyllabusData] = useState(null);
 
     useEffect(() => {
@@ -93,6 +97,99 @@ const View = () => {
         setOpenNo(true);
     };
 
+    //search
+    console.log('date: ' + searchDate)
+    const handleSearch = () => {
+        if (syllabusData !== null) {
+            const filteredData = syllabusData.filter(item => {
+                let isMatch = false;
+                searchHistory.forEach(searchItem => {
+                    if (searchItem.searchText) {
+                        const searchTextLowerCase = searchItem.searchText.toLowerCase();
+                        const nameMatch = item.name.toLowerCase().includes(searchTextLowerCase);
+                        const codeMatch = item.code.toLowerCase().includes(searchTextLowerCase);
+                        const byMatch = item.createBy.toLowerCase().includes(searchTextLowerCase);
+
+                        if ((nameMatch || codeMatch || byMatch)) {
+                            isMatch = true;
+                        }
+                    }
+                });
+
+                const dateMatch = (searchDate && searchDate.trim() !== '') ? item.createOn.slice(0, 10).includes(searchDate) : true;
+
+                return isMatch && dateMatch;
+            });
+
+            let filteredByRelationCount = filteredData;
+
+            if (searchHistory.length > 0) {
+                filteredByRelationCount = filteredData.filter(item => {
+                    const relationCount = searchHistory.reduce((count, searchItem) => {
+                        const searchTextLowerCase = searchItem.searchText.toLowerCase();
+                        const nameMatch = item.name.toLowerCase().includes(searchTextLowerCase);
+                        const codeMatch = item.code.toLowerCase().includes(searchTextLowerCase);
+                        const byMatch = item.createBy.toLowerCase().includes(searchTextLowerCase);
+                        const dateMatch = (searchDate && searchDate.trim() !== '') ? item.createOn.includes(searchDate) : true;
+                        return count + (nameMatch ? 1 : 0) + (codeMatch ? 1 : 0) + (byMatch ? 1 : 0) + (dateMatch ? 1 : 0); // Tính cả trường createOn
+                    }, 0);
+                    return relationCount === searchHistory.length;
+                });
+            }
+
+            setCurrentPage(0);
+
+            console.log('after getdata: ' + JSON.stringify(filteredByRelationCount));
+        }
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+    useEffect(() => {
+        handleSearch();
+    }, [searchHistory, searchDate]);
+
+    const handleSearchTextChange = (e) => {
+        setSearchText(e.target.value);
+    };
+
+    const handleSearchDateChange = (e) => {
+        setSearchDate(e.target.value);
+    };
+
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            const newSearchItem = { searchText };
+            setSearchHistory(prevSearchHistory => [...prevSearchHistory, newSearchItem]);
+            setSearchText('');
+        }
+    };
+
+    console.log('list search: ' + JSON.stringify(searchHistory))
+
+    //delete history
+    const handleRemoveSearchItem = (index) => {
+        setSearchHistory(prevSearchHistory => {
+            const newSearchHistory = [...prevSearchHistory];
+            newSearchHistory.splice(index, 1);
+            return newSearchHistory;
+        });
+
+    };
+
+
+
+
 
     return (
         <React.Fragment>
@@ -104,14 +201,18 @@ const View = () => {
                         <div className="row">
                             <div className="syllabus__search col-md-8">
                                 <div className="input-with-icon">
-                                    <i class="bi bi-search"></i>
-                                    <input type="text" className="search__by" placeholder='Search by ...' />
+                                    <i className="bi bi-search"></i>
+                                    <input type="text" className="search__by" placeholder='Search by ...' value={searchText}
+                                        onChange={handleSearchTextChange}
+                                        onKeyPress={handleEnterPress} />
                                 </div>
                                 <div className="input-with-icon">
-                                    <i class="bi bi-calendar"></i>
-                                    <input type="text" className="search__date" placeholder='Created date' />
+                                    <i className="bi bi-calendar"></i>
+                                    <input type="text" className="search__date" placeholder='Created date' value={searchDate}
+                                        onChange={handleSearchDateChange} />
                                 </div>
                             </div>
+
 
                             <div className="col-md-4">
                                 <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
@@ -119,8 +220,12 @@ const View = () => {
                             </div>
                         </div>
                         <div className="mt-2 ms-10 d-flex">
-                            <p className="bg-dark text-white rounded ms-4 mb-3 p-1 d-flex w-10">foundation <i class="bi bi-x-lg"></i></p>
-                            <p className="bg-dark text-white rounded ms-3 mb-3 p-1 d-flex w-10">HaNTT <i class="bi bi-x-lg"></i></p>
+                            {searchHistory && searchHistory.map((searchData, index) => (
+                                <p key={index} className="bg-dark text-white rounded ms-4 mb-3 p-1 text-center">{searchData.searchText} <i className="bi bi-x-lg pointer" onClick={() => handleRemoveSearchItem(index)}></i></p>
+                            ))}
+
+
+
                         </div>
 
                         <TableContainer component={Paper}>
