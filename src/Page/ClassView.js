@@ -23,6 +23,15 @@ const ClassView = () => {
 
     //popup material
     const [open, setOpen] = useState({});
+    const [selectedDates, setSelectedDates] = useState([]);
+    const [selectedS, setSelectedS] = useState(null)
+    const toggleS = (i) => {
+        if (selectedS === i) {
+            return setSelectedS(null)
+        }
+
+        setSelectedS(i)
+    }
     const handleOpenModal = (index) => {
         setOpen(prevOpen => ({
             ...prevOpen,
@@ -54,11 +63,6 @@ const ClassView = () => {
 
         fetchData();
     }, []);
-
-    const [dateState, setDateState] = useState(new Date())
-    const changeDate = (e) => {
-        setDateState(e)
-    }
 
     //show
     const [selected, setSelected] = useState(null)
@@ -109,6 +113,39 @@ const ClassView = () => {
         setSelectedUnit(prevIndex => (prevIndex === index ? null : index));
     };
 
+    useEffect(() => {
+        if (classData && classData.length > 0) {
+            const dates = classData.flatMap(item =>
+                item.classCalendars.map(calendar => new Date(calendar.dateTime).toLocaleDateString())
+            );
+            setSelectedDates(dates);
+        }
+    }, [classData]);
+
+    const isDateSelected = (date) => {
+        const currentDate = new Date(date);
+
+        return selectedDates.some(selectedDate => {
+            const convertedSelectedDate = new Date(selectedDate);
+
+            return (
+                convertedSelectedDate.getFullYear() === currentDate.getFullYear() &&
+                convertedSelectedDate.getMonth() === currentDate.getMonth() &&
+                convertedSelectedDate.getDate() === currentDate.getDate()
+            );
+        });
+    };
+
+
+
+
+    const tileClassName = ({ date }) => {
+        if (isDateSelected(date)) {
+            return 'text-primary bg-core fw-bolder fs-16 rounded text-white selected-date';
+        }
+        return '';
+    };
+
     return (
         <>
             <Navbar></Navbar>
@@ -125,7 +162,7 @@ const ClassView = () => {
                                         <div className='row p-0 m-0'>
                                             <div className='col-md-11 row'>
                                                 <div className='col-md-4'><h4>{item.name}</h4></div>
-                                                <div className='col-md-8'><p className='bg-tab text-white border border-white rounded w-10 text-center'>Plaining</p></div>
+                                                <div className='col-md-8'><p className='bg-tab text-white border border-white rounded w-10 text-center'>{item.classStatus.name}</p></div>
                                             </div>
                                             <div className='col-md-1'>
                                                 <i class="bi bi-three-dots"></i>
@@ -208,6 +245,28 @@ const ClassView = () => {
                                                     <div className='col-md-5'><b>Approve</b></div>
                                                     <div className='col-md-7'>{item.approvedDate.slice(0, 10)} by {item.approvedBy.fullName}</div>
                                                 </div>
+
+                                                <div className='border-bottom border-black'></div>
+                                                <div className='row text-black fs-14'>
+                                                    <div className='col-md-5'><b><i class="bi bi-star"></i> Tech group</b></div>
+                                                    <div className='col-md-7'>
+                                                        {item.technicalGroup.name}
+                                                    </div>
+                                                </div>
+
+                                                <div className='row text-black fs-14'>
+                                                    <div className='col-md-5'><b><i class="bi bi-star"></i> Program</b></div>
+                                                    <div className='col-md-7'>
+                                                        {item.programContent.name}
+                                                    </div>
+                                                </div>
+
+                                                <div className='row text-black fs-14'>
+                                                    <div className='col-md-5'><b><i class="bi bi-star"></i> Format</b></div>
+                                                    <div className='col-md-7'>
+                                                        {item.formatType.name}
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <h6 className='bg-core p-1 m-0 rounded d-flex text-white mt-3' onClick={() => toggle1(1)}><i class="bi bi-star"></i> Attendee</h6>
@@ -231,20 +290,44 @@ const ClassView = () => {
                                         <div className='col-md-7 '>
                                             <div className='bg-core p-1 rounded d-flex text-white'>
                                                 <p className='fw-normal ms-3 fs-14'><i class="bi bi-calendar"></i> Time frame</p>
-                                                <p className='fw-normal ms-3 fs-14'>25-Apr-22 to 21-July-22</p>
+                                                <p className='fw-normal ms-3 fs-14'>{item.startDate} to {item.endDate}</p>
                                             </div>
                                             <div className='row'>
                                                 <div className='col-md-6'>
                                                     <Calendar
-                                                        value={dateState}
-                                                        onChange={changeDate}
+                                                        tileClassName={tileClassName}
+                                                        value={new Date()}
                                                     />
                                                 </div>
                                                 <div className='col-md-6'>
                                                     <Calendar
-                                                        value={dateState}
-                                                        onChange={changeDate}
+                                                        tileClassName={tileClassName}
+                                                        value={new Date()}
                                                     />
+                                                </div>
+                                            </div>
+
+                                            <div className="w-100 mt-4">
+                                                <h6 className='text-white bg-core p-1 rounded fs-16 pointer' onClick={() => toggleS(1)}><i class="bi bi-calendar"></i> General</h6>
+                                                <div className={selectedS === 1 ? 'general__contain-first show' : 'general__contain-first'}>
+                                                    <div className='fs-14 d-flex w-100'>
+                                                        <div className='ms-2'> <i class="bi bi-person"></i><b>   Student: </b></div>
+                                                        <div className='ms-2'>
+                                                            {item && (
+                                                                <Box sx={{ flexGrow: 1 }}>
+                                                                    <Grid container spacing={2}>
+                                                                        {item.account_trainee.map((trainees, idxTrainees) => (
+                                                                            <Grid item xs={4}>
+                                                                                <a href='#' key={idxTrainees}>{trainees.fullName}</a>
+                                                                            </Grid>
+                                                                        ))}
+
+
+                                                                    </Grid>
+                                                                </Box>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

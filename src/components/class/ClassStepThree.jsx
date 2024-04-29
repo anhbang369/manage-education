@@ -20,6 +20,7 @@ import { getClassStatus } from "../../services/ClassStatusService";
 import { getClassLocation } from "../../services/ClassLocationService";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
 
 const ClassStepThree = ({ programTwo, selectedItems, onNextStep }) => {
     const [open, setOpen] = React.useState(false);
@@ -534,42 +535,6 @@ const ClassStepThree = ({ programTwo, selectedItems, onNextStep }) => {
         }
     };
 
-    console.log("lay dada: " + JSON.stringify(formData))
-    console.log("lay item step 3: " + JSON.stringify(selectedItems))
-
-
-
-    // const handleUpdateProgramTwo = () => {
-    //     const updatedInfo = {
-    //         name: programTwo.name,
-    //         courseCode: programTwo.courseCode,
-    //         startTime: '',
-    //         endTime: '',
-    //         startDate: '',
-    //         endDate: '',
-    //         duration: 0,
-    //         reviewedBy: '',
-    //         reviewedDate: '',
-    //         approvedBy: '',
-    //         approvedDate: '',
-    //         universityCode: '',
-    //         plannedAttendee: '',
-    //         acceptedAttendee: '',
-    //         actualAttendee: '',
-    //         classLocation: null,
-    //         attendeeLevel: null,
-    //         formatType: null,
-    //         classStatus: null,
-    //         technicalGroup: null,
-    //         programContent: null,
-    //         account_admins: null,
-    //         account_trainers: null,
-    //         account_trainee: null,
-    //         classCalendars: null,
-    //         fsu: null,
-    //     };
-    //     handleUpdateProgramTwo(updatedInfo);
-    // };
     const handleRemoveTrainee = (idx) => {
         const updatedTrainees = selectedTrainees.filter((_, index) => index !== idx);
         setSelectedTrainees(updatedTrainees);
@@ -594,15 +559,26 @@ const ClassStepThree = ({ programTwo, selectedItems, onNextStep }) => {
                             <div className='row bg-core text-white border border-white'>
                                 <h6>Class</h6>
                                 <div className='row'>
-                                    <div className='col-md-11 row'>
-                                        <div className='col-md-4'><h4>{programTwo.name}</h4></div>
+                                    <div className='col-md-11 row mb-0'>
+                                        <div className='col-md-4 mb-0'><h4>{programTwo.name}</h4></div>
                                         <div className='col-md-8'><p className='bg-chapter border border-white w-10 rounded text-center'>Plaining</p></div>
                                     </div>
                                     <div className='col-md-1'>
                                         <i class="bi bi-three-dots"></i>
                                     </div>
                                 </div>
-                                <p className='class__name'>HCM22FR_FR_DevOps_01</p>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': { width: '25ch', color: 'white' }, // Thay đổi màu chữ thành trắng
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <TextField id="standard-basic" label="Source code" variant="standard" name='courseCode'
+                                        value={formData.courseCode} onChange={handleInputChange} />
+
+                                </Box>
 
                                 <div className='d-flex'>
                                     <div>
