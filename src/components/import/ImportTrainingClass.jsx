@@ -2,7 +2,6 @@ import React from 'react';
 import "./import.css";
 import { useState } from 'react';
 import { useEffect } from 'react';
-import Excel from "../../assets/SyllabusTemplate.xlsx";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { importTrainingClass } from '../../services/TrainingClassService';
@@ -35,8 +34,6 @@ const ImportTrainingClass = ({ property }) => {
         }
     };
 
-    console.log(property);
-
 
     const [importOpen, setImportOpen] = useState(property);
 
@@ -50,13 +47,11 @@ const ImportTrainingClass = ({ property }) => {
         setOpenNo(false);
     };
 
-    console.log(importOpen);
-
     return (
         <>
             <div style={{ display: importOpen ? 'block' : 'none' }} className="import__container box-shadow-1">
                 <div className="setting__content">
-                    <h3 className="import__title">Import Syllabus</h3>
+                    <h3 className="import__title">Import Class</h3>
                 </div>
                 <div className="import__setting">
                     <h4 className="fs-14">Import setting</h4>
@@ -82,7 +77,7 @@ const ImportTrainingClass = ({ property }) => {
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select></div>
-                        <div className="action__info"><a download={Excel} href='#' className="link">Download</a></div>
+                        <div className="action__info"><a href="http://localhost:8080/api/v1/auth/customer/training-program/training-class/template/download" className="link">Download</a></div>
 
                     </div>
                 </div>
