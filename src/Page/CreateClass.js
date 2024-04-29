@@ -16,6 +16,35 @@ const CreateClass = () => {
     const [classDto, setClassDto] = useState(null);
     const [selectedItems, setSelectedItems] = useState([]);
     const [programTwo, setProgramTwo] = useState([]);
+    const [formData, setFormData] = useState({
+        name: '',
+        courseCode: '',
+        startTime: '',
+        endTime: '',
+        startDate: '',
+        endDate: '',
+        duration: 0,
+        reviewedBy: '',
+        reviewedDate: new Date().toISOString(),
+        approvedBy: '',
+        approvedDate: new Date().toISOString(),
+        universityCode: '',
+        plannedAttendee: '',
+        acceptedAttendee: '',
+        actualAttendee: '',
+        classLocation: null,
+        attendeeLevel: null,
+        formatType: null,
+        classStatus: null,
+        technicalGroup: null,
+        programContent: null,
+        account_admins: [],
+        account_trainers: null,
+        account_trainee: [],
+        classCalendars: null,
+        fsu: null,
+    });
+
 
     const handleNextStep = (dto) => {
         setClassDto(dto);
@@ -42,8 +71,19 @@ const CreateClass = () => {
                                 />
                             )}
 
-                            {step === 3 && <ClassStepThree programTwo={classDto} selectedItems={selectedItems} />}
-                            {step === 4 && <ClassStepFourth />}
+                            {step === 3 && (
+                                <ClassStepThree
+                                    programTwo={programTwo}
+                                    selectedItems={selectedItems}
+                                    onNextStep={(formData, selectedItems) => {
+                                        setFormData(formData);
+                                        setSelectedItems(selectedItems);
+                                        handleNextStep();
+                                    }}
+                                />
+                            )}
+                            {step === 4 && <ClassStepFourth formData={formData} selectedItems={selectedItems} />}
+
                         </div>
                     </ Box>
                 </Container>

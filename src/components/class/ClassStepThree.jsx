@@ -17,25 +17,11 @@ import { getTechnicalGroups } from "../../services/TechnicalGroupService";
 import { getFormatTypes } from "../../services/FormatTypeService";
 import { getProgramContents } from "../../services/ProgramContentService";
 import { getClassStatus } from "../../services/ClassStatusService";
+import { getClassLocation } from "../../services/ClassLocationService";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
-const ClassStepThree = ({ programTwo, selectedItems }) => {
-    console.log('prgram two: ' + JSON.stringify(programTwo))
-    // console.log('classDto two: ' + JSON.stringify(classDto))
-    console.log('selectedItems two: ' + JSON.stringify(selectedItems))
+const ClassStepThree = ({ programTwo, selectedItems, onNextStep }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -48,11 +34,17 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const [format, setFormat] = useState(null);
     const [content, setContent] = useState(null);
     const [status, setStatus] = useState(null);
+    const [location, setLocation] = useState(null);
     const [syllabus, setSyllabus] = useState(null);
     const [selectedAdmins, setSelectedAdmins] = useState([]);
     const [selectedTrainees, setSelectedTrainees] = useState([]);
     const [selectedApprove, setSelectedApprove] = useState([]);
     const [selectedReview, setSelectedReview] = useState([]);
+    const [selectedTeachnical, setSelectedTeachnical] = useState([]);
+    const [selectedFormat, setSelectedFormat] = useState([]);
+    const [selectedContent, setSelectedContent] = useState([]);
+    const [selectedStatus, setSelectedStatus] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState([]);
     const [selectedFsu, setSelectedFsu] = useState([]);
     const [selectedDates, setSelectedDates] = useState([]);
     const [time, setTime] = useState('');
@@ -81,7 +73,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         technicalGroup: null,
         programContent: null,
         account_admins: [],
-        account_trainers: null,
+        account_trainers: [],
         account_trainee: [],
         classCalendars: null,
         fsu: null,
@@ -116,14 +108,14 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
 
     const handleSave = () => {
         if (time && selectedDates.length > 0) {
-            const selectedDateTime = new Date(selectedDates[selectedDates.length - 1]); // Get the last selected date
+            const selectedDateTime = new Date(selectedDates[selectedDates.length - 1]);
             const [hours, minutes] = time.split(':').map(Number);
             selectedDateTime.setHours(hours, minutes);
 
             const updatedDates = [...selectedDates];
-            updatedDates[selectedDates.length - 1] = selectedDateTime; // Update time for the last selected date
+            updatedDates[selectedDates.length - 1] = selectedDateTime;
 
-            setSelectedDates(updatedDates); // Update state with the modified date
+            setSelectedDates(updatedDates);
             handleClose();
 
             const newEvent = {
@@ -149,14 +141,6 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         setEndTime(event.target.value);
     };
 
-
-    console.log('lay ngay: ' + JSON.stringify(classCalendars))
-
-    // const [dateState, setDateState] = useState(new Date())
-    // const changeDate = (e) => {
-    //     setDateState(e)
-    // }
-    // console.log('check: ' + JSON.stringify(selectedItems))
 
     useEffect(() => {
         const fetchData = async () => {
@@ -277,6 +261,19 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getClassLocation();
+                setLocation(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
     const handleAdminSelect = (e) => {
         const selectedAdminId = e.target.value;
@@ -321,9 +318,6 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
             setFormData({ ...formData });
         }
     };
-
-
-
 
     const handleApproveSelect = (e) => {
         const selectedApproveId = e.target.value;
@@ -370,6 +364,105 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         }
     };
 
+    //technical
+    const handleTechnicalSelect = (e) => {
+        const selectedTechnicalId = e.target.value;
+        const selectedTechnical = technical.find(ad => ad.id === selectedTechnicalId);
+        if (selectedTechnical) {
+            handleInputChange(e)
+            setSelectedTeachnical([selectedTechnical]);
+        }
+    };
+
+
+    const handleDeleteTechnical = (technicalId) => {
+        const updatedTechnicals = selectedTeachnical.filter(tech => tech.id !== technicalId);
+        setSelectedTeachnical(updatedTechnicals);
+
+        if (updatedTechnicals.length === 0) {
+            setFormData({ ...formData, technicalGroup: null });
+        }
+    };
+
+    //format
+    const handleFormatSelect = (e) => {
+        const selectedFormatId = e.target.value;
+        const selectedFormat = format.find(ad => ad.id === selectedFormatId);
+        if (selectedFormat) {
+            handleInputChange(e)
+            setSelectedFormat([selectedFormat]);
+        }
+    };
+
+
+    const handleDeleteFormat = (formatId) => {
+        const updatedFormats = selectedFormat.filter(format => format.id !== formatId);
+        setSelectedFormat(updatedFormats);
+
+        if (updatedFormats.length === 0) {
+            setFormData({ ...formData, formatType: null });
+        }
+    };
+
+    //content
+    const handleContentSelect = (e) => {
+        const selectedContentId = e.target.value;
+        const selectedContent = content.find(ad => ad.id === selectedContentId);
+        if (selectedContent) {
+            handleInputChange(e)
+            setSelectedContent([selectedContent]);
+        }
+    };
+
+
+    const handleDeleteContent = (contentId) => {
+        const updatedContents = selectedContent.filter(content => content.id !== contentId);
+        setSelectedContent(updatedContents);
+
+        if (updatedContents.length === 0) {
+            setFormData({ ...formData, programContent: null });
+        }
+    };
+
+    //status
+    const handleStatusSelect = (e) => {
+        const selectedStatusId = e.target.value;
+        const selectedStatus = status.find(ad => ad.id === selectedStatusId);
+        if (selectedStatus) {
+            handleInputChange(e)
+            setSelectedStatus([selectedStatus]);
+        }
+    };
+
+    const handleDeleteStatus = (statusId) => {
+        const updatedStatuss = selectedStatus.filter(status => status.id !== statusId);
+        setSelectedStatus(updatedStatuss);
+
+        if (updatedStatuss.length === 0) {
+            setFormData({ ...formData, classStatus: null });
+        }
+    };
+
+    //technical
+    const handleLocationSelect = (e) => {
+        const selectedLocationId = e.target.value;
+        const selectedLocation = location.find(ad => ad.id === selectedLocationId);
+        if (selectedLocation) {
+            handleInputChange(e)
+            setSelectedLocation([selectedLocation]);
+        }
+    };
+
+
+    const handleDeleteLocation = (locationId) => {
+        const updatedLocations = selectedLocation.filter(location => location.id !== locationId);
+        setSelectedLocation(updatedLocations);
+
+        if (updatedLocations.length === 0) {
+            setFormData({ ...formData, classLocation: null });
+        }
+    };
+
     const handleFsuSelect = (e) => {
         const selectedFsuId = e.target.value;
         const selectedFsu = fsu.find(ad => ad.id === selectedFsuId);
@@ -384,7 +477,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         setSelectedFsu(updatedFsus);
 
         if (updatedFsus.length === 0) {
-            setFormData({ ...formData, reviewedBy: null });
+            setFormData({ ...formData, fsu: null });
         }
     };
 
@@ -420,7 +513,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        if (name === "attendeeLevel" || name === "fsu") {
+        if (name === "attendeeLevel" || name === "fsu" || name === "technicalGroup" || name === "formatType" || name === "programContent" || name === "classStatus" || name === "classLocation") {
             setFormData({
                 ...formData,
                 [name]: { id: value }
@@ -442,7 +535,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
     };
 
     console.log("lay dada: " + JSON.stringify(formData))
-    console.log("lay fsu: " + JSON.stringify(fsu))
+    console.log("lay item step 3: " + JSON.stringify(selectedItems))
 
 
 
@@ -482,6 +575,11 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
         setSelectedTrainees(updatedTrainees);
         updateFormData(updatedTrainees);
     };
+
+    const handleNextButtonClick = () => {
+        onNextStep(formData, selectedItems);
+    };
+
 
 
 
@@ -537,11 +635,24 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                     <div className={selected === 1 ? 'general__contain-first show' : 'general__contain-first'}>
                                         <div className='row first__class-general'>
                                             <div className='col-md-5'><b><i class="bi bi-alarm"></i> Class time</b></div>
-                                            <div className='col-md-7 class-general-input-time'>from <input type='time' name='startTime' value={formData.startTime} onChange={handleInputChange} /> to <input type='time' name='endTime' value={formData.endTime} onChange={handleInputChange} /></div>
+                                            <div className='col-md-7 class-general-input-time'>from <input type='time' name='startTime' value={formData.startTime} onChange={handleInputChange} step="1" /> to <input type='time' name='endTime' value={formData.endTime} onChange={handleInputChange} step="1" /></div>
                                         </div>
-                                        <div className='row first__class-general gray'>
+                                        <div className='row first__class-general mt-2'>
                                             <div className='col-md-5'><b><i class="bi bi-house-door"></i> Location</b></div>
                                             <div className='col-md-7 row'>
+                                                <div className='col-md-12'>
+                                                    {selectedLocation && selectedLocation.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.name} <i class="bi bi-x" onClick={() => handleDeleteLocation(ads.id)}></i></a></div>
+                                                    ))}
+                                                    {selectedLocation && selectedLocation.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='classLocation' onChange={handleLocationSelect}>
+                                                            {location && location.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.name}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div className='row first__class-general gray'>
@@ -647,14 +758,16 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b><i class="bi bi-star"></i> Tech group</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
-                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    {selectedTeachnical && selectedTeachnical.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.name} <i class="bi bi-x" onClick={() => handleDeleteTechnical(ads.id)}></i></a></div>
                                                     ))}
-                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {technical && technical.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                    {selectedTeachnical && selectedTeachnical.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='technicalGroup' onChange={handleTechnicalSelect}>
+                                                            {technical && technical.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.name}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -663,14 +776,16 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b><i class="bi bi-star"></i> Program</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
-                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    {selectedContent && selectedContent.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.name} <i class="bi bi-x" onClick={() => handleDeleteContent(ads.id)}></i></a></div>
                                                     ))}
-                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {content && content.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                    {selectedContent && selectedContent.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='programContent' onChange={handleContentSelect}>
+                                                            {content && content.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.name}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -679,14 +794,16 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b><i class="bi bi-star"></i> Format</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
-                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    {selectedFormat && selectedFormat.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.name} <i class="bi bi-x" onClick={() => handleDeleteFormat(ads.id)}></i></a></div>
                                                     ))}
-                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {format && format.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                    {selectedFormat && selectedFormat.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='formatType' onChange={handleFormatSelect}>
+                                                            {format && format.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.name}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -695,14 +812,16 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                             <div className='col-md-5'><b><i class="bi bi-star"></i> Status</b></div>
                                             <div className='col-md-7 row'>
                                                 <div className='col-md-12'>
-                                                    {selectedAdmins && selectedAdmins.map((ads, idxAds) => (
-                                                        <div><a href='#' key={idxAds}>{ads.fullName} <i class="bi bi-x" onClick={() => handleRemoveAdmin(ads.id)}></i></a></div>
+                                                    {selectedStatus && selectedStatus.map((ads, idxAds) => (
+                                                        <div><a href='#' key={idxAds}>{ads.name} <i class="bi bi-x" onClick={() => handleDeleteStatus(ads.id)}></i></a></div>
                                                     ))}
-                                                    <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='account_admins' onChange={handleAdminSelect}>
-                                                        {status && status.map((ad, idxAd) => (
-                                                            <option key={idxAd} value={ad.id}>{ad.name}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                    {selectedStatus && selectedStatus.length === 0 && (
+                                                        <Form.Select className='select__class-three-general fixed-width' aria-placeholder='exam' name='classStatus' onChange={handleStatusSelect}>
+                                                            {status && status.map((apr, idxApr) => (
+                                                                <option key={idxApr} value={apr.id}>{apr.name}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -788,8 +907,8 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                                         Chọn thời gian
                                                     </Typography>
                                                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                                        <input type='time' value={time} onChange={handleTimeChange} />
-                                                        <input type='time' value={endTime} onChange={handleEndTimeChange} />
+                                                        <input type='time' value={time} onChange={handleTimeChange} step="1" />
+                                                        <input type='time' value={endTime} onChange={handleEndTimeChange} step="1" />
                                                         <button onClick={handleSave}>Save</button>
                                                     </Typography>
                                                 </Box>
@@ -873,7 +992,7 @@ const ClassStepThree = ({ programTwo, selectedItems }) => {
                                         <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Save as draft</button>
                                     </Grid>
                                     <Grid item xs={1}>
-                                        <button className="bg-secondary border-0 text-white rounded p-2 my-4">Next</button>
+                                        <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={() => handleNextButtonClick()}>Next</button>
                                     </Grid>
                                 </Grid>
                             </Box>
