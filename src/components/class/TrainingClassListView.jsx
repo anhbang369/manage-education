@@ -35,6 +35,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { getClassLocation } from "../../services/ClassLocationService";
+import { getFsu } from "../../services/FsuService";
+import { getUserByRole } from "../../services/UserService";
 
 const TrainingClassListView = () => {
 
@@ -63,6 +66,9 @@ const TrainingClassListView = () => {
 
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
+    const [location, setLocation] = useState(null);
+    const [fsu, setFsu] = useState([]);
+    const [admin, setAdmin] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -70,6 +76,45 @@ const TrainingClassListView = () => {
                 const data = await getTrainingProgram();
                 console.log(data);
                 setSyllabusData(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getClassLocation();
+                setLocation(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getFsu();
+                setFsu(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserByRole();
+                setAdmin(data);
             } catch (error) {
                 console.log(error)
             }
@@ -193,9 +238,10 @@ const TrainingClassListView = () => {
                                                             <MenuItem value="">
                                                                 <em>None</em>
                                                             </MenuItem>
-                                                            <MenuItem value={10}>Ten</MenuItem>
-                                                            <MenuItem value={20}>Twenty</MenuItem>
-                                                            <MenuItem value={30}>Thirty</MenuItem>
+                                                            {location && location.map((loca, index) => (
+                                                                <MenuItem key={index} value={loca.name}>{loca.name}</MenuItem>
+                                                            ))}
+
                                                         </Select>
                                                     </FormControl>
 
@@ -232,9 +278,9 @@ const TrainingClassListView = () => {
                                                                         <MenuItem value="">
                                                                             <em>None</em>
                                                                         </MenuItem>
-                                                                        <MenuItem value={10}>Ten</MenuItem>
-                                                                        <MenuItem value={20}>Twenty</MenuItem>
-                                                                        <MenuItem value={30}>Thirty</MenuItem>
+                                                                        {fsu && fsu.map((fs, index) => (
+                                                                            <MenuItem key={index} value={fs.name}>{fs.name}</MenuItem>
+                                                                        ))}
                                                                     </Select>
                                                                 </FormControl>
                                                                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -249,9 +295,9 @@ const TrainingClassListView = () => {
                                                                         <MenuItem value="">
                                                                             <em>None</em>
                                                                         </MenuItem>
-                                                                        <MenuItem value={10}>Ten</MenuItem>
-                                                                        <MenuItem value={20}>Twenty</MenuItem>
-                                                                        <MenuItem value={30}>Thirty</MenuItem>
+                                                                        {admin && admin.map((ad, index) => (
+                                                                            <MenuItem key={index} value={ad.fullName}>{ad.fullName}</MenuItem>
+                                                                        ))}
                                                                     </Select>
                                                                 </FormControl>
 
