@@ -31,12 +31,12 @@ const View = () => {
     const [searchHistory, setSearchHistory] = useState([]);
 
     const [syllabusData, setSyllabusData] = useState(null);
+    const [syllabusSearch, setSyllabusSearch] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getSyllabusData();
-                console.log("this is dada: " + data);
                 setSyllabusData(data);
             } catch (error) {
                 console.log(error)
@@ -46,24 +46,71 @@ const View = () => {
         fetchData();
     }, []);
 
-    console.log("this is syllabus data: " + syllabusData);
+    //search
+    const handleSearch = () => {
 
+        if (searchHistory.length <= 0 && searchDate !== null) {
+            if (syllabusData !== null) {
+                const filteredData = syllabusData.filter(item => {
+                    const dateMatch = item.createOn.includes(searchDate);
+                    return (searchDate === '' || dateMatch);
+                });
+                setSyllabusSearch(filteredData)
+            }
+        } else {
+            if (syllabusData !== null) {
+                const filteredData = syllabusData.filter(item => {
+                    let isMatch = false;
+
+                    const relationCount = searchHistory.reduce((count, searchItem) => {
+                        const searchTextLowerCase = searchItem.searchText.toLowerCase();
+                        const nameMatch = item.name.toLowerCase().includes(searchTextLowerCase);
+                        const codeMatch = item.code.toLowerCase().includes(searchTextLowerCase);
+                        const byMatch = item.createBy.toLowerCase().includes(searchTextLowerCase);
+                        return count + (nameMatch ? 1 : 0) + (codeMatch ? 1 : 0) + (byMatch ? 1 : 0);
+                    }, 0);
+
+                    const isRelationMatch = relationCount === searchHistory.length;
+                    const isDateMatch = (searchDate && searchDate.trim() !== '') ? item.createOn.includes(searchDate) : true;
+
+                    if (isRelationMatch && isDateMatch) {
+                        isMatch = true;
+                    }
+
+                    return isMatch;
+                });
+                setSyllabusSearch(filteredData)
+            }
+        }
+
+    };
+
+
+    //pagani
     const [currentPage, setCurrentPage] = useState(0);
 
     const itemsPerPage = 8;
     let totalPages = 0;
-
-    if (syllabusData !== null) {
-        totalPages = Math.ceil(syllabusData.length / itemsPerPage);
-    }
-
     let currentData = [];
-    if (syllabusData !== null) {
-        currentData = syllabusData.slice(
-            currentPage * itemsPerPage,
-            (currentPage + 1) * itemsPerPage
-        );
+
+    if (!searchHistory.length && !searchDate) {
+        if (syllabusData !== null) {
+            totalPages = Math.ceil(syllabusData.length / itemsPerPage);
+            currentData = syllabusData.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
+    } else {
+        if (syllabusSearch !== null) {
+            totalPages = Math.ceil(syllabusSearch.length / itemsPerPage);
+            currentData = syllabusSearch.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
     }
+
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
@@ -97,64 +144,6 @@ const View = () => {
         setOpenNo(true);
     };
 
-    //search
-    console.log('date: ' + searchDate)
-    const handleSearch = () => {
-        if (syllabusData !== null) {
-            const filteredData = syllabusData.filter(item => {
-                let isMatch = false;
-                searchHistory.forEach(searchItem => {
-                    if (searchItem.searchText) {
-                        const searchTextLowerCase = searchItem.searchText.toLowerCase();
-                        const nameMatch = item.name.toLowerCase().includes(searchTextLowerCase);
-                        const codeMatch = item.code.toLowerCase().includes(searchTextLowerCase);
-                        const byMatch = item.createBy.toLowerCase().includes(searchTextLowerCase);
-
-                        if ((nameMatch || codeMatch || byMatch)) {
-                            isMatch = true;
-                        }
-                    }
-                });
-
-                const dateMatch = (searchDate && searchDate.trim() !== '') ? item.createOn.slice(0, 10).includes(searchDate) : true;
-
-                return isMatch && dateMatch;
-            });
-
-            let filteredByRelationCount = filteredData;
-
-            if (searchHistory.length > 0) {
-                filteredByRelationCount = filteredData.filter(item => {
-                    const relationCount = searchHistory.reduce((count, searchItem) => {
-                        const searchTextLowerCase = searchItem.searchText.toLowerCase();
-                        const nameMatch = item.name.toLowerCase().includes(searchTextLowerCase);
-                        const codeMatch = item.code.toLowerCase().includes(searchTextLowerCase);
-                        const byMatch = item.createBy.toLowerCase().includes(searchTextLowerCase);
-                        const dateMatch = (searchDate && searchDate.trim() !== '') ? item.createOn.includes(searchDate) : true;
-                        return count + (nameMatch ? 1 : 0) + (codeMatch ? 1 : 0) + (byMatch ? 1 : 0) + (dateMatch ? 1 : 0); // Tính cả trường createOn
-                    }, 0);
-                    return relationCount === searchHistory.length;
-                });
-            }
-
-            setCurrentPage(0);
-
-            console.log('after getdata: ' + JSON.stringify(filteredByRelationCount));
-        }
-    };
-
-
-
-
-
-
-
-
-
-
-
-
-
     useEffect(() => {
         handleSearch();
     }, [searchHistory, searchDate]);
@@ -175,8 +164,6 @@ const View = () => {
         }
     };
 
-    console.log('list search: ' + JSON.stringify(searchHistory))
-
     //delete history
     const handleRemoveSearchItem = (index) => {
         setSearchHistory(prevSearchHistory => {
@@ -186,10 +173,6 @@ const View = () => {
         });
 
     };
-
-
-
-
 
     return (
         <React.Fragment>
