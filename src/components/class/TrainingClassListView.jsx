@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useState, useEffect } from 'react';
 import "./trainingClassList.css";
 import ReactPaginate from 'react-paginate';
@@ -20,6 +20,21 @@ import Alert from '@mui/material/Alert';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+// import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+// import DialogContentText from '@mui/material/DialogContentText';
+// import DialogTitle from '@mui/material/DialogTitle';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const TrainingClassListView = () => {
 
@@ -103,6 +118,25 @@ const TrainingClassListView = () => {
         setOpenNo(true);
     };
 
+    //filter ui
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    //select
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
+
+
     return (
         <>
 
@@ -121,7 +155,116 @@ const TrainingClassListView = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className='text-white p-1 border-0 rounded bg-core'><i class="bi bi-filter"></i>    <b>Filter</b></button>
+                                        <React.Fragment>
+                                            <Button variant="outlined" onClick={handleClickOpen} className='text-white border-0 p-1 ms-2'
+                                                style={{ backgroundColor: '#2d3748' }}>
+                                                <i class="bi bi-filter"></i>    <b>Filter</b>
+                                            </Button>
+                                            <Dialog
+                                                open={open}
+                                                onClose={handleClose}
+                                                PaperProps={{
+                                                    component: 'form',
+                                                    onSubmit: (event) => {
+                                                        event.preventDefault();
+                                                        const formData = new FormData(event.currentTarget);
+                                                        const formJson = Object.fromEntries(formData.entries());
+                                                        const email = formJson.email;
+                                                        console.log(email);
+                                                        handleClose();
+                                                    },
+                                                }}
+                                            >
+                                                {/* <DialogTitle>Subscribe</DialogTitle> */}
+                                                <DialogContent>
+                                                    {/* <DialogContentText>
+                                                        To subscribe to this website, please enter your email address here. We
+                                                        will send updates occasionally.
+                                                    </DialogContentText> */}
+                                                    <FormControl variant="standard" sx={{ m: 1, minWidth: 500 }}>
+                                                        <InputLabel id="demo-simple-select-standard-label">Location</InputLabel>
+                                                        <Select
+                                                            labelId="demo-simple-select-standard-label"
+                                                            id="demo-simple-select-standard"
+                                                            value={age}
+                                                            onChange={handleChange}
+                                                            label="Age"
+                                                        >
+                                                            <MenuItem value="">
+                                                                <em>None</em>
+                                                            </MenuItem>
+                                                            <MenuItem value={10}>Ten</MenuItem>
+                                                            <MenuItem value={20}>Twenty</MenuItem>
+                                                            <MenuItem value={30}>Thirty</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+
+
+                                                    <Box sx={{ flexGrow: 1 }}>
+                                                        <Grid container spacing={2}>
+                                                            <Grid item xs={4}>
+                                                                <FormGroup>
+                                                                    <InputLabel id="demo-simple-select-standard-label">Status</InputLabel>
+                                                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Plaining" />
+                                                                    <FormControlLabel required control={<Checkbox />} label="Openning" />
+                                                                    <FormControlLabel disabled control={<Checkbox />} label="Closed" />
+                                                                </FormGroup>
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <FormGroup>
+                                                                    <InputLabel id="demo-simple-select-standard-label">Attendee</InputLabel>
+                                                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Intern" />
+                                                                    <FormControlLabel required control={<Checkbox />} label="Fresher" />
+                                                                    <FormControlLabel disabled control={<Checkbox />} label="Online fee-fesher" />
+                                                                    <FormControlLabel disabled control={<Checkbox />} label="Offline fee-fesher" />
+                                                                </FormGroup>
+                                                            </Grid>
+                                                            <Grid item xs={4}>
+                                                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                                                    <InputLabel id="demo-simple-select-standard-label">FSU</InputLabel>
+                                                                    <Select
+                                                                        labelId="demo-simple-select-standard-label"
+                                                                        id="demo-simple-select-standard"
+                                                                        value={age}
+                                                                        onChange={handleChange}
+                                                                        label="Age"
+                                                                    >
+                                                                        <MenuItem value="">
+                                                                            <em>None</em>
+                                                                        </MenuItem>
+                                                                        <MenuItem value={10}>Ten</MenuItem>
+                                                                        <MenuItem value={20}>Twenty</MenuItem>
+                                                                        <MenuItem value={30}>Thirty</MenuItem>
+                                                                    </Select>
+                                                                </FormControl>
+                                                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                                                    <InputLabel id="demo-simple-select-standard-label">Admin</InputLabel>
+                                                                    <Select
+                                                                        labelId="demo-simple-select-standard-label"
+                                                                        id="demo-simple-select-standard"
+                                                                        value={age}
+                                                                        onChange={handleChange}
+                                                                        label="Age"
+                                                                    >
+                                                                        <MenuItem value="">
+                                                                            <em>None</em>
+                                                                        </MenuItem>
+                                                                        <MenuItem value={10}>Ten</MenuItem>
+                                                                        <MenuItem value={20}>Twenty</MenuItem>
+                                                                        <MenuItem value={30}>Thirty</MenuItem>
+                                                                    </Select>
+                                                                </FormControl>
+
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Box>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={handleClose}>Cancel</Button>
+                                                    <Button type="submit">Subscribe</Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                        </React.Fragment>
                                     </div>
                                 </div>
 

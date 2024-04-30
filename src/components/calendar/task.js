@@ -1,4 +1,6 @@
 import { green, deepOrange, lightBlue } from '@mui/material/colors';
+// import { useEffect, useState } from 'react';
+// import { getFullClassCalendars } from "../../services/ClassCalendarService";
 
 export const tasks = [
     {
@@ -214,6 +216,33 @@ export const priorities = [
     { id: 2, text: 'Medium Priority', color: lightBlue },
     { id: 3, text: 'High Priority', color: deepOrange },
 ];
+
+// const useOwners = () => {
+//     const [owner, setOwner] = useState([]);
+
+//     useEffect(() => {
+//         const fetchData = async () => {
+//             try {
+//                 const data = await getFullClassCalendars();
+//                 const updatedOwners = data.map((entry, index) => ({
+//                     text: entry.createBy,
+//                     id: index % 6 + 1,
+//                     color: index < 3 ? green : index < 6 ? lightBlue : deepOrange,
+//                 }));
+//                 setOwner(updatedOwners);
+//             } catch (error) {
+//                 console.log(error);
+//             }
+//         };
+
+//         fetchData();
+//     }, []);
+
+//     return owner;
+// };
+
+// export default useOwners;
+
 
 export const owners = [
     {
