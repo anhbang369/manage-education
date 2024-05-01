@@ -11,6 +11,58 @@ export const getUserData = async () => {
     }
 };
 
+export const getUserStatus = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/status');
+        if (!response.ok) {
+            throw new Error('Failed to fetch status user data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching status user data:', error);
+        throw error;
+    }
+};
+
+export const getUserRoles = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/roles');
+        if (!response.ok) {
+            throw new Error('Failed to fetch role user data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching role user data:', error);
+        throw error;
+    }
+};
+
+export const getUserLevels = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/levels');
+        if (!response.ok) {
+            throw new Error('Failed to fetch level user data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching level user data:', error);
+        throw error;
+    }
+};
+
+export const getUserGenders = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/genders');
+        if (!response.ok) {
+            throw new Error('Failed to fetch gender user data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching gender user data:', error);
+        throw error;
+    }
+};
+
 export const getUserByRole = async () => {
     try {
         const response = await fetch('http://localhost:8080/api/v1/auth/customers/role?role=CLASS_ADMIN');
