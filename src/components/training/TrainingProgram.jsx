@@ -27,6 +27,10 @@ const TrainingProgram = () => {
 
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
+    const [searchText, setSearchText] = useState('');
+    const [searchDate, setSearchDate] = useState('');
+    const [searchHistory, setSearchHistory] = useState([]);
+    const [syllabusSearch, setSyllabusSearch] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,6 +45,75 @@ const TrainingProgram = () => {
 
         fetchData();
     }, []);
+
+    //search
+    //search
+    const handleSearch = () => {
+
+        if (searchHistory.length <= 0 && searchDate !== null) {
+            if (syllabusData !== null) {
+                const filteredData = syllabusData.filter(item => {
+                    const dateMatch = item.createdDate.includes(searchDate);
+                    return (searchDate === '' || dateMatch);
+                });
+                setSyllabusSearch(filteredData)
+            }
+        } else {
+            if (syllabusData !== null) {
+                const filteredData = syllabusData.filter(item => {
+                    let isMatch = false;
+
+                    const relationCount = searchHistory.reduce((count, searchItem) => {
+                        const searchTextLowerCase = searchItem.searchText.toLowerCase();
+                        const nameMatch = item.name && item.name.toLowerCase().includes(searchTextLowerCase);
+                        const byMatch = item.createdBy && item.createdBy.toLowerCase().includes(searchTextLowerCase);
+                        return count + (nameMatch ? 1 : 0) + (byMatch ? 1 : 0);
+                    }, 0);
+
+                    const isRelationMatch = relationCount === searchHistory.length;
+                    const isDateMatch = (searchDate && searchDate.trim() !== '') ? item.createdDate.slice(0, 10).includes(searchDate) : true;
+
+                    if (isRelationMatch && isDateMatch) {
+                        isMatch = true;
+                    }
+
+                    return isMatch;
+                });
+                setSyllabusSearch(filteredData)
+            }
+        }
+
+    };
+
+    useEffect(() => {
+        handleSearch();
+    }, [searchHistory, searchDate]);
+
+    const handleSearchTextChange = (e) => {
+        setSearchText(e.target.value);
+    };
+
+    const handleSearchDateChange = (e) => {
+        setSearchDate(e.target.value);
+    };
+
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            const newSearchItem = { searchText };
+            setSearchHistory(prevSearchHistory => [...prevSearchHistory, newSearchItem]);
+            setSearchText('');
+        }
+    };
+
+    //delete history
+    const handleRemoveSearchItem = (index) => {
+        setSearchHistory(prevSearchHistory => {
+            const newSearchHistory = [...prevSearchHistory];
+            newSearchHistory.splice(index, 1);
+            return newSearchHistory;
+        });
+
+    };
 
     //notification
     const [openNo, setOpenNo] = useState(false);
@@ -76,19 +149,26 @@ const TrainingProgram = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
 
-    const itemsPerPage = 10;
+    const itemsPerPage = 8;
     let totalPages = 0;
-
-    if (syllabusData !== null) {
-        totalPages = Math.ceil(syllabusData.length / itemsPerPage);
-    }
-
     let currentData = [];
-    if (syllabusData !== null) {
-        currentData = syllabusData.slice(
-            currentPage * itemsPerPage,
-            (currentPage + 1) * itemsPerPage
-        );
+
+    if (!searchHistory.length && !searchDate) {
+        if (syllabusData !== null) {
+            totalPages = Math.ceil(syllabusData.length / itemsPerPage);
+            currentData = syllabusData.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
+    } else {
+        if (syllabusSearch !== null) {
+            totalPages = Math.ceil(syllabusSearch.length / itemsPerPage);
+            currentData = syllabusSearch.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
     }
 
     const handlePageClick = ({ selected }) => {
@@ -108,15 +188,17 @@ const TrainingProgram = () => {
                                 <h5 className="training__program-header text-white w-100 p-2 m-0 border border-white">Training program</h5>
                             </div>
                             <div className="row p-1">
-                                <div className="col-md-9 d-flex justify-content-start">
-                                    <div>
-                                        <div className="input-with-icon">
-                                            <i class="bi bi-search"></i>
-                                            <input type="text" className="search__by" placeholder='Search by ...' />
-                                        </div>
+                                <div className="syllabus__search col-md-8">
+                                    <div className="input-with-icon">
+                                        <i className="bi bi-search"></i>
+                                        <input type="text" className="search__by" placeholder='Search by ...' value={searchText}
+                                            onChange={handleSearchTextChange}
+                                            onKeyPress={handleEnterPress} />
                                     </div>
-                                    <div>
-                                        <button className='text-white p-1 border-0 rounded bg-core'><i class="bi bi-filter"></i>    <b>Filter</b></button>
+                                    <div className="input-with-icon">
+                                        <i className="bi bi-calendar"></i>
+                                        <input type="text" className="search__date" placeholder='Created date' value={searchDate}
+                                            onChange={handleSearchDateChange} />
                                     </div>
                                 </div>
 
@@ -124,6 +206,11 @@ const TrainingProgram = () => {
                                     <button className="border border-0 text-white rounded me-3 px-1 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
                                     <button className="border border-0 text-white rounded me-3 px-1 py-1 bg-core"><i class="bi bi-plus-circle"></i> Add syllabus</button>
                                 </div>
+                            </div>
+                            <div className="mt-2 ms-10 d-flex">
+                                {searchHistory && searchHistory.map((searchData, index) => (
+                                    <p key={index} className="bg-dark text-white rounded ms-4 mb-3 p-1 text-center">{searchData.searchText} <i className="bi bi-x-lg pointer" onClick={() => handleRemoveSearchItem(index)}></i></p>
+                                ))}
                             </div>
 
 
