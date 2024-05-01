@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useState, useEffect } from 'react';
 import "./trainingClassList.css";
 import ReactPaginate from 'react-paginate';
@@ -20,6 +20,26 @@ import Alert from '@mui/material/Alert';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+// import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+// import DialogContentText from '@mui/material/DialogContentText';
+// import DialogTitle from '@mui/material/DialogTitle';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { getClassLocation } from "../../services/ClassLocationService";
+import { getFsu } from "../../services/FsuService";
+import { getUserByRole } from "../../services/UserService";
+import { getAttendLevel } from "../../services/AttendLevel";
+import { getClassStatus } from "../../services/ClassStatusService";
 
 const TrainingClassListView = () => {
 
@@ -48,6 +68,130 @@ const TrainingClassListView = () => {
 
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
+    const [syllabusSearch, setSyllabusSearch] = useState(null);
+    const [location, setLocation] = useState([]);
+    const [fsu, setFsu] = useState([]);
+    const [admin, setAdmin] = useState([]);
+    const [attendee, setAttendee] = useState([]);
+    const [status, setStatus] = useState([]);
+    const [filterValues, setFilterValues] = useState({
+        location: "",
+        fsu: "",
+        admin: "",
+        attendee: [],
+        status: []
+    });
+    const [currentDat, setCurrentDat] = useState([]);
+    const [filterApplied, setFilterApplied] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [searchHistory, setSearchHistory] = useState([]);
+
+    const handleApplyClick = () => {
+        setSearchHistory([])
+        // Filter data based on selected filters
+        const filteredData = syllabusData.filter(item => {
+            return (
+                (!filterValues.location || item.location === filterValues.location) &&
+                (!filterValues.fsu || item.fsu === filterValues.fsu) &&
+                (!filterValues.admin || item.createdBy === filterValues.admin) &&
+                (filterValues.attendee.length === 0 || (item.attend && filterValues.attendee.some(attendee => attendee.id === item.attend.id))) &&
+                (filterValues.status.length === 0 || (item.status && filterValues.status.some(status => status.id === item.status.id)))
+            );
+        });
+
+        setCurrentDat(filteredData);
+        setFilterApplied(true);
+    };
+
+    // Handle attendee checkbox change
+    const handleAttendeeCheckboxChange = (event, selectedAttendee) => {
+        const isChecked = event.target.checked;
+        const attendeeId = selectedAttendee.id;
+
+        let updatedAttendees = [];
+        if (isChecked) {
+            updatedAttendees = [...filterValues.attendee, selectedAttendee];
+        } else {
+            updatedAttendees = filterValues.attendee.filter(attendee => attendee.id !== attendeeId);
+        }
+        setFilterValues({ ...filterValues, attendee: updatedAttendees });
+    };
+
+    // Handle status checkbox change
+    const handleStatusCheckboxChange = (event, selectedStatus) => {
+        const isChecked = event.target.checked;
+        const statusId = selectedStatus.id;
+
+        let updatedStatus = [];
+        if (isChecked) {
+            updatedStatus = [...filterValues.status, selectedStatus];
+        } else {
+            updatedStatus = filterValues.status.filter(status => status.id !== statusId);
+        }
+        setFilterValues({ ...filterValues, status: updatedStatus });
+    };
+
+    //search by
+    const handleSearchTextChange = (e) => {
+        setSearchText(e.target.value);
+    };
+
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            const newSearchItem = { searchText };
+            setSearchHistory(prevSearchHistory => [...prevSearchHistory, newSearchItem]);
+            setSearchText('');
+        }
+    };
+
+    //delete history
+    const handleRemoveSearchItem = (index) => {
+        setSearchHistory(prevSearchHistory => {
+            const newSearchHistory = [...prevSearchHistory];
+            newSearchHistory.splice(index, 1);
+            return newSearchHistory;
+        });
+
+    };
+
+    //search
+    const handleSearch = () => {
+        if (syllabusData !== null) {
+            const filteredData = syllabusData.filter(item => {
+                let isMatch = false;
+
+                const relationCount = searchHistory.reduce((count, searchItem) => {
+                    const searchTextLowerCase = searchItem.searchText.toLowerCase();
+                    const nameMatch = (item.name !== null ? item.name.toLowerCase() : "").includes(searchTextLowerCase);
+                    const codeMatch = (item.code !== null ? item.code.toLowerCase() : "").includes(searchTextLowerCase);
+                    return count + (nameMatch ? 1 : 0) + (codeMatch ? 1 : 0);
+                }, 0);
+
+                const isRelationMatch = relationCount === searchHistory.length;
+
+                if (isRelationMatch) {
+                    isMatch = true;
+                }
+
+                return isMatch;
+            });
+
+            // Cập nhật state với kết quả lọc
+            setSyllabusSearch(filteredData);
+
+            // Sử dụng JSON.stringify để hiển thị đúng cho giá trị state
+            console.log('view data search by:', JSON.stringify(filteredData));
+        }
+    };
+
+
+    useEffect(() => {
+        handleSearch();
+    }, [searchHistory]);
+
+
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,22 +207,103 @@ const TrainingClassListView = () => {
         fetchData();
     }, []);
 
-    const [currentPage, setCurrentPage] = useState(0);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getClassLocation();
+                setLocation(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
 
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getFsu();
+                setFsu(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserByRole();
+                setAdmin(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getAttendLevel();
+                console.log(data);
+                setAttendee(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getClassStatus();
+                console.log(data);
+                setStatus(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 8;
     let totalPages = 0;
-
-    if (syllabusData !== null) {
-        totalPages = Math.ceil(syllabusData.length / itemsPerPage);
-    }
-
     let currentData = [];
-    if (syllabusData !== null) {
-        currentData = syllabusData.slice(
-            currentPage * itemsPerPage,
-            (currentPage + 1) * itemsPerPage
-        );
+
+
+    if (!searchHistory.length) {
+        if (filterApplied) {
+            totalPages = Math.ceil(currentDat && currentDat.length / itemsPerPage);
+            currentData = currentDat && currentDat.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        } else {
+            totalPages = Math.ceil(syllabusData && syllabusData.length / itemsPerPage);
+            currentData = syllabusData && syllabusData.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
+    } else {
+        if (syllabusSearch !== null) {
+            totalPages = Math.ceil(syllabusSearch.length / itemsPerPage);
+            currentData = syllabusSearch.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
     }
+
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
@@ -103,6 +328,18 @@ const TrainingClassListView = () => {
         setOpenNo(true);
     };
 
+    //filter ui
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
     return (
         <>
 
@@ -117,11 +354,128 @@ const TrainingClassListView = () => {
                                     <div>
                                         <div className="input-with-icon">
                                             <i class="bi bi-search"></i>
-                                            <input type="text" className="search__by" placeholder='Search by ...' />
+                                            <input type="text" className="search__by" placeholder='Search by ...' value={searchText}
+                                                onChange={handleSearchTextChange}
+                                                onKeyPress={handleEnterPress} />
                                         </div>
                                     </div>
                                     <div>
-                                        <button className='text-white p-1 border-0 rounded bg-core'><i class="bi bi-filter"></i>    <b>Filter</b></button>
+                                        <React.Fragment>
+                                            <Button variant="outlined" onClick={handleClickOpen} className='text-white border-0 p-1 ms-2'
+                                                style={{ backgroundColor: '#2d3748' }}>
+                                                <i class="bi bi-filter"></i>    <b>Filter</b>
+                                            </Button>
+                                            <Dialog
+                                                open={open}
+                                                onClose={handleClose}
+                                                PaperProps={{
+                                                    component: 'form',
+                                                    onSubmit: (event) => {
+                                                        event.preventDefault();
+                                                        const formData = new FormData(event.currentTarget);
+                                                        const formJson = Object.fromEntries(formData.entries());
+                                                        const email = formJson.email;
+                                                        console.log(email);
+                                                        handleClose();
+                                                    },
+                                                }}
+                                            >
+                                                <DialogContent>
+                                                    <FormControl variant="standard" sx={{ m: 1, minWidth: 500 }}>
+                                                        <InputLabel id="demo-simple-select-standard-label">Location</InputLabel>
+                                                        <Select
+                                                            labelId="location-label"
+                                                            id="location"
+                                                            value={filterValues.location} // Use filterValues.location as the value
+                                                            onChange={(event) => setFilterValues({ ...filterValues, location: event.target.value })} // Update location in filterValues
+                                                            label="Location"
+                                                        >
+                                                            <MenuItem value="">
+                                                                <em>None</em>
+                                                            </MenuItem>
+                                                            {location && location.map((loca, index) => (
+                                                                <MenuItem key={index} value={loca.name}>{loca.name}</MenuItem>
+                                                            ))}
+
+                                                        </Select>
+                                                    </FormControl>
+
+
+                                                    <Box sx={{ flexGrow: 1 }}>
+                                                        <Grid container spacing={2}>
+                                                            <Grid item xs={4}>
+                                                                <FormGroup>
+                                                                    <InputLabel id="attendee-label">Attendee</InputLabel>
+                                                                    {attendee.map((attend, idx) => (
+                                                                        <FormControlLabel
+                                                                            key={attend.id} // Use unique key
+                                                                            control={<Checkbox checked={filterValues.attendee.some(item => item.id === attend.id)} onChange={(event) => handleAttendeeCheckboxChange(event, attend)} />}
+                                                                            label={attend.name} // Access the name property
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+                                                            </Grid>
+
+                                                            <Grid item xs={4}>
+                                                                <FormGroup>
+                                                                    <InputLabel id="attendee-label">Status</InputLabel>
+                                                                    {status.map((status, idx) => (
+                                                                        <FormControlLabel
+                                                                            key={status.id}
+                                                                            control={<Checkbox checked={filterValues.status.some(item => item.id === status.id)} onChange={(event) => handleStatusCheckboxChange(event, status)} />}
+                                                                            label={status.name}
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+                                                            </Grid>
+
+                                                            <Grid item xs={4}>
+                                                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                                                    <InputLabel id="fsu-label">FSU</InputLabel>
+                                                                    <Select
+                                                                        labelId="fsu-label"
+                                                                        id="fsu"
+                                                                        value={filterValues.fsu} // Use filterValues.location as the value
+                                                                        onChange={(event) => setFilterValues({ ...filterValues, fsu: event.target.value })} // Update location in filterValues
+                                                                        label="FSU"
+                                                                    >
+                                                                        <MenuItem value="">
+                                                                            <em>None</em>
+                                                                        </MenuItem>
+                                                                        {fsu && fsu.map((fs, index) => (
+                                                                            <MenuItem key={index} value={fs.name}>{fs.name}</MenuItem>
+                                                                        ))}
+                                                                    </Select>
+                                                                </FormControl>
+                                                                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                                                    <InputLabel id="admin-label">Admin</InputLabel>
+                                                                    <Select
+                                                                        labelId="admin-label"
+                                                                        id="admin"
+                                                                        value={filterValues.admin} // Use filterValues.location as the value
+                                                                        onChange={(event) => setFilterValues({ ...filterValues, admin: event.target.value })} // Update location in filterValues
+                                                                        label="Admin"
+                                                                    >
+                                                                        <MenuItem value="">
+                                                                            <em>None</em>
+                                                                        </MenuItem>
+                                                                        {admin && admin.map((ad, index) => (
+                                                                            <MenuItem key={index} value={ad.fullName}>{ad.fullName}</MenuItem>
+                                                                        ))}
+                                                                    </Select>
+                                                                </FormControl>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Box>
+
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={handleClose}>Cancel</Button>
+                                                    <Button type="submit" onClick={handleApplyClick}>Apply</Button>
+
+                                                </DialogActions>
+                                            </Dialog>
+                                        </React.Fragment>
                                     </div>
                                 </div>
 
@@ -131,8 +485,9 @@ const TrainingClassListView = () => {
                                 </div>
                             </div>
                             <div className="mt-2 ms-10 d-flex">
-                                <p className="bg-dark text-white rounded ms-4 mb-3 p-1 d-flex w-10">foundation <i class="bi bi-x-lg"></i></p>
-                                <p className="bg-dark text-white rounded ms-3 mb-3 p-1 d-flex w-10">HaNTT <i class="bi bi-x-lg"></i></p>
+                                {searchHistory && searchHistory.map((searchData, index) => (
+                                    <p key={index} className="bg-dark text-white rounded ms-4 mb-3 p-1 text-center">{searchData.searchText} <i className="bi bi-x-lg pointer" onClick={() => handleRemoveSearchItem(index)}></i></p>
+                                ))}
                             </div>
 
                             <TableContainer component={Paper}>
@@ -152,7 +507,7 @@ const TrainingClassListView = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {currentData.map((item) => (
+                                        {currentData && currentData.map((item) => (
                                             <TableRow
                                                 key={item.id}
                                                 sx={{ 'td': { padding: 0 } }}
@@ -161,10 +516,10 @@ const TrainingClassListView = () => {
                                                     {item.name}
                                                 </TableCell>
                                                 <TableCell align="left">{item.code}</TableCell>
-                                                <TableCell align="left">{item.createdDate.slice(0, 10)}</TableCell>
+                                                <TableCell align="left">{item.createdDate && item.createdDate.slice(0, 10)}</TableCell>
                                                 <TableCell align="left">{item.createdBy}</TableCell>
                                                 <TableCell align="left">{item.duration}</TableCell>
-                                                <TableCell align="left"><p className={`syllabus_p ${getClassForFsu(item.attend)}`}>{item.attend}</p></TableCell>
+                                                <TableCell align="left"><p className={`syllabus_p ${getClassForFsu(item.attend.name)}`}>{item.attend.name}</p></TableCell>
                                                 <TableCell align="left">{item.location}</TableCell>
                                                 <TableCell align="left">{item.fsu}</TableCell>
                                                 <TableCell align="right">

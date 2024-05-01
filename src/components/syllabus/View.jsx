@@ -26,13 +26,17 @@ import { Link } from 'react-router-dom';
 const View = () => {
 
     //get list
+    const [searchText, setSearchText] = useState('');
+    const [searchDate, setSearchDate] = useState('');
+    const [searchHistory, setSearchHistory] = useState([]);
+
     const [syllabusData, setSyllabusData] = useState(null);
+    const [syllabusSearch, setSyllabusSearch] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getSyllabusData();
-                console.log("this is dada: " + data);
                 setSyllabusData(data);
             } catch (error) {
                 console.log(error)
@@ -42,24 +46,71 @@ const View = () => {
         fetchData();
     }, []);
 
-    console.log("this is syllabus data: " + syllabusData);
+    //search
+    const handleSearch = () => {
 
+        if (searchHistory.length <= 0 && searchDate !== null) {
+            if (syllabusData !== null) {
+                const filteredData = syllabusData.filter(item => {
+                    const dateMatch = item.createOn.includes(searchDate);
+                    return (searchDate === '' || dateMatch);
+                });
+                setSyllabusSearch(filteredData)
+            }
+        } else {
+            if (syllabusData !== null) {
+                const filteredData = syllabusData.filter(item => {
+                    let isMatch = false;
+
+                    const relationCount = searchHistory.reduce((count, searchItem) => {
+                        const searchTextLowerCase = searchItem.searchText.toLowerCase();
+                        const nameMatch = item.name.toLowerCase().includes(searchTextLowerCase);
+                        const codeMatch = item.code.toLowerCase().includes(searchTextLowerCase);
+                        const byMatch = item.createBy.toLowerCase().includes(searchTextLowerCase);
+                        return count + (nameMatch ? 1 : 0) + (codeMatch ? 1 : 0) + (byMatch ? 1 : 0);
+                    }, 0);
+
+                    const isRelationMatch = relationCount === searchHistory.length;
+                    const isDateMatch = (searchDate && searchDate.trim() !== '') ? item.createOn.includes(searchDate) : true;
+
+                    if (isRelationMatch && isDateMatch) {
+                        isMatch = true;
+                    }
+
+                    return isMatch;
+                });
+                setSyllabusSearch(filteredData)
+            }
+        }
+
+    };
+
+
+    //pagani
     const [currentPage, setCurrentPage] = useState(0);
 
     const itemsPerPage = 8;
     let totalPages = 0;
-
-    if (syllabusData !== null) {
-        totalPages = Math.ceil(syllabusData.length / itemsPerPage);
-    }
-
     let currentData = [];
-    if (syllabusData !== null) {
-        currentData = syllabusData.slice(
-            currentPage * itemsPerPage,
-            (currentPage + 1) * itemsPerPage
-        );
+
+    if (!searchHistory.length && !searchDate) {
+        if (syllabusData !== null) {
+            totalPages = Math.ceil(syllabusData.length / itemsPerPage);
+            currentData = syllabusData.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
+    } else {
+        if (syllabusSearch !== null) {
+            totalPages = Math.ceil(syllabusSearch.length / itemsPerPage);
+            currentData = syllabusSearch.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
     }
+
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
@@ -93,6 +144,35 @@ const View = () => {
         setOpenNo(true);
     };
 
+    useEffect(() => {
+        handleSearch();
+    }, [searchHistory, searchDate]);
+
+    const handleSearchTextChange = (e) => {
+        setSearchText(e.target.value);
+    };
+
+    const handleSearchDateChange = (e) => {
+        setSearchDate(e.target.value);
+    };
+
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            const newSearchItem = { searchText };
+            setSearchHistory(prevSearchHistory => [...prevSearchHistory, newSearchItem]);
+            setSearchText('');
+        }
+    };
+
+    //delete history
+    const handleRemoveSearchItem = (index) => {
+        setSearchHistory(prevSearchHistory => {
+            const newSearchHistory = [...prevSearchHistory];
+            newSearchHistory.splice(index, 1);
+            return newSearchHistory;
+        });
+
+    };
 
     return (
         <React.Fragment>
@@ -104,14 +184,18 @@ const View = () => {
                         <div className="row">
                             <div className="syllabus__search col-md-8">
                                 <div className="input-with-icon">
-                                    <i class="bi bi-search"></i>
-                                    <input type="text" className="search__by" placeholder='Search by ...' />
+                                    <i className="bi bi-search"></i>
+                                    <input type="text" className="search__by" placeholder='Search by ...' value={searchText}
+                                        onChange={handleSearchTextChange}
+                                        onKeyPress={handleEnterPress} />
                                 </div>
                                 <div className="input-with-icon">
-                                    <i class="bi bi-calendar"></i>
-                                    <input type="text" className="search__date" placeholder='Created date' />
+                                    <i className="bi bi-calendar"></i>
+                                    <input type="text" className="search__date" placeholder='Created date' value={searchDate}
+                                        onChange={handleSearchDateChange} />
                                 </div>
                             </div>
+
 
                             <div className="col-md-4">
                                 <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
@@ -119,8 +203,9 @@ const View = () => {
                             </div>
                         </div>
                         <div className="mt-2 ms-10 d-flex">
-                            <p className="bg-dark text-white rounded ms-4 mb-3 p-1 d-flex w-10">foundation <i class="bi bi-x-lg"></i></p>
-                            <p className="bg-dark text-white rounded ms-3 mb-3 p-1 d-flex w-10">HaNTT <i class="bi bi-x-lg"></i></p>
+                            {searchHistory && searchHistory.map((searchData, index) => (
+                                <p key={index} className="bg-dark text-white rounded ms-4 mb-3 p-1 text-center">{searchData.searchText} <i className="bi bi-x-lg pointer" onClick={() => handleRemoveSearchItem(index)}></i></p>
+                            ))}
                         </div>
 
                         <TableContainer component={Paper}>
