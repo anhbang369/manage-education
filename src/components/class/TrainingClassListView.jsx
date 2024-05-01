@@ -68,6 +68,7 @@ const TrainingClassListView = () => {
 
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
+    const [syllabusSearch, setSyllabusSearch] = useState(null);
     const [location, setLocation] = useState([]);
     const [fsu, setFsu] = useState([]);
     const [admin, setAdmin] = useState([]);
@@ -82,8 +83,11 @@ const TrainingClassListView = () => {
     });
     const [currentDat, setCurrentDat] = useState([]);
     const [filterApplied, setFilterApplied] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [searchHistory, setSearchHistory] = useState([]);
 
     const handleApplyClick = () => {
+        setSearchHistory([])
         // Filter data based on selected filters
         const filteredData = syllabusData.filter(item => {
             return (
@@ -127,7 +131,63 @@ const TrainingClassListView = () => {
         setFilterValues({ ...filterValues, status: updatedStatus });
     };
 
+    //search by
+    const handleSearchTextChange = (e) => {
+        setSearchText(e.target.value);
+    };
 
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            const newSearchItem = { searchText };
+            setSearchHistory(prevSearchHistory => [...prevSearchHistory, newSearchItem]);
+            setSearchText('');
+        }
+    };
+
+    //delete history
+    const handleRemoveSearchItem = (index) => {
+        setSearchHistory(prevSearchHistory => {
+            const newSearchHistory = [...prevSearchHistory];
+            newSearchHistory.splice(index, 1);
+            return newSearchHistory;
+        });
+
+    };
+
+    //search
+    const handleSearch = () => {
+        if (syllabusData !== null) {
+            const filteredData = syllabusData.filter(item => {
+                let isMatch = false;
+
+                const relationCount = searchHistory.reduce((count, searchItem) => {
+                    const searchTextLowerCase = searchItem.searchText.toLowerCase();
+                    const nameMatch = (item.name !== null ? item.name.toLowerCase() : "").includes(searchTextLowerCase);
+                    const codeMatch = (item.code !== null ? item.code.toLowerCase() : "").includes(searchTextLowerCase);
+                    return count + (nameMatch ? 1 : 0) + (codeMatch ? 1 : 0);
+                }, 0);
+
+                const isRelationMatch = relationCount === searchHistory.length;
+
+                if (isRelationMatch) {
+                    isMatch = true;
+                }
+
+                return isMatch;
+            });
+
+            // Cập nhật state với kết quả lọc
+            setSyllabusSearch(filteredData);
+
+            // Sử dụng JSON.stringify để hiển thị đúng cho giá trị state
+            console.log('view data search by:', JSON.stringify(filteredData));
+        }
+    };
+
+
+    useEffect(() => {
+        handleSearch();
+    }, [searchHistory]);
 
 
 
@@ -219,18 +279,29 @@ const TrainingClassListView = () => {
     let totalPages = 0;
     let currentData = [];
 
-    if (filterApplied) {
-        totalPages = Math.ceil(currentDat && currentDat.length / itemsPerPage);
-        currentData = currentDat && currentDat.slice(
-            currentPage * itemsPerPage,
-            (currentPage + 1) * itemsPerPage
-        );
+
+    if (!searchHistory.length) {
+        if (filterApplied) {
+            totalPages = Math.ceil(currentDat && currentDat.length / itemsPerPage);
+            currentData = currentDat && currentDat.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        } else {
+            totalPages = Math.ceil(syllabusData && syllabusData.length / itemsPerPage);
+            currentData = syllabusData && syllabusData.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
     } else {
-        totalPages = Math.ceil(syllabusData && syllabusData.length / itemsPerPage);
-        currentData = syllabusData && syllabusData.slice(
-            currentPage * itemsPerPage,
-            (currentPage + 1) * itemsPerPage
-        );
+        if (syllabusSearch !== null) {
+            totalPages = Math.ceil(syllabusSearch.length / itemsPerPage);
+            currentData = syllabusSearch.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
     }
 
 
@@ -283,7 +354,9 @@ const TrainingClassListView = () => {
                                     <div>
                                         <div className="input-with-icon">
                                             <i class="bi bi-search"></i>
-                                            <input type="text" className="search__by" placeholder='Search by ...' />
+                                            <input type="text" className="search__by" placeholder='Search by ...' value={searchText}
+                                                onChange={handleSearchTextChange}
+                                                onKeyPress={handleEnterPress} />
                                         </div>
                                     </div>
                                     <div>
@@ -412,8 +485,9 @@ const TrainingClassListView = () => {
                                 </div>
                             </div>
                             <div className="mt-2 ms-10 d-flex">
-                                <p className="bg-dark text-white rounded ms-4 mb-3 p-1 d-flex w-10">foundation <i class="bi bi-x-lg"></i></p>
-                                <p className="bg-dark text-white rounded ms-3 mb-3 p-1 d-flex w-10">HaNTT <i class="bi bi-x-lg"></i></p>
+                                {searchHistory && searchHistory.map((searchData, index) => (
+                                    <p key={index} className="bg-dark text-white rounded ms-4 mb-3 p-1 text-center">{searchData.searchText} <i className="bi bi-x-lg pointer" onClick={() => handleRemoveSearchItem(index)}></i></p>
+                                ))}
                             </div>
 
                             <TableContainer component={Paper}>

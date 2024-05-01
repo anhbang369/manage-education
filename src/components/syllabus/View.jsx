@@ -206,9 +206,6 @@ const View = () => {
                             {searchHistory && searchHistory.map((searchData, index) => (
                                 <p key={index} className="bg-dark text-white rounded ms-4 mb-3 p-1 text-center">{searchData.searchText} <i className="bi bi-x-lg pointer" onClick={() => handleRemoveSearchItem(index)}></i></p>
                             ))}
-
-
-
                         </div>
 
                         <TableContainer component={Paper}>
