@@ -81,6 +81,7 @@ const TrainingClassListView = () => {
         status: []
     });
     const [currentDat, setCurrentDat] = useState([]);
+    const [filterApplied, setFilterApplied] = useState(false);
 
     const handleApplyClick = () => {
         // Filter data based on selected filters
@@ -95,6 +96,7 @@ const TrainingClassListView = () => {
         });
 
         setCurrentDat(filteredData);
+        setFilterApplied(true);
     };
 
     // Handle attendee checkbox change
@@ -217,15 +219,15 @@ const TrainingClassListView = () => {
     let totalPages = 0;
     let currentData = [];
 
-    if (currentDat.length === 0) {
-        totalPages = Math.ceil(syllabusData && syllabusData.length / itemsPerPage);
-        currentData = syllabusData && syllabusData.slice(
+    if (filterApplied) {
+        totalPages = Math.ceil(currentDat && currentDat.length / itemsPerPage);
+        currentData = currentDat && currentDat.slice(
             currentPage * itemsPerPage,
             (currentPage + 1) * itemsPerPage
         );
     } else {
-        totalPages = Math.ceil(currentDat.length / itemsPerPage);
-        currentData = currentDat.slice(
+        totalPages = Math.ceil(syllabusData && syllabusData.length / itemsPerPage);
+        currentData = syllabusData && syllabusData.slice(
             currentPage * itemsPerPage,
             (currentPage + 1) * itemsPerPage
         );
