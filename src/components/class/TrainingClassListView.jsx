@@ -38,6 +38,8 @@ import Select from '@mui/material/Select';
 import { getClassLocation } from "../../services/ClassLocationService";
 import { getFsu } from "../../services/FsuService";
 import { getUserByRole } from "../../services/UserService";
+import { getAttendLevel } from "../../services/AttendLevel";
+import { getClassStatus } from "../../services/ClassStatusService";
 
 const TrainingClassListView = () => {
 
@@ -66,9 +68,68 @@ const TrainingClassListView = () => {
 
     //get list
     const [syllabusData, setSyllabusData] = useState(null);
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState([]);
     const [fsu, setFsu] = useState([]);
-    const [admin, setAdmin] = useState(null);
+    const [admin, setAdmin] = useState([]);
+    const [attendee, setAttendee] = useState([]);
+    const [status, setStatus] = useState([]);
+    const [filterValues, setFilterValues] = useState({
+        location: "",
+        fsu: "",
+        admin: "",
+        attendee: [],
+        status: []
+    });
+    const [currentDat, setCurrentDat] = useState([]);
+
+    const handleApplyClick = () => {
+        // Filter data based on selected filters
+        const filteredData = syllabusData.filter(item => {
+            return (
+                (!filterValues.location || item.location === filterValues.location) &&
+                (!filterValues.fsu || item.fsu === filterValues.fsu) &&
+                (!filterValues.admin || item.createdBy === filterValues.admin) &&
+                (filterValues.attendee.length === 0 || (item.attend && filterValues.attendee.some(attendee => attendee.id === item.attend.id))) &&
+                (filterValues.status.length === 0 || (item.status && filterValues.status.some(status => status.id === item.status.id)))
+            );
+        });
+
+        setCurrentDat(filteredData);
+    };
+
+    // Handle attendee checkbox change
+    const handleAttendeeCheckboxChange = (event, selectedAttendee) => {
+        const isChecked = event.target.checked;
+        const attendeeId = selectedAttendee.id;
+
+        let updatedAttendees = [];
+        if (isChecked) {
+            updatedAttendees = [...filterValues.attendee, selectedAttendee];
+        } else {
+            updatedAttendees = filterValues.attendee.filter(attendee => attendee.id !== attendeeId);
+        }
+        setFilterValues({ ...filterValues, attendee: updatedAttendees });
+    };
+
+    // Handle status checkbox change
+    const handleStatusCheckboxChange = (event, selectedStatus) => {
+        const isChecked = event.target.checked;
+        const statusId = selectedStatus.id;
+
+        let updatedStatus = [];
+        if (isChecked) {
+            updatedStatus = [...filterValues.status, selectedStatus];
+        } else {
+            updatedStatus = filterValues.status.filter(status => status.id !== statusId);
+        }
+        setFilterValues({ ...filterValues, status: updatedStatus });
+    };
+
+
+
+
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -123,22 +184,53 @@ const TrainingClassListView = () => {
         fetchData();
     }, []);
 
-    const [currentPage, setCurrentPage] = useState(0);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getAttendLevel();
+                console.log(data);
+                setAttendee(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
 
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getClassStatus();
+                console.log(data);
+                setStatus(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 8;
     let totalPages = 0;
-
-    if (syllabusData !== null) {
-        totalPages = Math.ceil(syllabusData.length / itemsPerPage);
-    }
-
     let currentData = [];
-    if (syllabusData !== null) {
-        currentData = syllabusData.slice(
+
+    if (currentDat.length === 0) {
+        totalPages = Math.ceil(syllabusData && syllabusData.length / itemsPerPage);
+        currentData = syllabusData && syllabusData.slice(
+            currentPage * itemsPerPage,
+            (currentPage + 1) * itemsPerPage
+        );
+    } else {
+        totalPages = Math.ceil(currentDat.length / itemsPerPage);
+        currentData = currentDat.slice(
             currentPage * itemsPerPage,
             (currentPage + 1) * itemsPerPage
         );
     }
+
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
@@ -172,13 +264,6 @@ const TrainingClassListView = () => {
 
     const handleClose = () => {
         setOpen(false);
-    };
-
-    //select
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
     };
 
 
@@ -220,20 +305,15 @@ const TrainingClassListView = () => {
                                                     },
                                                 }}
                                             >
-                                                {/* <DialogTitle>Subscribe</DialogTitle> */}
                                                 <DialogContent>
-                                                    {/* <DialogContentText>
-                                                        To subscribe to this website, please enter your email address here. We
-                                                        will send updates occasionally.
-                                                    </DialogContentText> */}
                                                     <FormControl variant="standard" sx={{ m: 1, minWidth: 500 }}>
                                                         <InputLabel id="demo-simple-select-standard-label">Location</InputLabel>
                                                         <Select
-                                                            labelId="demo-simple-select-standard-label"
-                                                            id="demo-simple-select-standard"
-                                                            value={age}
-                                                            onChange={handleChange}
-                                                            label="Age"
+                                                            labelId="location-label"
+                                                            id="location"
+                                                            value={filterValues.location} // Use filterValues.location as the value
+                                                            onChange={(event) => setFilterValues({ ...filterValues, location: event.target.value })} // Update location in filterValues
+                                                            label="Location"
                                                         >
                                                             <MenuItem value="">
                                                                 <em>None</em>
@@ -250,30 +330,39 @@ const TrainingClassListView = () => {
                                                         <Grid container spacing={2}>
                                                             <Grid item xs={4}>
                                                                 <FormGroup>
-                                                                    <InputLabel id="demo-simple-select-standard-label">Status</InputLabel>
-                                                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Plaining" />
-                                                                    <FormControlLabel required control={<Checkbox />} label="Openning" />
-                                                                    <FormControlLabel disabled control={<Checkbox />} label="Closed" />
+                                                                    <InputLabel id="attendee-label">Attendee</InputLabel>
+                                                                    {attendee.map((attend, idx) => (
+                                                                        <FormControlLabel
+                                                                            key={attend.id} // Use unique key
+                                                                            control={<Checkbox checked={filterValues.attendee.some(item => item.id === attend.id)} onChange={(event) => handleAttendeeCheckboxChange(event, attend)} />}
+                                                                            label={attend.name} // Access the name property
+                                                                        />
+                                                                    ))}
                                                                 </FormGroup>
                                                             </Grid>
+
                                                             <Grid item xs={4}>
                                                                 <FormGroup>
-                                                                    <InputLabel id="demo-simple-select-standard-label">Attendee</InputLabel>
-                                                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Intern" />
-                                                                    <FormControlLabel required control={<Checkbox />} label="Fresher" />
-                                                                    <FormControlLabel disabled control={<Checkbox />} label="Online fee-fesher" />
-                                                                    <FormControlLabel disabled control={<Checkbox />} label="Offline fee-fesher" />
+                                                                    <InputLabel id="attendee-label">Status</InputLabel>
+                                                                    {status.map((status, idx) => (
+                                                                        <FormControlLabel
+                                                                            key={status.id}
+                                                                            control={<Checkbox checked={filterValues.status.some(item => item.id === status.id)} onChange={(event) => handleStatusCheckboxChange(event, status)} />}
+                                                                            label={status.name}
+                                                                        />
+                                                                    ))}
                                                                 </FormGroup>
                                                             </Grid>
+
                                                             <Grid item xs={4}>
                                                                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                                                                    <InputLabel id="demo-simple-select-standard-label">FSU</InputLabel>
+                                                                    <InputLabel id="fsu-label">FSU</InputLabel>
                                                                     <Select
-                                                                        labelId="demo-simple-select-standard-label"
-                                                                        id="demo-simple-select-standard"
-                                                                        value={age}
-                                                                        onChange={handleChange}
-                                                                        label="Age"
+                                                                        labelId="fsu-label"
+                                                                        id="fsu"
+                                                                        value={filterValues.fsu} // Use filterValues.location as the value
+                                                                        onChange={(event) => setFilterValues({ ...filterValues, fsu: event.target.value })} // Update location in filterValues
+                                                                        label="FSU"
                                                                     >
                                                                         <MenuItem value="">
                                                                             <em>None</em>
@@ -284,13 +373,13 @@ const TrainingClassListView = () => {
                                                                     </Select>
                                                                 </FormControl>
                                                                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                                                                    <InputLabel id="demo-simple-select-standard-label">Admin</InputLabel>
+                                                                    <InputLabel id="admin-label">Admin</InputLabel>
                                                                     <Select
-                                                                        labelId="demo-simple-select-standard-label"
-                                                                        id="demo-simple-select-standard"
-                                                                        value={age}
-                                                                        onChange={handleChange}
-                                                                        label="Age"
+                                                                        labelId="admin-label"
+                                                                        id="admin"
+                                                                        value={filterValues.admin} // Use filterValues.location as the value
+                                                                        onChange={(event) => setFilterValues({ ...filterValues, admin: event.target.value })} // Update location in filterValues
+                                                                        label="Admin"
                                                                     >
                                                                         <MenuItem value="">
                                                                             <em>None</em>
@@ -300,14 +389,15 @@ const TrainingClassListView = () => {
                                                                         ))}
                                                                     </Select>
                                                                 </FormControl>
-
                                                             </Grid>
                                                         </Grid>
                                                     </Box>
+
                                                 </DialogContent>
                                                 <DialogActions>
                                                     <Button onClick={handleClose}>Cancel</Button>
-                                                    <Button type="submit">Subscribe</Button>
+                                                    <Button type="submit" onClick={handleApplyClick}>Apply</Button>
+
                                                 </DialogActions>
                                             </Dialog>
                                         </React.Fragment>
@@ -341,7 +431,7 @@ const TrainingClassListView = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {currentData.map((item) => (
+                                        {currentData && currentData.map((item) => (
                                             <TableRow
                                                 key={item.id}
                                                 sx={{ 'td': { padding: 0 } }}
@@ -350,10 +440,10 @@ const TrainingClassListView = () => {
                                                     {item.name}
                                                 </TableCell>
                                                 <TableCell align="left">{item.code}</TableCell>
-                                                <TableCell align="left">{item.createdDate.slice(0, 10)}</TableCell>
+                                                <TableCell align="left">{item.createdDate && item.createdDate.slice(0, 10)}</TableCell>
                                                 <TableCell align="left">{item.createdBy}</TableCell>
                                                 <TableCell align="left">{item.duration}</TableCell>
-                                                <TableCell align="left"><p className={`syllabus_p ${getClassForFsu(item.attend)}`}>{item.attend}</p></TableCell>
+                                                <TableCell align="left"><p className={`syllabus_p ${getClassForFsu(item.attend.name)}`}>{item.attend.name}</p></TableCell>
                                                 <TableCell align="left">{item.location}</TableCell>
                                                 <TableCell align="left">{item.fsu}</TableCell>
                                                 <TableCell align="right">
