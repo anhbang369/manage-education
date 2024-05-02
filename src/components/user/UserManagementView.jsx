@@ -54,6 +54,11 @@ const UserManagementView = () => {
         gender: [],
         status: []
     });
+    const [currentDat, setCurrentDat] = useState([]);
+    const [filterApplied, setFilterApplied] = useState(false);
+    const [searchHistory, setSearchHistory] = useState([]);
+    const [searchText, setSearchText] = useState('');
+    const [userSearch, setUserSearch] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -127,20 +132,21 @@ const UserManagementView = () => {
 
     //search
     const handleApplyClick = () => {
-        // setSearchHistory([])
-        // // Filter data based on selected filters
-        // const filteredData = syllabusData.filter(item => {
-        //     return (
-        //         (!filterValues.location || item.location === filterValues.location) &&
-        //         (!filterValues.fsu || item.fsu === filterValues.fsu) &&
-        //         (!filterValues.admin || item.createdBy === filterValues.admin) &&
-        //         (filterValues.attendee.length === 0 || (item.attend && filterValues.attendee.some(attendee => attendee.id === item.attend.id))) &&
-        //         (filterValues.status.length === 0 || (item.status && filterValues.status.some(status => status.id === item.status.id)))
-        //     );
-        // });
+        setSearchHistory([])
+        // Filter data based on selected filters
+        const filteredData = userData.filter(item => {
+            return (
+                (filterValues.level.length === 0 || filterValues.level.includes(item.level)) &&
+                (filterValues.gender.length === 0 || filterValues.gender.includes(item.gender)) &&
+                (filterValues.status.length === 0 || filterValues.status.includes(item.status)) &&
+                (filterValues.role.length === 0 || filterValues.role.includes(item.role.name))
+            );
+        });
 
-        // setCurrentDat(filteredData);
-        // setFilterApplied(true);
+        setCurrentDat(filteredData);
+        console.log('check filter dont set: ' + JSON.stringify(filteredData))
+        console.log('check filter: ' + JSON.stringify(currentDat))
+        setFilterApplied(true);
     };
 
     //check box
@@ -195,6 +201,60 @@ const UserManagementView = () => {
         }
         setFilterValues({ ...filterValues, status: updatedStatuses });
     };
+
+    //search by
+    const handleSearchTextChange = (e) => {
+        setSearchText(e.target.value);
+    };
+
+    const handleEnterPress = (e) => {
+        if (e.key === 'Enter') {
+            const newSearchItem = { searchText };
+            setSearchHistory(prevSearchHistory => [...prevSearchHistory, newSearchItem]);
+            setSearchText('');
+        }
+    };
+
+    //delete history
+    const handleRemoveSearchItem = (index) => {
+        setSearchHistory(prevSearchHistory => {
+            const newSearchHistory = [...prevSearchHistory];
+            newSearchHistory.splice(index, 1);
+            return newSearchHistory;
+        });
+
+    };
+
+    //search
+    const handleSearch = () => {
+        if (userData !== null) {
+            const filteredData = userData.filter(item => {
+                let isMatch = false;
+
+                const relationCount = searchHistory.reduce((count, searchItem) => {
+                    const searchTextLowerCase = searchItem.searchText.toLowerCase();
+                    const nameMatch = (item.fullName !== null ? item.fullName.toLowerCase() : "").includes(searchTextLowerCase);
+                    const codeMatch = (item.email !== null ? item.email.toLowerCase() : "").includes(searchTextLowerCase);
+                    return count + (nameMatch ? 1 : 0) + (codeMatch ? 1 : 0);
+                }, 0);
+
+                const isRelationMatch = relationCount === searchHistory.length;
+
+                if (isRelationMatch) {
+                    isMatch = true;
+                }
+
+                return isMatch;
+            });
+            setUserSearch(filteredData);
+            console.log('view data search by:', JSON.stringify(filteredData));
+        }
+    };
+
+
+    useEffect(() => {
+        handleSearch();
+    }, [searchHistory]);
 
 
 
@@ -260,36 +320,49 @@ const UserManagementView = () => {
         setOpenNo(false);
     };
 
-    const [selectedItemId, setSelectedItemId] = useState(null);
+    // const [selectedItemId, setSelectedItemId] = useState(null);
     const handleDropdownItemClick = (itemId) => {
-        setSelectedItemId(itemId);
+        // setSelectedItemId(itemId);
         deActiveUser(itemId);
         setNotificationMessage('De-active successful.');
         setOpenNo(true);
     };
 
     const handleDropdownItemClickDelete = (itemId) => {
-        setSelectedItemId(itemId);
+        // setSelectedItemId(itemId);
         deleteUser(itemId);
         setNotificationMessage('Delete successful.');
         setOpenNo(true);
     };
 
     const [currentPage, setCurrentPage] = useState(0);
-
     const itemsPerPage = 8;
     let totalPages = 0;
-
-    if (userData !== null) {
-        totalPages = Math.ceil(userData.length / itemsPerPage);
-    }
-
     let currentData = [];
-    if (userData !== null) {
-        currentData = userData && userData.slice(
-            currentPage * itemsPerPage,
-            (currentPage + 1) * itemsPerPage
-        );
+
+
+    if (!searchHistory.length) {
+        if (filterApplied) {
+            totalPages = Math.ceil(currentDat && currentDat.length / itemsPerPage);
+            currentData = currentDat && currentDat.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        } else {
+            totalPages = Math.ceil(userData && userData.length / itemsPerPage);
+            currentData = userData && userData.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
+    } else {
+        if (userSearch !== null) {
+            totalPages = Math.ceil(userSearch.length / itemsPerPage);
+            currentData = userSearch.slice(
+                currentPage * itemsPerPage,
+                (currentPage + 1) * itemsPerPage
+            );
+        }
     }
 
     const handlePageClick = ({ selected }) => {
@@ -308,6 +381,11 @@ const UserManagementView = () => {
         setOpenFilter(false);
     };
 
+    //first chart cap
+    const capitalizeFirstLetter = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+
     return (
         <>
             <React.Fragment>
@@ -323,7 +401,9 @@ const UserManagementView = () => {
                                     <div>
                                         <div className="input-with-icon">
                                             <i class="bi bi-search"></i>
-                                            <input type="text" className="search__by" placeholder='Search by ...' />
+                                            <input type="text" className="search__by" placeholder='Search by ...' value={searchText}
+                                                onChange={handleSearchTextChange}
+                                                onKeyPress={handleEnterPress} />
                                         </div>
                                     </div>
                                     <div>
@@ -352,12 +432,12 @@ const UserManagementView = () => {
                                                         <Grid container spacing={2}>
                                                             <Grid item xs={3}>
                                                                 <FormGroup>
-                                                                    <InputLabel id="attendee-label">Role</InputLabel>
+                                                                    <InputLabel id="role-label">Role</InputLabel>
                                                                     {role && role.map((rl, idx) => (
                                                                         <FormControlLabel
-                                                                            key={rl} // Use the role string itself as key
-                                                                            control={<Checkbox checked={filterValues.role.includes(rl)} onChange={(event) => handleRoleCheckboxChange(event, role)} />}
-                                                                            label={rl} // Use the role string itself as label
+                                                                            key={rl}
+                                                                            control={<Checkbox checked={filterValues.role.includes(rl)} onChange={(event) => handleRoleCheckboxChange(event, rl)} />}
+                                                                            label={capitalizeFirstLetter(rl)}
                                                                         />
                                                                     ))}
                                                                 </FormGroup>
@@ -366,12 +446,12 @@ const UserManagementView = () => {
 
                                                             <Grid item xs={3}>
                                                                 <FormGroup>
-                                                                    <InputLabel id="attendee-label">Status</InputLabel>
+                                                                    <InputLabel id="status-label">Status</InputLabel>
                                                                     {status && status.map((st, idx) => (
                                                                         <FormControlLabel
-                                                                            key={st} // Use the role string itself as key
-                                                                            control={<Checkbox checked={filterValues.status.includes(st)} onChange={(event) => handleStatusCheckboxChange(event, status)} />}
-                                                                            label={st} // Use the role string itself as label
+                                                                            key={st}
+                                                                            control={<Checkbox checked={filterValues.status.includes(st)} onChange={(event) => handleStatusCheckboxChange(event, st)} />}
+                                                                            label={capitalizeFirstLetter(st)}
                                                                         />
                                                                     ))}
                                                                 </FormGroup>
@@ -380,12 +460,12 @@ const UserManagementView = () => {
 
                                                             <Grid item xs={3}>
                                                                 <FormGroup>
-                                                                    <InputLabel id="attendee-label">Level</InputLabel>
+                                                                    <InputLabel id="level-label">Level</InputLabel>
                                                                     {level && level.map((lv, idx) => (
                                                                         <FormControlLabel
-                                                                            key={lv} // Use the role string itself as key
-                                                                            control={<Checkbox checked={filterValues.level.includes(lv)} onChange={(event) => handleLevelCheckboxChange(event, level)} />}
-                                                                            label={lv} // Use the role string itself as label
+                                                                            key={lv}
+                                                                            control={<Checkbox checked={filterValues.level.includes(lv)} onChange={(event) => handleLevelCheckboxChange(event, lv)} />}
+                                                                            label={capitalizeFirstLetter(lv)}
                                                                         />
                                                                     ))}
                                                                 </FormGroup>
@@ -394,12 +474,12 @@ const UserManagementView = () => {
 
                                                             <Grid item xs={3}>
                                                                 <FormGroup>
-                                                                    <InputLabel id="attendee-label">Gender</InputLabel>
+                                                                    <InputLabel id="gender-label">Gender</InputLabel>
                                                                     {gender && gender.map((gd, idx) => (
                                                                         <FormControlLabel
-                                                                            key={gd} // Use the role string itself as key
-                                                                            control={<Checkbox checked={filterValues.gender.includes(gd)} onChange={(event) => handleGenderCheckboxChange(event, gender)} />}
-                                                                            label={gd} // Use the role string itself as label
+                                                                            key={gd}
+                                                                            control={<Checkbox checked={filterValues.gender.includes(gd)} onChange={(event) => handleGenderCheckboxChange(event, gd)} />}
+                                                                            label={capitalizeFirstLetter(gd)}
                                                                         />
                                                                     ))}
                                                                 </FormGroup>
@@ -491,6 +571,11 @@ const UserManagementView = () => {
                                     </React.Fragment>
 
                                 </div>
+                            </div>
+                            <div className="mt-2 ms-10 d-flex">
+                                {searchHistory && searchHistory.map((searchData, index) => (
+                                    <p key={index} className="bg-dark text-white rounded ms-4 mb-3 p-1 text-center">{searchData.searchText} <i className="bi bi-x-lg pointer" onClick={() => handleRemoveSearchItem(index)}></i></p>
+                                ))}
                             </div>
 
                             <TableContainer component={Paper}>
