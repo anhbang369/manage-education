@@ -387,6 +387,16 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
     //     setSelectedMore(i)
     // }
 
+    const standardMap = output.reduce((acc, curr) => {
+        acc[curr.id] = curr.code;
+        return acc;
+    }, {});
+
+    const deliveryTypeMap = delivery.reduce((acc, curr) => {
+        acc[curr.id] = curr.name;
+        return acc;
+    }, {})
+
 
     return (
         <>
@@ -423,29 +433,29 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                     {unit.syllabusUnitChapters?.map((chapter, idxChapter) => (
                                                         <Box sx={{ flexGrow: 1 }} className='unit__details show' >
                                                             <Grid container spacing={2}>
-                                                                <Grid item xs={5}>
-                                                                    {chapter.title}
+                                                                <Grid item xs={5} className='fs-14'>
+                                                                    {chapter.name}
                                                                 </Grid>
-                                                                <Grid item xs={2}>
-                                                                    <div className="bg-core rounded text-white w-50">{chapter.standard}</div>
+                                                                <Grid item xs={2} className='fs-14'>
+                                                                    <div className="bg-core rounded text-white w-50">{standardMap[chapter.outputStandardId]}</div>
                                                                 </Grid>
-                                                                <Grid item xs={1} cl>
+                                                                <Grid item xs={1} className='fs-14'>
                                                                     {chapter.duration} mins
                                                                 </Grid>
-                                                                <Grid item xs={1} className='ms-3 me-3'>
+                                                                <Grid item xs={1} className='ms-3 me-3 fs-14'>
                                                                     <p>
                                                                         {chapter.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
                                                                     </p>
                                                                 </Grid>
                                                                 <Grid item xs={1}>
-                                                                    {/* {detail.type.name === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
-                                                                        {detail.type.name === 'Assignment/Lab' && <i class="bi bi-bookmark-check"></i>}
-                                                                        {detail.type.name === 'Test/Quiz' && <i class="bi bi-card-checklist"></i>}
-                                                                        {detail.type.name === 'Exam' && <i class="bi bi-journal-bookmark-fill"></i>}
-                                                                        {detail.type.name === 'Guide/Review' && <i class="bi bi-hand-thumbs-up"></i>}
-                                                                        {detail.type.name === 'Seminar/Workshop' && <i class="bi bi-person-workspace"></i>}
-                                                                        {detail.type.name === 'Class Meeting' && <i class="bi bi-people"></i>}
-                                                                        {detail.type.name === 'Tour/Outdoor' && <i class="bi bi-globe-central-south-asia"></i>} */}
+                                                                    {deliveryTypeMap[chapter.deliveryTypeId] === 'Concept/Lecture' && <i class="bi bi-person-plus"></i>}
+                                                                    {deliveryTypeMap[chapter.deliveryTypeId] === 'Assignment/Lab' && <i class="bi bi-bookmark-check"></i>}
+                                                                    {deliveryTypeMap[chapter.deliveryTypeId] === 'Test/Quiz' && <i class="bi bi-card-checklist"></i>}
+                                                                    {deliveryTypeMap[chapter.deliveryTypeId] === 'Exam' && <i class="bi bi-journal-bookmark-fill"></i>}
+                                                                    {deliveryTypeMap[chapter.deliveryTypeId] === 'Guide/Review' && <i class="bi bi-hand-thumbs-up"></i>}
+                                                                    {deliveryTypeMap[chapter.deliveryTypeId] === 'Seminar/Workshop' && <i class="bi bi-person-workspace"></i>}
+                                                                    {deliveryTypeMap[chapter.deliveryTypeId] === 'Class Meeting' && <i class="bi bi-people"></i>}
+                                                                    {deliveryTypeMap[chapter.deliveryTypeId] === 'Tour/Outdoor' && <i class="bi bi-globe-central-south-asia"></i>}
                                                                 </Grid>
                                                                 <Grid item xs={1}>
                                                                     <React.Fragment>

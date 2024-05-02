@@ -118,20 +118,20 @@ const Program = ({ programData }) => {
                             </div>
 
                             <div className={selectedSyllabus === indexSyllabus ? 'show__syllabus show_s' : 'show__syllabus'}>
-                                {itemSyllabus.syllabusDays && Array.isArray(itemSyllabus.syllabusDays) && itemSyllabus.syllabusDays.map((day1, i) => (
+                                {itemSyllabus.syllabusDays && Array.isArray(itemSyllabus.syllabusDays) && itemSyllabus.syllabusDays.sort((a, b) => a.dayNo - b.dayNo).map((day1, i) => (
                                     <div className="wrapper" key={i}>
                                         <div className='accordion accordion__wa'>
                                             <div className='item row w-98'>
-                                                <h6 className='col-md-12 row ms-3 pointer bg-core text-white fw-bold p-1' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
+                                                <h6 className='outline__days ms-3 pointer' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
                                                 <div className={selectedDay === i ? 'content show col-md-12 w-100 p-0 m-0 ms-3' : 'content col-md-12 w-100 p-0 m-0 ms-3'}>
                                                     {day1.syllabusUnits.map((unit, index) => (
                                                         <div className="unit" key={index} >
                                                             <div className="unit__component" onClick={() => toggleUnit(index)}>
                                                                 <div className='d-flex mb-2'>
-                                                                    <p className="unit__number">Unit {unit.unitNo}</p>
+                                                                    <p className="unit__number pointer">Unit {unit.unitNo}</p>
                                                                     <div className='ms-4'>
                                                                         <p className="unit__title pointer">{unit.name}</p>
-                                                                        <span className="unit__time fs-14">{unit.duration} hours</span>
+                                                                        <span className="unit__time fs-14 pointer">{unit.duration} hours</span>
                                                                     </div>
 
                                                                 </div>

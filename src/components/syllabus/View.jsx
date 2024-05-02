@@ -126,10 +126,10 @@ const View = () => {
     };
 
     //duplicated
-    const [selectedItemId, setSelectedItemId] = useState(null);
+    // const [selectedItemId, setSelectedItemId] = useState(null);
 
     const handleDropdownItemClick = (itemId) => {
-        setSelectedItemId(itemId);
+        // setSelectedItemId(itemId);
         duplicatedSyllabus(itemId);
         setNotificationMessage('Import successful.');
         setOpenNo(true);
@@ -138,7 +138,7 @@ const View = () => {
 
     //delete
     const handleDropdownItemDelete = (itemId) => {
-        setSelectedItemId(itemId);
+        // setSelectedItemId(itemId);
         deleteSyllabus(itemId);
         setNotificationMessage('Delete successful.');
         setOpenNo(true);
@@ -174,6 +174,8 @@ const View = () => {
 
     };
 
+    console.log('check import open: ' + importOpen)
+
     return (
         <React.Fragment>
             <CssBaseline />
@@ -199,6 +201,7 @@ const View = () => {
 
                             <div className="col-md-4">
                                 <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
+                                <Import property={importOpen} onClose={() => setImportOpen(false)} />
                                 <button className="border border-0 text-white rounded me-3 px-2 py-1 bg-core"><i class="bi bi-plus-circle"></i> Add syllabus</button>
                             </div>
                         </div>
@@ -296,8 +299,6 @@ const View = () => {
                             activeClassName="active"
                             renderOnZeroPageCount={null}
                         />
-
-                        <Import property={importOpen} />
                         <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                             <Alert
                                 onClose={handleCloseNo}

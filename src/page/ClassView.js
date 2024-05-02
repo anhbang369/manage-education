@@ -373,14 +373,12 @@ const ClassView = () => {
                                             </div>
 
                                             <div className={selectedSyllabus === indexSyllabus ? 'show__syllabus show_s' : 'show__syllabus'}>
-                                                {itemSyllabus.syllabusDays && Array.isArray(itemSyllabus.syllabusDays) && itemSyllabus.syllabusDays.map((day1, i) => (
+                                                {itemSyllabus.syllabusDays && Array.isArray(itemSyllabus.syllabusDays) && itemSyllabus.syllabusDays.sort((a, b) => a.dayNo - b.dayNo).map((day1, i) => (
                                                     <div className="wrapper" key={i}>
                                                         <div className='accordion accordion__wa'>
-                                                            <div className='item'>
-                                                                <div className='title w-98'>
-                                                                    <h6 className='outline__days ms-3 pointer' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
-                                                                </div>
-                                                                <div className={selectedDay === i ? 'content show' : 'content'}>
+                                                            <div className='item row w-98'>
+                                                                <h6 className='outline__days ms-3 pointer' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
+                                                                <div className={selectedDay === i ? 'content show col-md-12 w-100 p-0 m-0 ms-3' : 'content col-md-12 w-100 p-0 m-0 ms-3'}>
                                                                     {day1.syllabusUnits.map((unit, index) => (
                                                                         <div className="unit" key={index} >
                                                                             <div className="unit__component" onClick={() => toggleUnit(index)}>

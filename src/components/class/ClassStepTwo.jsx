@@ -62,9 +62,6 @@ const ClassStepTwo = ({ classDto, onNextStep }) => {
         }
     };
 
-
-    console.log('this is: ' + JSON.stringify(selectedItems));
-
     const handleNextButtonClick = () => {
         onNextStep(classDto, selectedItems);
     };
@@ -122,28 +119,8 @@ const ClassStepTwo = ({ classDto, onNextStep }) => {
                                         onChange={handleSearchChange} />
                                 </div>
                             </div>
-                            {filteredProgram.length > 0 && searchTerm && (
-                                <div className='box-shadow-1 rounded w-30 ms-4 pointer' style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                                    {filteredProgram.map((program, index) => (
-                                        !selectedItems.some(selectedItem => selectedItem.id === program.id) && (
-                                            <div
-                                                className='fs-14 fw-bold ps-3 hover pb-2 pt-1'
-                                                key={index}
-                                                onClick={() => handleItemClick(program)}
-                                            >
-                                                {program.name} {program.code}
-                                                <div className='row'>
-                                                    <div className="col-md-3 fs-14 fw-normal">{program.hours} hours</div>
-                                                    <div className="col-md-9 fs-14 fw-normal">{program.createdDate.slice(0, 10)} by <b>{program.createdBy.slice(0, 10)}...</b></div>
-                                                </div>
-                                            </div>
-                                        )
-                                    ))}
-
-                                </div>
-                            )}
                             {selectedItems.map((item, index) => (
-                                <div className='class__view-syllabus row'>
+                                <div className='class__view-syllabus row position-absolute'>
                                     <div className='col-md-3 p-2 row bg-core rounded-start'>
 
                                     </div>
@@ -163,9 +140,30 @@ const ClassStepTwo = ({ classDto, onNextStep }) => {
                                     </div>
                                 </div>
                             ))}
+                            {filteredProgram.length > 0 && searchTerm && (
+                                <div className='box-shadow-1 rounded w-30 ms-4 pointer position-relative bg-chapter' style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                    {filteredProgram.map((program, index) => (
+                                        !selectedItems.some(selectedItem => selectedItem.id === program.id) && (
+                                            <div
+                                                className='fs-14 fw-bold ps-3 hover pb-2 pt-1'
+                                                key={index}
+                                                onClick={() => handleItemClick(program)}
+                                            >
+                                                {program.name} {program.code}
+                                                <div className='row'>
+                                                    <div className="col-md-3 fs-14 fw-normal">{program.hours} hours</div>
+                                                    <div className="col-md-9 fs-14 fw-normal">{program.createdDate.slice(0, 10)} by <b>{program.createdBy.slice(0, 10)}...</b></div>
+                                                </div>
+                                            </div>
+                                        )
+                                    ))}
+
+                                </div>
+                            )}
 
 
-                            <Box sx={{ flexGrow: 1 }}>
+
+                            <Box sx={{ flexGrow: 1, marginTop: '8%' }}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={8}>
                                     </Grid>
