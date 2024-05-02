@@ -15,12 +15,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getUserData, deActiveUser, deleteUser, getUserById, createUser } from '../../services/UserService';
+import { getUserData, deActiveUser, deleteUser, getUserById, createUser, getUserStatus, getUserRoles, getUserLevels, getUserGenders } from '../../services/UserService';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
+import FormGroup from '@mui/material/FormGroup';
 import Input from '@mui/joy/Input';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
@@ -28,6 +29,13 @@ import DialogTitle from '@mui/joy/DialogTitle';
 import Stack from '@mui/joy/Stack';
 import Select from '@mui/joy/Select';
 import MenuItem from '@mui/joy/Option';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const UserManagementView = () => {
 
@@ -36,6 +44,16 @@ const UserManagementView = () => {
 
     //get list
     const [userData, setUserData] = useState(null);
+    const [status, setStatus] = useState(null);
+    const [gender, setGender] = useState(null);
+    const [level, setLevel] = useState(null);
+    const [role, setRole] = useState(null);
+    const [filterValues, setFilterValues] = useState({
+        role: [],
+        level: [],
+        gender: [],
+        status: []
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -50,6 +68,136 @@ const UserManagementView = () => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserStatus();
+                console.log(data);
+                setStatus(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserLevels();
+                console.log(data);
+                setLevel(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserRoles();
+                console.log(data);
+                setRole(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getUserGenders();
+                console.log(data);
+                setGender(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    //search
+    const handleApplyClick = () => {
+        // setSearchHistory([])
+        // // Filter data based on selected filters
+        // const filteredData = syllabusData.filter(item => {
+        //     return (
+        //         (!filterValues.location || item.location === filterValues.location) &&
+        //         (!filterValues.fsu || item.fsu === filterValues.fsu) &&
+        //         (!filterValues.admin || item.createdBy === filterValues.admin) &&
+        //         (filterValues.attendee.length === 0 || (item.attend && filterValues.attendee.some(attendee => attendee.id === item.attend.id))) &&
+        //         (filterValues.status.length === 0 || (item.status && filterValues.status.some(status => status.id === item.status.id)))
+        //     );
+        // });
+
+        // setCurrentDat(filteredData);
+        // setFilterApplied(true);
+    };
+
+    //check box
+    // Handle role checkbox change
+    const handleRoleCheckboxChange = (event, selectedRole) => {
+        const isChecked = event.target.checked;
+
+        let updatedRoles = [];
+        if (isChecked) {
+            updatedRoles = [...filterValues.role, selectedRole];
+        } else {
+            updatedRoles = filterValues.role.filter(role => role !== selectedRole);
+        }
+        setFilterValues({ ...filterValues, role: updatedRoles });
+    };
+
+    // Handle level checkbox change
+    const handleLevelCheckboxChange = (event, selectedLevel) => {
+        const isChecked = event.target.checked;
+
+        let updatedLevels = [];
+        if (isChecked) {
+            updatedLevels = [...filterValues.level, selectedLevel];
+        } else {
+            updatedLevels = filterValues.level.filter(level => level !== selectedLevel);
+        }
+        setFilterValues({ ...filterValues, level: updatedLevels });
+    };
+
+    // Handle gender checkbox change
+    const handleGenderCheckboxChange = (event, selectedGender) => {
+        const isChecked = event.target.checked;
+
+        let updatedGenders = [];
+        if (isChecked) {
+            updatedGenders = [...filterValues.gender, selectedGender];
+        } else {
+            updatedGenders = filterValues.gender.filter(gender => gender !== selectedGender);
+        }
+        setFilterValues({ ...filterValues, gender: updatedGenders });
+    };
+
+    // Handle status checkbox change
+    const handleStatusCheckboxChange = (event, selectedStatus) => {
+        const isChecked = event.target.checked;
+
+        let updatedStatuses = [];
+        if (isChecked) {
+            updatedStatuses = [...filterValues.status, selectedStatus];
+        } else {
+            updatedStatuses = filterValues.status.filter(status => status !== selectedStatus);
+        }
+        setFilterValues({ ...filterValues, status: updatedStatuses });
+    };
+
+
+
 
     //get use by id
     const [userIdData, setUserIdData] = useState({
@@ -138,7 +286,7 @@ const UserManagementView = () => {
 
     let currentData = [];
     if (userData !== null) {
-        currentData = userData.slice(
+        currentData = userData && userData.slice(
             currentPage * itemsPerPage,
             (currentPage + 1) * itemsPerPage
         );
@@ -150,6 +298,16 @@ const UserManagementView = () => {
 
     const [importOpen, setImportOpen] = useState(false);
 
+    const [openFilter, setOpenFilter] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpenFilter(true);
+    };
+
+    const handleClose = () => {
+        setOpenFilter(false);
+    };
+
     return (
         <>
             <React.Fragment>
@@ -158,7 +316,7 @@ const UserManagementView = () => {
                     <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                         <div>
                             <div>
-                                <h5 className="training__program-header text-white border border-white">User Management</h5>
+                                <h5 className="text-white border border-white p-1 bg-core">User Management</h5>
                             </div>
                             <div className="row p-1">
                                 <div className="col-md-9 d-flex justify-content-start">
@@ -169,13 +327,100 @@ const UserManagementView = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className='text-white p-1 border-0 rounded bg-core'><i class="bi bi-filter"></i>    <b>Filter</b></button>
+                                        <React.Fragment>
+                                            <Button variant="outlined" onClick={handleClickOpen} className='text-white border-0 p-1 ms-2'
+                                                style={{ backgroundColor: '#2d3748' }}>
+                                                <i class="bi bi-filter"></i>    <b>Filter</b>
+                                            </Button>
+                                            <Dialog
+                                                open={openFilter}
+                                                onClose={handleClose}
+                                                PaperProps={{
+                                                    component: 'form',
+                                                    onSubmit: (event) => {
+                                                        event.preventDefault();
+                                                        const formData = new FormData(event.currentTarget);
+                                                        const formJson = Object.fromEntries(formData.entries());
+                                                        const email = formJson.email;
+                                                        console.log(email);
+                                                        handleClose();
+                                                    },
+                                                }}
+                                            >
+                                                <DialogContent>
+                                                    <Box sx={{ flexGrow: 1 }}>
+                                                        <Grid container spacing={2}>
+                                                            <Grid item xs={3}>
+                                                                <FormGroup>
+                                                                    <InputLabel id="attendee-label">Role</InputLabel>
+                                                                    {role && role.map((rl, idx) => (
+                                                                        <FormControlLabel
+                                                                            key={rl} // Use the role string itself as key
+                                                                            control={<Checkbox checked={filterValues.role.includes(rl)} onChange={(event) => handleRoleCheckboxChange(event, role)} />}
+                                                                            label={rl} // Use the role string itself as label
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+
+                                                            </Grid>
+
+                                                            <Grid item xs={3}>
+                                                                <FormGroup>
+                                                                    <InputLabel id="attendee-label">Status</InputLabel>
+                                                                    {status && status.map((st, idx) => (
+                                                                        <FormControlLabel
+                                                                            key={st} // Use the role string itself as key
+                                                                            control={<Checkbox checked={filterValues.status.includes(st)} onChange={(event) => handleStatusCheckboxChange(event, status)} />}
+                                                                            label={st} // Use the role string itself as label
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+
+                                                            </Grid>
+
+                                                            <Grid item xs={3}>
+                                                                <FormGroup>
+                                                                    <InputLabel id="attendee-label">Level</InputLabel>
+                                                                    {level && level.map((lv, idx) => (
+                                                                        <FormControlLabel
+                                                                            key={lv} // Use the role string itself as key
+                                                                            control={<Checkbox checked={filterValues.level.includes(lv)} onChange={(event) => handleLevelCheckboxChange(event, level)} />}
+                                                                            label={lv} // Use the role string itself as label
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+
+                                                            </Grid>
+
+                                                            <Grid item xs={3}>
+                                                                <FormGroup>
+                                                                    <InputLabel id="attendee-label">Gender</InputLabel>
+                                                                    {gender && gender.map((gd, idx) => (
+                                                                        <FormControlLabel
+                                                                            key={gd} // Use the role string itself as key
+                                                                            control={<Checkbox checked={filterValues.gender.includes(gd)} onChange={(event) => handleGenderCheckboxChange(event, gender)} />}
+                                                                            label={gd} // Use the role string itself as label
+                                                                        />
+                                                                    ))}
+                                                                </FormGroup>
+
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Box>
+
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={handleClose}>Cancel</Button>
+                                                    <Button type="submit" onClick={handleApplyClick}>Apply</Button>
+
+                                                </DialogActions>
+                                            </Dialog>
+                                        </React.Fragment>
                                     </div>
                                 </div>
 
                                 <div className="col-md-3">
                                     <button className="border border-0 text-white rounded me-3 px-1 py-1 bg-warning" onClick={() => setImportOpen(true)}><i class="bi bi-cloud-upload"></i> Import</button>
-                                    {/* <button className="border border-0 text-white rounded me-3 px-1 py-1 bg-core"><i class="bi bi-plus-circle"></i> Add new</button> */}
                                     <React.Fragment>
                                         <Button
                                             backgroundColor="bg-core"
@@ -265,7 +510,7 @@ const UserManagementView = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {currentData.map((item) => (
+                                        {currentData && currentData.map((item) => (
                                             <TableRow
                                                 key={item.id}
                                                 sx={{ 'td': { padding: 0 } }}
@@ -275,7 +520,7 @@ const UserManagementView = () => {
                                                 </TableCell>
                                                 <TableCell align="left">{item.fullName}</TableCell>
                                                 <TableCell align="left">{item.email}</TableCell>
-                                                <TableCell align="left">{item.birthday}</TableCell>
+                                                <TableCell align="left">{item.birthday && item.birthday.slice(0, 10)}</TableCell>
                                                 <TableCell align="left"><i class={`bi bi-person-fill ${getClassForGender(item.gender)}`}></i></TableCell>
                                                 <TableCell align="left">{item.level}</TableCell>
                                                 <TableCell align="left"><p className={`syllabus_p mt-1 ${getClassForType(item.role.name)}`}>{item.role.name}</p></TableCell>

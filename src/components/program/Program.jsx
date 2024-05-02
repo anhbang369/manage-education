@@ -38,10 +38,6 @@ const Program = ({ programData }) => {
         setSelectedMore(more)
     }
 
-    const [importOpen, setImportOpen] = useState(false);
-
-    console.log("program is UI" + programData)
-
     const [selectedDay, setSelectedDay] = useState(null)
     const togglesDay = (detail) => {
         if (selectedDay === detail) {
@@ -92,7 +88,6 @@ const Program = ({ programData }) => {
                                     <p className='border border-white rounded text-center'>{item.status}</p>
                                 </div>
                             </div>
-                            {/* <div className='col-md-7'></div> */}
                             <div className=''>
                                 <ActionMenuProgram></ActionMenuProgram>
                             </div>
@@ -106,7 +101,7 @@ const Program = ({ programData }) => {
                     {item.syllabuses && Array.isArray(item.syllabuses) && item.syllabuses.map((itemSyllabus, indexSyllabus) => (
                         <div key={indexSyllabus} >
                             <div className='row w-98 ms-3 mt-3'>
-                                <div className='col-md-9 row class__view-syllabus-content'>
+                                <div className='col-md-12 row box-shadow-1 rounded p-2'>
                                     <div className='col-md-12 d-flex'>
                                         <h5 className='pointer' onClick={() => toggleSyllabus(indexSyllabus)}><b>{itemSyllabus.name}</b></h5><p className='bg-core text-white text-center h-20p ms-3 rounded'>{itemSyllabus.status}</p>
                                     </div>
@@ -126,9 +121,9 @@ const Program = ({ programData }) => {
                                 {itemSyllabus.syllabusDays && Array.isArray(itemSyllabus.syllabusDays) && itemSyllabus.syllabusDays.map((day1, i) => (
                                     <div className="wrapper" key={i}>
                                         <div className='accordion accordion__wa'>
-                                            <div className='item'>
-                                                <h6 className='outline__days ms-3 pointer w-75' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
-                                                <div className={selectedDay === i ? 'content show' : 'content'}>
+                                            <div className='item row w-98'>
+                                                <h6 className='col-md-12 row ms-3 pointer bg-core text-white fw-bold p-1' onClick={() => togglesDay(i)}>{day1.dayNo} day</h6>
+                                                <div className={selectedDay === i ? 'content show col-md-12 w-100 p-0 m-0 ms-3' : 'content col-md-12 w-100 p-0 m-0 ms-3'}>
                                                     {day1.syllabusUnits.map((unit, index) => (
                                                         <div className="unit" key={index} >
                                                             <div className="unit__component" onClick={() => toggleUnit(index)}>
@@ -165,7 +160,7 @@ const Program = ({ programData }) => {
                                                                                 </Grid>
                                                                                 <Grid item xs={2}>
                                                                                     <p>
-                                                                                        {detail.online ? <p className='details__onl'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal'>Offline</p>}
+                                                                                        {detail.online ? <p className='text-danger border border-danger rounded p-1 fw-normal w-40 text-center'>Online</p> : <p className='text-white bg-core rounded p-1 fw-normal w-40 text-center'>Offline</p>}
                                                                                     </p>
                                                                                 </Grid>
                                                                                 <Grid item xs={1}>
