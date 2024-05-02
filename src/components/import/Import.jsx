@@ -8,6 +8,7 @@ import Alert from '@mui/material/Alert';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const Import = ({ property }) => {
 
@@ -84,10 +85,8 @@ const Import = ({ property }) => {
                         },
                     }}
                 >
+                    <DialogTitle className='text-center bg-core rounded-top p-0 text-white fs-18'>Import Syllabus</DialogTitle>
                     <DialogContent>
-                        <div className="setting__content">
-                            <h3 className="import__title">Import Syllabus</h3>
-                        </div>
                         <div className="import__setting">
                             <h4 className="fs-14">Import setting</h4>
                             <div className="setting__info">
