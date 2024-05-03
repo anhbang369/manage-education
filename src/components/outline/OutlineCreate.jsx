@@ -129,7 +129,7 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
     };
 
     const handleAddDay = () => {
-        const maxDayNo = syllabusDays.reduce((max, day) => Math.max(max, day.dayNo), 0);
+        const maxDayNo = syllabusDays && syllabusDays.reduce((max, day) => Math.max(max, day.dayNo), 0);
         const newUnit = {
             name: "Default Unit",
             unitNo: 1,
@@ -387,12 +387,12 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
     //     setSelectedMore(i)
     // }
 
-    const standardMap = output.reduce((acc, curr) => {
+    const standardMap = output && output.reduce((acc, curr) => {
         acc[curr.id] = curr.code;
         return acc;
     }, {});
 
-    const deliveryTypeMap = delivery.reduce((acc, curr) => {
+    const deliveryTypeMap = delivery && delivery.reduce((acc, curr) => {
         acc[curr.id] = curr.name;
         return acc;
     }, {})

@@ -12,6 +12,7 @@ import ClassView from "../page/ClassView";
 import CreateClass from "../page/CreateClass";
 import SyllabusView from "../page/SyllabusView";
 import SyllabusCreate from "../page/SyllabusCreate";
+import MaterialList from "../page/MaterialList";
 
 export const Routes = () => {
     return (
@@ -30,6 +31,7 @@ export const Routes = () => {
                 <Route path="/class-view/:id" component={() => <ClassView />} />
                 <Route path="/class-create" component={() => <CreateClass />} />
                 <Route path="/view/:id" component={() => <SyllabusView />} />
+                <Route path="/material" component={() => <MaterialList />} />
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>

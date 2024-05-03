@@ -124,6 +124,15 @@ export default function SidebarItems() {
                 </div>
             </div>
 
+            <div className="sidebar-item">
+                <div className="sidebar-title">
+                    <span>
+                        <i class="bi bi-folder-symlink"></i>
+                        <a href="/material" className='text-decoration-none text-nav'>Material</a>
+                    </span>
+                </div>
+            </div>
+
             <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
                 <div className="sidebar-title">
                     <span>
