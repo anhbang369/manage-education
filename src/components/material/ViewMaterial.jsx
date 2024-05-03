@@ -94,6 +94,10 @@ const ViewMaterial = () => {
         }
     };
 
+    useEffect(() => {
+        handleSearch();
+    }, [searchHistory]);
+
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 8;
     let totalPages = 0;
