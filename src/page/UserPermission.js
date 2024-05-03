@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import "./userPermission.css";
 import Sidebar from '../layout/sidebar/Sidebar';
 import Navbar from '../layout/navbar/Navbar';
@@ -15,8 +16,73 @@ import Paper from '@mui/material/Paper';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import { getMaterialAuthorities, getSyllabusAuthorities, getTrainingAuthorities, getClassAuthorities } from '../services/AuthoritiesService';
 
 const UserPermission = () => {
+    const [material, setMaterial] = useState(null);
+    const [syllabus, setSyllabus] = useState(null);
+    const [training, setTraining] = useState(null);
+    const [classA, setCLassA] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getMaterialAuthorities();
+                setMaterial(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSyllabusAuthorities();
+                setSyllabus(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getTrainingAuthorities();
+                setTraining(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getClassAuthorities();
+                setCLassA(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    //first chart cap
+    const capitalizeFirstLetter = (str) => {
+        str = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        return str.replace(/_/g, ' ');
+    };
+
+
     return (
         <>
             <Navbar></Navbar>
@@ -54,33 +120,33 @@ const UserPermission = () => {
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {syllabus && syllabus.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {training && training.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {classA && classA.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {material && material.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
@@ -96,33 +162,33 @@ const UserPermission = () => {
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {syllabus && syllabus.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {training && training.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {classA && classA.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {material && material.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
@@ -138,33 +204,33 @@ const UserPermission = () => {
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {syllabus && syllabus.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {training && training.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {classA && classA.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {material && material.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
@@ -180,9 +246,9 @@ const UserPermission = () => {
                                                 <TableCell align="left">
                                                     <Form.Select aria-label="Default select example">
                                                         <option>Permission</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
+                                                        {syllabus && syllabus.map((sl, idx) => (
+                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
+                                                        ))}
                                                     </Form.Select>
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
