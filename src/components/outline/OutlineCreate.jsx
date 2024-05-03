@@ -433,13 +433,13 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                     {unit.syllabusUnitChapters?.map((chapter, idxChapter) => (
                                                         <Box sx={{ flexGrow: 1 }} className='unit__details show' >
                                                             <Grid container spacing={2}>
-                                                                <Grid item xs={5} className='fs-14'>
+                                                                <Grid item xs={4} className='fs-14'>
                                                                     {chapter.name}
                                                                 </Grid>
                                                                 <Grid item xs={2} className='fs-14'>
-                                                                    <div className="bg-core rounded text-white w-50">{standardMap[chapter.outputStandardId]}</div>
+                                                                    <div className="bg-core rounded text-white w-50 text-center">{standardMap[chapter.outputStandardId]}</div>
                                                                 </Grid>
-                                                                <Grid item xs={1} className='fs-14'>
+                                                                <Grid item xs={2} className='fs-14'>
                                                                     {chapter.duration} mins
                                                                 </Grid>
                                                                 <Grid item xs={1} className='ms-3 me-3 fs-14'>
@@ -471,10 +471,6 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                                                 <div className="border border-black rounded-top">
                                                                                     <h5 className="bg-core rounded-top text-white p-2">Matreial</h5>
                                                                                     <div>
-                                                                                        {/* <div className="w-100 d-flex my-2">
-                                                                                                                        <h5 className="ms-2 fs-18">Unit {unit.unitNo}</h5>
-                                                                                                                        <h5 className="ms-2 fs-18">{unit.name}</h5>
-                                                                                                                    </div> */}
                                                                                         <div className="w-100">
 
                                                                                             <div>
@@ -496,17 +492,17 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                                                                     <input
                                                                                                         type='text'
                                                                                                         className='rounded col-md-4'
-                                                                                                        value={chapterMaterials.name} // Sử dụng giá trị từ chapterMaterials
+                                                                                                        value={chapterMaterials.name}
                                                                                                         onChange={(e) => handleMaterialChange(idxChapter, 'name', e.target.value)}
-                                                                                                        placeholder="Enter name" // Thêm placeholder cho phần nhập liệu
+                                                                                                        placeholder="Enter name"
                                                                                                     />
                                                                                                     <p className='col-md-1'></p>
                                                                                                     <input
                                                                                                         type='text'
                                                                                                         className='rounded col-md-5'
-                                                                                                        value={chapterMaterials.url} // Sử dụng giá trị từ chapterMaterials
+                                                                                                        value={chapterMaterials.url}
                                                                                                         onChange={(e) => handleMaterialChange(idxChapter, 'url', e.target.value)}
-                                                                                                        placeholder="Enter URL" // Thêm placeholder cho phần nhập liệu
+                                                                                                        placeholder="Enter URL"
                                                                                                     />
                                                                                                     <div className='col-md-2 row'>
                                                                                                         <button onClick={() => handleAddMaterial(idxDay, idxUnit, idxChapter)}>
@@ -514,10 +510,6 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                                                                         </button>
                                                                                                     </div>
                                                                                                 </div>
-
-
-                                                                                                {/* ))
-                                                                                            } */}
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -536,8 +528,8 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                     {/* <Box sx={{ flexGrow: 1 }} className={selectedMore === i ? 'unit__details show' : 'unit__details'}></Box> */}
                                                     <Box sx={{ flexGrow: 1 }} className='unit__details show'>
                                                         <Grid container spacing={2}>
-                                                            <Grid item xs={5}>
-                                                                <input className='w-80 rounded' type="text" value={formData.name} onChange={(e) => handleChange('name', e.target.value)} />
+                                                            <Grid item xs={3}>
+                                                                <input className='w-100 rounded' type="text" value={formData.name} onChange={(e) => handleChange('name', e.target.value)} />
                                                             </Grid>
                                                             <Grid item xs={2}>
                                                                 <select
@@ -557,7 +549,7 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
                                                                 </select>
 
                                                             </Grid>
-                                                            <Grid item xs={1}>
+                                                            <Grid item xs={2}>
                                                                 <input className='rounded w-80' type="number" value={formData.duration} onChange={(e) => handleChange('duration', e.target.value)} />
                                                             </Grid>
                                                             <Grid item xs={1} className='ms-3 me-3'>
@@ -573,16 +565,11 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
 
 
                                                             </Grid>
-                                                            <Grid item xs={1}>
+                                                            <Grid item xs={2}>
                                                                 <select
                                                                     className='w-130'
                                                                     name="cars"
                                                                     id="cars"
-                                                                    // value={formData.type ? formData.type.id : ''}
-                                                                    // onChange={(e) => {
-                                                                    //     const selectedType = delivery.find(item => item.id === e.target.value);
-                                                                    //     setFormData({ ...formData, type: selectedType });
-                                                                    // }}
                                                                     value={formData.deliveryTypeId} onChange={(e) => handleChange('deliveryTypeId', e.target.value)}
                                                                 >
                                                                     {delivery ? (
@@ -708,42 +695,5 @@ const OutlineCreate = ({ requestBody, onNextClick, onPreviousClick, onUpdateSyll
         </>
     )
 }
-
-// const data1 = [
-//     {
-//         day: "Day 1",
-//         units: [
-//             {
-//                 title: ".NET Introduction",
-//                 duration: "3hrs",
-//                 details: [
-//                     {
-//                         title: ".NET Introduction",
-//                         standard: "SD4H",
-//                         duration: "30mins",
-//                         type: "Online",
-//                         icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-//                     },
-//                     {
-//                         title: ".NET Introduction",
-//                         standard: "SD4H",
-//                         duration: "30mins",
-//                         type: "Online",
-//                         icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-//                     },
-//                     {
-//                         title: ".NET Introduction",
-//                         standard: "SD4H",
-//                         duration: "30mins",
-//                         type: "Online",
-//                         icons: ["bi bi-person-lines-fill", "bi bi-folder2-open"]
-//                     },
-//                 ]
-//             },
-//             // Thêm unit thứ hai của ngày 1 ở đây
-//         ]
-//     },
-//     // Thêm các ngày và unit khác ở đây
-// ];
 
 export default OutlineCreate

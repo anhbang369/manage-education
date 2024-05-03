@@ -383,7 +383,8 @@ const UserManagementView = () => {
 
     //first chart cap
     const capitalizeFirstLetter = (str) => {
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        str = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        return str.replace(/_/g, ' ');
     };
 
     return (
