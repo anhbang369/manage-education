@@ -4,7 +4,6 @@ import "./userPermission.css";
 import Sidebar from '../layout/sidebar/Sidebar';
 import Navbar from '../layout/navbar/Navbar';
 import Footer from '../layout/footer/Footer';
-import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -19,14 +18,10 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { getMaterialAuthorities, getSyllabusAuthorities, getTrainingAuthorities, getClassAuthorities, getRoleAuthorities } from '../services/AuthoritiesService';
+import { getRoleAuthorities } from '../services/AuthoritiesService';
 import { getRolePermission, updateRolePermission } from "../services/RoleService";
 
-const UserPermission = () => {
-    const [material, setMaterial] = useState(null);
-    const [syllabus, setSyllabus] = useState(null);
-    const [training, setTraining] = useState(null);
-    const [classA, setCLassA] = useState(null);
+const UserPermissionView = () => {
     const [role, setRole] = useState(null);
     const [superSyllabus, setSuperSyllabus] = useState(null);
     const [superTraining, setSuperTraining] = useState(null);
@@ -251,58 +246,6 @@ const UserPermission = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getMaterialAuthorities();
-                setMaterial(data);
-            } catch (error) {
-                console.log(error)
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getSyllabusAuthorities();
-                setSyllabus(data);
-            } catch (error) {
-                console.log(error)
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getTrainingAuthorities();
-                setTraining(data);
-            } catch (error) {
-                console.log(error)
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getClassAuthorities();
-                setCLassA(data);
-            } catch (error) {
-                console.log(error)
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
                 const data = await getRolePermission();
                 setRole(data);
             } catch (error) {
@@ -319,25 +262,11 @@ const UserPermission = () => {
         return str && str.replace(/_/g, ' ');
     };
 
-    //update dto
-    const handlePermissionChange = (roleID, oldAuthorityID, newAuthorityID) => {
-        const newRole = role.map(roleItem => {
-            if (roleItem.roleId === roleID) {
-                roleItem.authoritiesId = roleItem.authoritiesId.map(authorityId => {
-                    return authorityId === oldAuthorityID ? newAuthorityID : authorityId;
-                });
-            }
-            return roleItem;
-        });
-        setRole(newRole);
-    };
-    console.log('update role: ' + JSON.stringify(role))
-
     //update role permission db
     const handleButtonClick = async () => {
         try {
-            await updateRolePermission(role);
-            setNotificationMessage('Update successful.');
+            const response = await updateRolePermission(role);
+            setNotificationMessage('Update successful.' + response);
             setOpenNo(true);
         } catch (error) {
             console.error("Error updating role permissions:", error);
@@ -373,7 +302,7 @@ const UserPermission = () => {
                         <Box sx={{ bgcolor: '#cfe8fc', height: '100%', width: '100%' }}>
                             <div>
                                 <h4 className='ms-9 border-bottom border-black bg-core text-white border border-white p-1'>User Permission</h4>
-                                <div className='d-flex justify-content-end'><button className='p-1 rounded text-white border border-white mb-3 bg-core'><i class="bi bi-plus-circle"></i> Add new</button></div>
+                                <div className='d-flex justify-content-end'><a href='/permission-update' className='p-1 rounded text-white border border-white mb-3 bg-core text-decoration-none'><i className="bi bi-pencil"></i> Update</a></div>
 
                                 <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -391,12 +320,7 @@ const UserPermission = () => {
                                         </TableHead>
                                         <TableBody>
                                             <TableRow
-                                                align="left"
-                                                sx={{
-                                                    td: {
-                                                        paddingLeft: 0,
-                                                    },
-                                                }}
+                                                sx={{ 'td': { padding: 2 } }}
                                             >
                                                 <TableCell align="left" className='fw-bold'>
                                                     Super Admin
@@ -418,102 +342,57 @@ const UserPermission = () => {
                                                 </TableCell>
                                             </TableRow>
                                             <TableRow
-                                                sx={{ 'td': { padding: 0 } }}
+                                                sx={{ 'td': { padding: 2 } }}
                                             >
                                                 <TableCell align="left" className='fw-bold'>
                                                     Class Admin
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('9f64df36-4def-11ed-bdc3-0242ac120002', classSyllabus.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {syllabus && syllabus.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(classSyllabus && classSyllabus.permission)} {capitalizeFirstLetter(classSyllabus && classSyllabus.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('9f64df36-4def-11ed-bdc3-0242ac120002', classTraining.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {training && training.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(classTraining && classTraining.permission)} {capitalizeFirstLetter(classTraining && classTraining.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('9f64df36-4def-11ed-bdc3-0242ac120002', classClass.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {classA && classA.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(classClass && classClass.permission)} {capitalizeFirstLetter(classClass && classClass.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('9f64df36-4def-11ed-bdc3-0242ac120002', classMaterial.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {material && material.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(classMaterial && classMaterial.permission)} {capitalizeFirstLetter(classMaterial && classMaterial.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
                                                     <i class="bi bi-plus-circle"></i> Create
                                                 </TableCell>
                                             </TableRow>
                                             <TableRow
-                                                sx={{ 'td': { padding: 0 } }}
+                                                sx={{ 'td': { padding: 2 } }}
                                             >
                                                 <TableCell align="left" className='fw-bold'>
                                                     Trainer
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('9821f52e-4def-11ed-bdc3-0242ac120002', trainerSyllabus.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {syllabus && syllabus.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(trainerSyllabus && trainerSyllabus.permission)} {capitalizeFirstLetter(trainerSyllabus && trainerSyllabus.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('9821f52e-4def-11ed-bdc3-0242ac120002', trainerTraining.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {training && training.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(trainerTraining && trainerTraining.permission)} {capitalizeFirstLetter(trainerTraining && trainerTraining.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('9821f52e-4def-11ed-bdc3-0242ac120002', trainerClass.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {classA && classA.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(trainerClass && trainerClass.permission)} {capitalizeFirstLetter(trainerClass && trainerClass.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('9821f52e-4def-11ed-bdc3-0242ac120002', trainerMaterial.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {material && material.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(trainerMaterial && trainerMaterial.permission)} {capitalizeFirstLetter(trainerMaterial && trainerMaterial.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
                                                     <i class="bi bi-eye"></i> View
                                                 </TableCell>
                                             </TableRow>
                                             <TableRow
-                                                sx={{ 'td': { padding: 0 } }}
+                                                sx={{ 'td': { padding: 2 } }}
                                             >
                                                 <TableCell align="left" className='fw-bold'>
                                                     Student
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('b424387c-4def-11ed-bdc3-0242ac120002', studentSyllabus.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {syllabus && syllabus.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(studentSyllabus && studentSyllabus.permission)} {capitalizeFirstLetter(studentSyllabus && studentSyllabus.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
                                                     <i class="bi bi-eye"></i> View
@@ -531,31 +410,6 @@ const UserPermission = () => {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-
-                                <Box sx={{ flexGrow: 1 }}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={8}>
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                        </Grid>
-                                        <Grid item xs={2}>
-                                            <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4"><a className='text-decoration-none text-danger' href='/permission'>Cancel</a></button>
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                            <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={() => handleButtonClick()}>Save</button>
-                                        </Grid>
-                                    </Grid>
-                                    <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
-                                        <Alert
-                                            onClose={handleCloseNo}
-                                            severity="success"
-                                            variant="filled"
-                                            sx={{ width: '100%' }}
-                                        >
-                                            {notificationMessage}
-                                        </Alert>
-                                    </Snackbar>
-                                </Box>
                             </div>
                         </ Box>
                     </Container>
@@ -568,4 +422,4 @@ const UserPermission = () => {
     )
 }
 
-export default UserPermission
+export default UserPermissionView
