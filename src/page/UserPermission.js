@@ -315,8 +315,8 @@ const UserPermission = () => {
 
     //first chart cap
     const capitalizeFirstLetter = (str) => {
-        str = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        return str.replace(/_/g, ' ');
+        str = str && str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        return str && str.replace(/_/g, ' ');
     };
 
     //update dto
@@ -336,11 +336,28 @@ const UserPermission = () => {
     //update role permission db
     const handleButtonClick = async () => {
         try {
-            const response = await updateRolePermission(role);
-            setNotificationMessage('Update successful.' + response);
+            await updateRolePermission(role);
+            setNotificationMessage('Update successful.');
             setOpenNo(true);
         } catch (error) {
             console.error("Error updating role permissions:", error);
+        }
+    };
+
+    const renderPermissionIcon = (permission) => {
+        switch (permission) {
+            case 'NO_ACCESS':
+                return <i className="bi bi-eye-slash"></i>;
+            case 'FULL_ACCESS':
+                return <i className="bi bi-star"></i>;
+            case 'MODIFY':
+                return <i className="bi bi-pencil"></i>;
+            case 'CREATE':
+                return <i className="bi bi-plus-circle"></i>;
+            case 'VIEW':
+                return <i className="bi bi-eye"></i>;
+            default:
+                return null;
         }
     };
 
@@ -374,42 +391,27 @@ const UserPermission = () => {
                                         </TableHead>
                                         <TableBody>
                                             <TableRow
-                                                sx={{ 'td': { padding: 0 } }}
+                                                align="left"
+                                                sx={{
+                                                    td: {
+                                                        paddingLeft: 0,
+                                                    },
+                                                }}
                                             >
                                                 <TableCell align="left" className='fw-bold'>
                                                     Super Admin
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('4436720a-4def-11ed-bdc3-0242ac120002', superSyllabus.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {syllabus && syllabus.map((sl, idx) => (
-                                                            <option key={sl.id} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(superSyllabus && superSyllabus.permission)} {capitalizeFirstLetter(superSyllabus && superSyllabus.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('4436720a-4def-11ed-bdc3-0242ac120002', superTraining.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {training && training.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(superTraining && superTraining.permission)} {capitalizeFirstLetter(superTraining && superTraining.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('4436720a-4def-11ed-bdc3-0242ac120002', superClass.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {classA && classA.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(superClass && superClass.permission)} {capitalizeFirstLetter(superClass && superClass.permission)}
                                                 </TableCell>
-                                                <TableCell align="left">
-                                                    <Form.Select aria-label="Default select example" onChange={(e) => handlePermissionChange('4436720a-4def-11ed-bdc3-0242ac120002', superMaterial.id, e.target.value)}>
-                                                        <option>Permission</option>
-                                                        {material && material.map((sl, idx) => (
-                                                            <option key={idx} value={sl.id}>{capitalizeFirstLetter(sl.permission)}</option>
-                                                        ))}
-                                                    </Form.Select>
+                                                <TableCell align="left" className='text-primary'>
+                                                    {renderPermissionIcon(superMaterial && superMaterial.permission)} {capitalizeFirstLetter(superMaterial && superMaterial.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
                                                     <i class="bi bi-star"></i> Full access
@@ -537,7 +539,7 @@ const UserPermission = () => {
                                         <Grid item xs={1}>
                                         </Grid>
                                         <Grid item xs={2}>
-                                            <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Cancel</button>
+                                            <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4"><a className='text-decoration-none text-danger' href='/permission'>Cancel</a></button>
                                         </Grid>
                                         <Grid item xs={1}>
                                             <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={() => handleButtonClick()}>Save</button>

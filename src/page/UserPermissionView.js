@@ -18,7 +18,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { getMaterialAuthorities, getSyllabusAuthorities, getTrainingAuthorities, getClassAuthorities, getRoleAuthorities } from '../services/AuthoritiesService';
+import { getRoleAuthorities } from '../services/AuthoritiesService';
 import { getRolePermission, updateRolePermission } from "../services/RoleService";
 
 const UserPermissionView = () => {
@@ -258,8 +258,8 @@ const UserPermissionView = () => {
 
     //first chart cap
     const capitalizeFirstLetter = (str) => {
-        str = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-        return str.replace(/_/g, ' ');
+        str = str && str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        return str && str.replace(/_/g, ' ');
     };
 
     //update role permission db
@@ -326,16 +326,16 @@ const UserPermissionView = () => {
                                                     Super Admin
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(superSyllabus.permission)} {capitalizeFirstLetter(superSyllabus.permission)}
+                                                    {renderPermissionIcon(superSyllabus && superSyllabus.permission)} {capitalizeFirstLetter(superSyllabus && superSyllabus.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(superTraining.permission)} {capitalizeFirstLetter(superTraining.permission)}
+                                                    {renderPermissionIcon(superTraining && superTraining.permission)} {capitalizeFirstLetter(superTraining && superTraining.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(superClass.permission)} {capitalizeFirstLetter(superClass.permission)}
+                                                    {renderPermissionIcon(superClass && superClass.permission)} {capitalizeFirstLetter(superClass && superClass.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(superMaterial.permission)} {capitalizeFirstLetter(superMaterial.permission)}
+                                                    {renderPermissionIcon(superMaterial && superMaterial.permission)} {capitalizeFirstLetter(superMaterial && superMaterial.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
                                                     <i class="bi bi-star"></i> Full access
@@ -348,16 +348,16 @@ const UserPermissionView = () => {
                                                     Class Admin
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(classSyllabus.permission)} {capitalizeFirstLetter(classSyllabus.permission)}
+                                                    {renderPermissionIcon(classSyllabus && classSyllabus.permission)} {capitalizeFirstLetter(classSyllabus && classSyllabus.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(classTraining.permission)} {capitalizeFirstLetter(classTraining.permission)}
+                                                    {renderPermissionIcon(classTraining && classTraining.permission)} {capitalizeFirstLetter(classTraining && classTraining.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(classClass.permission)} {capitalizeFirstLetter(classClass.permission)}
+                                                    {renderPermissionIcon(classClass && classClass.permission)} {capitalizeFirstLetter(classClass && classClass.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(classMaterial.permission)} {capitalizeFirstLetter(classMaterial.permission)}
+                                                    {renderPermissionIcon(classMaterial && classMaterial.permission)} {capitalizeFirstLetter(classMaterial && classMaterial.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
                                                     <i class="bi bi-plus-circle"></i> Create
@@ -370,16 +370,16 @@ const UserPermissionView = () => {
                                                     Trainer
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(trainerSyllabus.permission)} {capitalizeFirstLetter(trainerSyllabus.permission)}
+                                                    {renderPermissionIcon(trainerSyllabus && trainerSyllabus.permission)} {capitalizeFirstLetter(trainerSyllabus && trainerSyllabus.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(trainerTraining.permission)} {capitalizeFirstLetter(trainerTraining.permission)}
+                                                    {renderPermissionIcon(trainerTraining && trainerTraining.permission)} {capitalizeFirstLetter(trainerTraining && trainerTraining.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(trainerClass.permission)} {capitalizeFirstLetter(trainerClass.permission)}
+                                                    {renderPermissionIcon(trainerClass && trainerClass.permission)} {capitalizeFirstLetter(trainerClass && trainerClass.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(trainerMaterial.permission)} {capitalizeFirstLetter(trainerMaterial.permission)}
+                                                    {renderPermissionIcon(trainerMaterial && trainerMaterial.permission)} {capitalizeFirstLetter(trainerMaterial && trainerMaterial.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
                                                     <i class="bi bi-eye"></i> View
@@ -392,7 +392,7 @@ const UserPermissionView = () => {
                                                     Student
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
-                                                    {renderPermissionIcon(studentSyllabus.permission)} {capitalizeFirstLetter(studentSyllabus.permission)}
+                                                    {renderPermissionIcon(studentSyllabus && studentSyllabus.permission)} {capitalizeFirstLetter(studentSyllabus && studentSyllabus.permission)}
                                                 </TableCell>
                                                 <TableCell align="left" className='text-primary'>
                                                     <i class="bi bi-eye"></i> View
@@ -410,31 +410,6 @@ const UserPermissionView = () => {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-
-                                <Box sx={{ flexGrow: 1 }}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={8}>
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                        </Grid>
-                                        <Grid item xs={2}>
-                                            <button className="bg-dark-subtle border-0 text-white rounded p-2 my-4">Cancel</button>
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                            <button className="bg-secondary border-0 text-white rounded p-2 my-4" onClick={() => handleButtonClick()}>Save</button>
-                                        </Grid>
-                                    </Grid>
-                                    <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
-                                        <Alert
-                                            onClose={handleCloseNo}
-                                            severity="success"
-                                            variant="filled"
-                                            sx={{ width: '100%' }}
-                                        >
-                                            {notificationMessage}
-                                        </Alert>
-                                    </Snackbar>
-                                </Box>
                             </div>
                         </ Box>
                     </Container>
