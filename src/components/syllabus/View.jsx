@@ -21,6 +21,7 @@ import { getSyllabusData, duplicatedSyllabus, deleteSyllabus } from '../../servi
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 
 const View = () => {
@@ -32,6 +33,10 @@ const View = () => {
 
     const [syllabusData, setSyllabusData] = useState(null);
     const [syllabusSearch, setSyllabusSearch] = useState(null);
+    const navigate = useHistory();
+    const handleClick = () => {
+        navigate.push("/lp"); // Chuyển hướng đến "/lp"
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -267,6 +272,12 @@ const View = () => {
                                                                         <i className="bi bi-eye"></i> View syllabus
                                                                     </Link>
                                                                 </Dropdown.Item>
+
+
+                                                                <Dropdown.Item eventKey="6" onClick={() => handleClick()}>
+                                                                    <i className="bi bi-plus-circle"></i> Duplicate
+                                                                </Dropdown.Item>
+
 
                                                                 <Dropdown.Divider />
                                                                 <Dropdown.Item eventKey="5" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
