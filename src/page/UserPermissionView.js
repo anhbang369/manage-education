@@ -22,7 +22,7 @@ import Alert from '@mui/material/Alert';
 import { getMaterialAuthorities, getSyllabusAuthorities, getTrainingAuthorities, getClassAuthorities, getRoleAuthorities } from '../services/AuthoritiesService';
 import { getRolePermission, updateRolePermission } from "../services/RoleService";
 
-const UserPermission = () => {
+const UserPermissionView = () => {
     const [material, setMaterial] = useState(null);
     const [syllabus, setSyllabus] = useState(null);
     const [training, setTraining] = useState(null);
@@ -566,4 +566,4 @@ const UserPermission = () => {
     )
 }
 
-export default UserPermission
+export default UserPermissionView
