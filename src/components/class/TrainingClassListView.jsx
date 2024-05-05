@@ -38,7 +38,7 @@ import Select from '@mui/material/Select';
 import { getClassLocation } from "../../services/ClassLocationService";
 import { getFsu } from "../../services/FsuService";
 import { getUserByRole } from "../../services/UserService";
-import { getAttendLevel } from "../../services/AttendLevel";
+import { getAttendLevel } from "../../services/AttendLevelService";
 import { getClassStatus } from "../../services/ClassStatusService";
 
 const TrainingClassListView = () => {
