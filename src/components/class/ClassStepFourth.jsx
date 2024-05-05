@@ -95,23 +95,23 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
         try {
             const response = await createClass(selectedItems[0].id, [newForm]);
 
-            if (response.ok) {
-                console.log('Create successful');
+            if (response === 200) {
                 setNotificationMessage('Create successful.');
                 setSeverity('success');
-                setOpenNo(true);
                 history.push('/class');
-            } else if (response.status === 401 || response.status === 403) {
-                console.error('Unauthorized or forbidden');
-                setNotificationMessage('Unauthorized or forbidden.');
-                setSeverity('warning');
-                setOpenNo(true);
-            } else {
-                console.error('Create failed');
-                setNotificationMessage('Create failed.');
-                setSeverity('error');
-                setOpenNo(true);
+
             }
+            if (response === 403 || response === 401) {
+                setNotificationMessage('You do not have permission to perform this action.');
+                setSeverity('warning');
+
+            }
+            if (response === 500 || response === 400) {
+                setNotificationMessage('Error create class.');
+                setSeverity('error');
+
+            }
+            setOpenNo(true);
         } catch (error) {
             setNotificationMessage('Error creating class.');
             setSeverity('error');

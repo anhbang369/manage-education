@@ -27,16 +27,13 @@ export const deleteTrainingClass = async (itemId) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Delete successful', data);
-            return data;
+            return await response.status;
         } else {
-            console.error('Delete failed');
-            throw new Error('Delete failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error Delete syllabus:', error);
-        throw error;
+        return 500;
     }
 };
 
@@ -78,17 +75,13 @@ export const createClass = async (itemId, dto) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Create successful', data);
-            console.log(response.status);
-            return data;
+            return await response.status;
         } else {
-            console.error('Create failed');
-            throw new Error('Create failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error Create:', error);
-        throw error;
+        return 500;
     }
 };
 
@@ -107,17 +100,13 @@ export const importTrainingClass = async (file) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Import successful', data);
-            console.log(response.status);
-            return data;
+            return await response.status;
         } else {
-            console.error('Import failed');
-            throw new Error('Import failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error importing:', error);
-        throw error;
+        return 500;
     }
 };
 
@@ -133,16 +122,13 @@ const duplicatedTrainingClass = async (itemId) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Duplicated successful', data);
-            return data;
+            return await response.status;
         } else {
-            console.error('Duplicated failed');
-            throw new Error('Duplicated failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error duplicating syllabus:', error);
-        throw error;
+        return 500;
     }
 };
 
