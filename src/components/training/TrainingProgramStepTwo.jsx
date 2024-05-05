@@ -19,6 +19,7 @@ const TrainingProgramStepTwo = ({ classDto }) => {
     const [loading, setLoading] = useState(false);
     const [openNo, setOpenNo] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
+    const [severity, setSeverity] = useState('success');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,9 +82,23 @@ const TrainingProgramStepTwo = ({ classDto }) => {
 
         try {
 
-            await createTrainingProgram(requestBody);
+            const status = await createTrainingProgram(requestBody);
             setLoading(false);
-            setNotificationMessage('Create successful.');
+            if (status === 200) {
+                setNotificationMessage('Create successful.');
+                setSeverity('success');
+
+            }
+            if (status === 403 || status === 401) {
+                setNotificationMessage('You do not have permission to perform this action.');
+                setSeverity('warning');
+
+            }
+            if (status === 500 || status === 400) {
+                setNotificationMessage('Error create program.');
+                setSeverity('error');
+
+            }
             setOpenNo(true);
             requestBody = {};
             setSelectedItems([]);
@@ -216,7 +231,7 @@ const TrainingProgramStepTwo = ({ classDto }) => {
                 <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                     <Alert
                         onClose={handleCloseNo}
-                        severity="success"
+                        severity={severity}
                         variant="filled"
                         sx={{ width: '100%' }}
                     >

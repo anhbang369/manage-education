@@ -14,6 +14,7 @@ const ImportProgram = ({ property }) => {
 
     //notification
     const [openNo, setOpenNo] = useState(false);
+    const [severity, setSeverity] = useState('success');
 
     const [file, setFile] = useState(null);
     const [notificationMessage, setNotificationMessage] = useState('');
@@ -25,9 +26,22 @@ const ImportProgram = ({ property }) => {
     const handleImport = async () => {
         if (file) {
             try {
-                await importTrainingProgram(file);
-                setNotificationMessage('Import successful.');
-                console.log('Import successful');
+                const status = await importTrainingProgram(file);
+                if (status === 200) {
+                    setNotificationMessage('Import successful.');
+                    setSeverity('success');
+
+                }
+                if (status === 403 || status === 401) {
+                    setNotificationMessage('You do not have permission to perform this action.');
+                    setSeverity('warning');
+
+                }
+                if (status === 500 || status === 400) {
+                    setNotificationMessage('Error import program.');
+                    setSeverity('error');
+
+                }
                 setOpenNo(true);
             } catch (error) {
                 setNotificationMessage('Import fail.');
@@ -138,7 +152,7 @@ const ImportProgram = ({ property }) => {
             <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                 <Alert
                     onClose={handleCloseNo}
-                    severity="success"
+                    severity={severity}
                     variant="filled"
                     sx={{ width: '100%' }}
                 >
