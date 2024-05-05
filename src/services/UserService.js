@@ -188,17 +188,13 @@ export const importUser = async (file) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Import successful', data);
-            console.log(response.status);
-            return data;
+            return await response.status;
         } else {
-            console.error('Import failed');
-            throw new Error('Import failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error importing:', error);
-        throw error;
+        return 500;
     }
 };
 
@@ -214,13 +210,9 @@ export const deActiveUser = async (itemId) => {
         });
 
         if (response.ok) {
-            await response;
-            console.log(response);
-            console.log(response.status);
-            return response;
+            return await response.status;
         } else {
-            console.error('Import failed');
-            throw new Error('Import failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error importing:', error);
@@ -240,17 +232,12 @@ export const deleteUser = async (itemId) => {
         });
 
         if (response.ok) {
-            await response;
-            console.log(response);
-            console.log(response.status);
-            return response;
+            return await response.status;
         } else {
-            console.error('Import failed');
-            throw new Error('Import failed');
+            return await response.status;
         }
     } catch (error) {
-        console.error('Error importing:', error);
-        throw error;
+        return 500;
     }
 };
 
@@ -268,12 +255,10 @@ export const createUser = async (userData) => {
         });
 
         if (!response.ok) {
-            throw new Error('Failed to create user');
+            return await response.status;
         }
-
-        return await response;
+        return await response.status;
     } catch (error) {
-        console.error('Error creating user:', error);
-        throw error;
+        return 500;
     }
 };

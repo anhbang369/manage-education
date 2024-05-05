@@ -58,6 +58,7 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
     const history = useHistory();
     const [openNo, setOpenNo] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
+    const [severity, setSeverity] = useState('success');
     const [openTrainer, setOpenTrainer] = React.useState(false);
     const handleOpenTrainer = () => setOpenTrainer(true);
     const handleCloseTrainer = () => setOpenTrainer(false);
@@ -97,13 +98,24 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
             if (response.ok) {
                 console.log('Create successful');
                 setNotificationMessage('Create successful.');
+                setSeverity('success');
                 setOpenNo(true);
                 history.push('/class');
+            } else if (response.status === 401 || response.status === 403) {
+                console.error('Unauthorized or forbidden');
+                setNotificationMessage('Unauthorized or forbidden.');
+                setSeverity('warning');
+                setOpenNo(true);
             } else {
                 console.error('Create failed');
+                setNotificationMessage('Create failed.');
+                setSeverity('error');
+                setOpenNo(true);
             }
         } catch (error) {
-            console.error('Error creating class:', error);
+            setNotificationMessage('Error creating class.');
+            setSeverity('error');
+            setOpenNo(true);
         }
     };
 
@@ -363,7 +375,7 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
                                                                                 <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                                                                                     <Alert
                                                                                         onClose={handleCloseNo}
-                                                                                        severity="success"
+                                                                                        severity={severity}
                                                                                         variant="filled"
                                                                                         sx={{ width: '100%' }}
                                                                                     >

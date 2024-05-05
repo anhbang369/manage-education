@@ -315,6 +315,7 @@ const UserManagementView = () => {
 
     //notification
     const [openNo, setOpenNo] = useState(false);
+    const [severity, setSeverity] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
     const handleCloseNo = () => {
         setOpenNo(false);
@@ -322,17 +323,57 @@ const UserManagementView = () => {
 
     // const [selectedItemId, setSelectedItemId] = useState(null);
     const handleDropdownItemClick = (itemId) => {
-        // setSelectedItemId(itemId);
-        deActiveUser(itemId);
-        setNotificationMessage('De-active successful.');
-        setOpenNo(true);
+        try {
+            const status = deActiveUser(itemId);
+            if (status === 200) {
+                setNotificationMessage('De-active successful.');
+                setSeverity('success');
+
+            }
+            if (status === 403 || status === 401) {
+                setNotificationMessage('You do not have permission to perform this action.');
+                setSeverity('warning');
+
+            }
+            if (status === 500 || status === 400) {
+                setNotificationMessage('Error de-active user.');
+                setSeverity('error');
+
+            }
+            setOpenNo(true);
+        } catch (error) {
+            console.error('Error de-activating user:', error);
+            setNotificationMessage('Error de-activating user.');
+            setSeverity('error');
+            setOpenNo(true);
+        }
     };
 
     const handleDropdownItemClickDelete = (itemId) => {
-        // setSelectedItemId(itemId);
-        deleteUser(itemId);
-        setNotificationMessage('Delete successful.');
-        setOpenNo(true);
+        try {
+            const status = deleteUser(itemId);
+            if (status === 200) {
+                setNotificationMessage('Delete successfully.');
+                setSeverity('success');
+
+            }
+            if (status === 403 || status === 401) {
+                setNotificationMessage('You do not have permission to perform this action.');
+                setSeverity('warning');
+
+            }
+            if (status === 500 || status === 400) {
+                setNotificationMessage('Error delete user.');
+                setSeverity('error');
+
+            }
+            setOpenNo(true);
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            setNotificationMessage('Error deleting user.');
+            setSeverity('error');
+            setOpenNo(true);
+        }
     };
 
     const [currentPage, setCurrentPage] = useState(0);
@@ -520,15 +561,35 @@ const UserManagementView = () => {
                                                         const userData = Object.fromEntries(formData);
 
                                                         try {
-                                                            await createUser(userData);
+                                                            const status = await createUser(userData);
+                                                            if (status === 200) {
+                                                                setNotificationMessage('User created successfully.');
+                                                                setSeverity('success');
 
-                                                            console.log('User created successfully');
-                                                            setOpenAdd(true);
-                                                            setNotificationMessage('User created successfully.');
+                                                            }
+                                                            if (status === 403 || status === 401) {
+                                                                setNotificationMessage('You do not have permission to perform this action.');
+                                                                setSeverity('warning');
+
+                                                            }
+                                                            if (status === 500 || status === 400) {
+                                                                setNotificationMessage('Error creating user.');
+                                                                setSeverity('error');
+
+                                                            }
                                                             setOpenNo(true);
                                                         } catch (error) {
-                                                            console.log(error);
+                                                            console.error('Error creating user:', error);
+                                                            if (error === 401 || error === 403) {
+                                                                setNotificationMessage('You do not have permission to perform this action.');
+                                                                setSeverity('warning');
+                                                            } else {
+                                                                setNotificationMessage('Error creating user.');
+                                                                setSeverity('error');
+                                                            }
+                                                            setOpenNo(true);
                                                         }
+
                                                     }}
                                                 >
                                                     <Stack spacing={0}>
@@ -710,7 +771,7 @@ const UserManagementView = () => {
                             <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                                 <Alert
                                     onClose={handleCloseNo}
-                                    severity="success"
+                                    severity={severity}
                                     variant="filled"
                                     sx={{ width: '100%' }}
                                 >
