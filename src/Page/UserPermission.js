@@ -42,6 +42,7 @@ const UserPermission = () => {
     const [trainerMaterial, setTrainerMaterial] = useState(null);
     const [studentSyllabus, setStudentSyllabus] = useState(null);
     const [openNo, setOpenNo] = useState(false);
+    const [severity, setSeverity] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
     const handleCloseNo = () => {
         setOpenNo(false);
@@ -336,8 +337,22 @@ const UserPermission = () => {
     //update role permission db
     const handleButtonClick = async () => {
         try {
-            await updateRolePermission(role);
-            setNotificationMessage('Update successful.');
+            const status = await updateRolePermission(role);
+            if (status === 200) {
+                setNotificationMessage('Update successful.');
+                setSeverity('success');
+
+            }
+            if (status === 403 || status === 401) {
+                setNotificationMessage('You do not have permission to perform this action.');
+                setSeverity('warning');
+
+            }
+            if (status === 500 || status === 400) {
+                setNotificationMessage('Error update role permission.');
+                setSeverity('error');
+
+            }
             setOpenNo(true);
         } catch (error) {
             console.error("Error updating role permissions:", error);
@@ -548,7 +563,7 @@ const UserPermission = () => {
                                     <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                                         <Alert
                                             onClose={handleCloseNo}
-                                            severity="success"
+                                            severity={severity}
                                             variant="filled"
                                             sx={{ width: '100%' }}
                                         >

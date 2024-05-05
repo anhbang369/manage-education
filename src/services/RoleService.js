@@ -29,16 +29,12 @@ export const updateRolePermission = async (dto) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Update successful', data);
-            console.log(response.status);
-            return data;
+            return await response.status;
         } else {
-            console.error('Update failed');
-            throw new Error('Update failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error Update:', error);
-        throw error;
+        return 500;
     }
 };
