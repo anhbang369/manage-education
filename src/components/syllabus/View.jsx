@@ -21,6 +21,7 @@ import { getSyllabusData, duplicatedSyllabus, deleteSyllabus } from '../../servi
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 
 const View = () => {
@@ -32,6 +33,10 @@ const View = () => {
 
     const [syllabusData, setSyllabusData] = useState(null);
     const [syllabusSearch, setSyllabusSearch] = useState(null);
+    const navigate = useHistory();
+    const handleClick = () => {
+        navigate.push("/lp"); // Chuyển hướng đến "/lp"
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -120,6 +125,7 @@ const View = () => {
 
     //notification
     const [openNo, setOpenNo] = useState(false);
+    const [severity, setSeverity] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
     const handleCloseNo = () => {
         setOpenNo(false);
@@ -130,8 +136,22 @@ const View = () => {
 
     const handleDropdownItemClick = (itemId) => {
         // setSelectedItemId(itemId);
-        duplicatedSyllabus(itemId);
-        setNotificationMessage('Import successful.');
+        const status = duplicatedSyllabus(itemId);
+        if (status === 200) {
+            setNotificationMessage('Duplicated successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error duplicated syllabus.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
@@ -139,8 +159,22 @@ const View = () => {
     //delete
     const handleDropdownItemDelete = (itemId) => {
         // setSelectedItemId(itemId);
-        deleteSyllabus(itemId);
-        setNotificationMessage('Delete successful.');
+        const status = deleteSyllabus(itemId);
+        if (status === 200) {
+            setNotificationMessage('Delete successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error delete syllabus.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
@@ -268,6 +302,12 @@ const View = () => {
                                                                     </Link>
                                                                 </Dropdown.Item>
 
+
+                                                                <Dropdown.Item eventKey="6" onClick={() => handleClick()}>
+                                                                    <i className="bi bi-plus-circle"></i> Duplicate
+                                                                </Dropdown.Item>
+
+
                                                                 <Dropdown.Divider />
                                                                 <Dropdown.Item eventKey="5" onClick={() => handleDropdownItemDelete(item.id)}><i className="bi bi-trash3"></i> Delete syllabus</Dropdown.Item>
                                                             </DropdownButton>
@@ -302,7 +342,7 @@ const View = () => {
                         <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                             <Alert
                                 onClose={handleCloseNo}
-                                severity="success"
+                                severity={severity}
                                 variant="filled"
                                 sx={{ width: '100%' }}
                             >

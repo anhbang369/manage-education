@@ -1,6 +1,11 @@
 export const getDeliveryType = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/syllabus/syllabus-day/syllabus-unit/unit-chapter/delivery-types');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/syllabus/syllabus-day/syllabus-unit/unit-chapter/delivery-types', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch delivery type data');
         }

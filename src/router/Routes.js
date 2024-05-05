@@ -16,24 +16,38 @@ import MaterialList from "../page/MaterialList";
 import UserPermissionView from "../page/UserPermissionView";
 
 export const Routes = () => {
+
+    const accessRole = localStorage.getItem('role');
+
     return (
         <Router>
             <Switch>
                 <Route path="/login" component={() => <Login />} />
-                <Route path="/syllabus" component={() => <SyllabusList />} />
-                <Route path="/lp" component={() => <SyllabusCreate />} />
-                <Route path="/training" component={() => <TrainingProgramList />} />
-                <Route path="/program/:id" component={() => <ViewProgram />} />
-                <Route path="/create" component={() => <CreateTrainingProgram />} />
-                <Route path="/class" component={() => <TrainingClassList />} />
-                <Route path="/calender" component={() => <TrainingCalander />} />
-                <Route path="/user" component={() => <UserManagement />} />
-                <Route path="/permission-update" component={() => <UserPermission />} />
-                <Route path="/class-view/:id" component={() => <ClassView />} />
-                <Route path="/class-create" component={() => <CreateClass />} />
-                <Route path="/view/:id" component={() => <SyllabusView />} />
-                <Route path="/material" component={() => <MaterialList />} />
-                <Route path="/permission" component={() => <UserPermissionView />} />
+                {!(accessRole === 'GUEST' || accessRole === null) && (
+                    <>
+                        <Route path="/syllabus" component={() => <SyllabusList />} />
+                        <Route path="/lp" component={() => <SyllabusCreate />} />
+                        <Route path="/training" component={() => <TrainingProgramList />} />
+                        <Route path="/program/:id" component={() => <ViewProgram />} />
+                        <Route path="/class" component={() => <TrainingClassList />} />
+                        <Route path="/calender" component={() => <TrainingCalander />} />
+                        <Route path="/class-view/:id" component={() => <ClassView />} />
+                        <Route path="/view/:id" component={() => <SyllabusView />} />
+                        <Route path="/material" component={() => <MaterialList />} />
+                        {(accessRole === 'SUPER_ADMIN') && (
+                            <Route path="/permission-update" component={() => <UserPermission />} />
+                        )}
+                        {!(accessRole === 'GUEST' || accessRole === 'STUDENT') && (
+                            <>
+                                <Route path="/permission" component={() => <UserPermissionView />} />
+                                <Route path="/create" component={() => <CreateTrainingProgram />} />
+                                <Route path="/class-create" component={() => <CreateClass />} />
+                                <Route path="/user" component={() => <UserManagement />} />
+                            </>
+                        )}
+                    </>
+
+                )}
                 <Redirect from="/" to="/login" />
             </Switch>
         </Router>

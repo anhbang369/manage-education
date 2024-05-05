@@ -20,7 +20,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { useHistory, Route, Link } from 'react-router-dom';
 import ImportProgram from '../import/ImportProgram';
-import { getTrainingProgram, deleteTrainingProgram, deActiveTrainingProgram, duplicatedTrainingProgram, importTrainingProgram } from '../../services/TrainingProgramService';
+import { getTrainingProgram, deleteTrainingProgram, deActiveTrainingProgram, duplicatedTrainingProgram } from '../../services/TrainingProgramService';
 
 
 const TrainingProgram = () => {
@@ -117,6 +117,7 @@ const TrainingProgram = () => {
 
     //notification
     const [openNo, setOpenNo] = useState(false);
+    const [severity, setSeverity] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
     const handleCloseNo = () => {
         setOpenNo(false);
@@ -126,24 +127,66 @@ const TrainingProgram = () => {
     const [selectedItemId, setSelectedItemId] = useState(null);
     const handleDropdownItemDelete = (itemId) => {
         setSelectedItemId(itemId);
-        deleteTrainingProgram(itemId);
-        setNotificationMessage('Delete successful.');
+        const status = deleteTrainingProgram(itemId);
+        if (status === 200) {
+            setNotificationMessage('Delete successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error delete program.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
     //de-active
     const handleDropdownItemDeActive = (itemId) => {
         setSelectedItemId(itemId);
-        deActiveTrainingProgram(itemId);
-        setNotificationMessage('De-active successful.');
+        const status = deActiveTrainingProgram(itemId);
+        if (status === 200) {
+            setNotificationMessage('De-active successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error de-active program.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
     //duplicated
     const handleDropdownItemClickDuplicated = (itemId) => {
         setSelectedItemId(itemId);
-        duplicatedTrainingProgram(itemId);
-        setNotificationMessage('Duplicated successful.');
+        const status = duplicatedTrainingProgram(itemId);
+        if (status === 200) {
+            setNotificationMessage('Duplicated successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error duplicated program.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
@@ -305,7 +348,7 @@ const TrainingProgram = () => {
                             <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                                 <Alert
                                     onClose={handleCloseNo}
-                                    severity="success"
+                                    severity={severity}
                                     variant="filled"
                                     sx={{ width: '100%' }}
                                 >

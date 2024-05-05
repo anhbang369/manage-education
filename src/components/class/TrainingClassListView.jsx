@@ -38,7 +38,7 @@ import Select from '@mui/material/Select';
 import { getClassLocation } from "../../services/ClassLocationService";
 import { getFsu } from "../../services/FsuService";
 import { getUserByRole } from "../../services/UserService";
-import { getAttendLevel } from "../../services/AttendLevel";
+import { getAttendLevel } from "../../services/AttendLevelService";
 import { getClassStatus } from "../../services/ClassStatusService";
 
 const TrainingClassListView = () => {
@@ -60,6 +60,7 @@ const TrainingClassListView = () => {
 
     //notification
     const [openNo, setOpenNo] = useState(false);
+    const [severity, setSeverity] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
     const handleCloseNo = () => {
         setOpenNo(false);
@@ -315,16 +316,44 @@ const TrainingClassListView = () => {
     const [selectedItemId, setSelectedItemId] = useState(null);
     const handleDropdownItemDelete = (itemId) => {
         setSelectedItemId(itemId);
-        deleteTrainingClass(itemId);
-        setNotificationMessage('Delete successful.');
+        const status = deleteTrainingClass(itemId);
+        if (status === 200) {
+            setNotificationMessage('Delete successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error delete class.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
     //duplicated
     const handleDropdownItemDuplicated = (itemId) => {
         setSelectedItemId(itemId);
-        duplicatedTrainingClass(itemId);
-        setNotificationMessage('Import successful.');
+        const status = duplicatedTrainingClass(itemId);
+        if (status === 200) {
+            setNotificationMessage('Import successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error import class.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
@@ -586,7 +615,7 @@ const TrainingClassListView = () => {
                             <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                                 <Alert
                                     onClose={handleCloseNo}
-                                    severity="success"
+                                    severity={severity}
                                     variant="filled"
                                     sx={{ width: '100%' }}
                                 >

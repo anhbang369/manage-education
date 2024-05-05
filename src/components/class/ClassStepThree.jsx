@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { getUserByRole, getUserByRoleStudent } from '../../services/UserService';
 import { getFsu } from '../../services/FsuService';
-import { getAttendLevel } from '../../services/AttendLevel';
+import { getAttendLevel } from '../../services/AttendLevelService';
 import { getTrainingProgramById } from "../../services/TrainingProgramService";
 import { getTechnicalGroups } from "../../services/TechnicalGroupService";
 import { getFormatTypes } from "../../services/FormatTypeService";

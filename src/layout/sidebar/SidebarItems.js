@@ -6,6 +6,8 @@ export default function SidebarItems() {
     const [openClass, setOpenClass] = useState(false)
     const [openMana, setOpenMana] = useState(false)
 
+    const accessRole = localStorage.getItem('role');
+
     return (
         <>
             <div className="sidebar-item">
@@ -36,6 +38,7 @@ export default function SidebarItems() {
                             </span>
                         </div>
                     </div>
+
 
                     <div className={open ? "sidebar-item open" : "sidebar-item"}>
                         <div className="sidebar-title">
@@ -70,14 +73,17 @@ export default function SidebarItems() {
                         </div>
                     </div>
 
-                    <div className={openProgram ? "sidebar-item open" : "sidebar-item"}>
-                        <div className="sidebar-title">
-                            <span>
-
-                                <a href="/create" className='text-decoration-none text-nav'>Create program</a>
-                            </span>
+                    {(accessRole === 'SUPER_ADMIN' || accessRole === 'CLASS_ADMIN' || accessRole === 'TRAINER') && (
+                        <div className={openProgram ? "sidebar-item open" : "sidebar-item"}>
+                            <div className="sidebar-title">
+                                <span>
+                                    <a href="/create" className='text-decoration-none text-nav'>Create program</a>
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    )}
+
+
 
 
                 </div>
@@ -102,15 +108,16 @@ export default function SidebarItems() {
                         </div>
                     </div>
 
-                    <div className={openClass ? "sidebar-item open" : "sidebar-item"}>
-                        <div className="sidebar-title">
-                            <span>
-                                <a href="/class-create" className='text-decoration-none text-nav'>Create class</a>
+                    {(accessRole === 'SUPER_ADMIN' || accessRole === 'CLASS_ADMIN' || accessRole === 'TRAINER') && (
+                        <div className={openClass ? "sidebar-item open" : "sidebar-item"}>
+                            <div className="sidebar-title">
+                                <span>
+                                    <a href="/class-create" className='text-decoration-none text-nav'>Create class</a>
 
-                            </span>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-
+                    )}
 
                 </div>
             </div>
@@ -133,34 +140,38 @@ export default function SidebarItems() {
                 </div>
             </div>
 
-            <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
-                <div className="sidebar-title">
-                    <span>
-                        <i class="bi bi-people"></i>
-                        User manager
-                    </span>
-                    <i className="bi-chevron-down toggle-btn" onClick={() => setOpenMana(!openMana)}></i>
-                </div>
-                <div className="sidebar-content">
-
-
-                    <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
-                        <div className="sidebar-title">
-                            <span>
-                                <a href="/user" className='text-decoration-none text-nav'>User list</a>
-                            </span>
-                        </div>
+            {!(accessRole === 'STUDENT') && (
+                <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
+                    <div className="sidebar-title">
+                        <span>
+                            <i class="bi bi-people"></i>
+                            User manager
+                        </span>
+                        <i className="bi-chevron-down toggle-btn" onClick={() => setOpenMana(!openMana)}></i>
                     </div>
-                    <div className={openMana ? "tsidebar-item open" : "sidebar-item"}>
-                        <div className="sidebar-title">
-                            <span>
-                                <a href="/permission" className='text-decoration-none text-nav'>User permission</a>
-                            </span>
-                        </div>
-                    </div>
+                    <div className="sidebar-content">
 
+
+                        <div className={openMana ? "sidebar-item open" : "sidebar-item"}>
+                            <div className="sidebar-title">
+                                <span>
+                                    <a href="/user" className='text-decoration-none text-nav'>User list</a>
+                                </span>
+                            </div>
+                        </div>
+                        {(accessRole === 'SUPER_ADMIN') && (
+                            <div className={openMana ? "tsidebar-item open" : "sidebar-item"}>
+                                <div className="sidebar-title">
+                                    <span>
+                                        <a href="/permission" className='text-decoration-none text-nav'>User permission</a>
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+
+                    </div>
                 </div>
-            </div>
+            )}
         </>
 
     )

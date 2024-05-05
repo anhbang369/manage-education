@@ -58,6 +58,7 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
     const history = useHistory();
     const [openNo, setOpenNo] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
+    const [severity, setSeverity] = useState('success');
     const [openTrainer, setOpenTrainer] = React.useState(false);
     const handleOpenTrainer = () => setOpenTrainer(true);
     const handleCloseTrainer = () => setOpenTrainer(false);
@@ -94,16 +95,27 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
         try {
             const response = await createClass(selectedItems[0].id, [newForm]);
 
-            if (response.ok) {
-                console.log('Create successful');
+            if (response === 200) {
                 setNotificationMessage('Create successful.');
-                setOpenNo(true);
+                setSeverity('success');
                 history.push('/class');
-            } else {
-                console.error('Create failed');
+
             }
+            if (response === 403 || response === 401) {
+                setNotificationMessage('You do not have permission to perform this action.');
+                setSeverity('warning');
+
+            }
+            if (response === 500 || response === 400) {
+                setNotificationMessage('Error create class.');
+                setSeverity('error');
+
+            }
+            setOpenNo(true);
         } catch (error) {
-            console.error('Error creating class:', error);
+            setNotificationMessage('Error creating class.');
+            setSeverity('error');
+            setOpenNo(true);
         }
     };
 
@@ -363,7 +375,7 @@ const ClassStepFourth = ({ formData, selectedItems }) => {
                                                                                 <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                                                                                     <Alert
                                                                                         onClose={handleCloseNo}
-                                                                                        severity="success"
+                                                                                        severity={severity}
                                                                                         variant="filled"
                                                                                         sx={{ width: '100%' }}
                                                                                     >

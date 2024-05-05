@@ -1,6 +1,11 @@
 export const getTechnicalGroups = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/technical-groups');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/technical-groups', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch technical group data');
         }

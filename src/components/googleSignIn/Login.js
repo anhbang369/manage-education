@@ -41,8 +41,10 @@ const Login = () => {
               .then((data) => {
                 if (data && data.access_token) {
                   const accessToken = data.access_token;
+                  const accessRole = data.role;
                   console.log('Access Token:', accessToken);
                   localStorage.setItem('jwt', accessToken);
+                  localStorage.setItem('role', accessRole);
                 } else {
                   console.error('Access token not found in response data.');
                 }
@@ -70,8 +72,10 @@ const Login = () => {
               .then((data) => {
                 if (data && data.access_token) {
                   const accessToken = data.access_token;
+                  const accessRole = data.role;
                   console.log('Access Token:', accessToken);
                   localStorage.setItem('jwt', accessToken);
+                  localStorage.setItem('role', accessRole);
                 } else {
                   console.error('Access token not found in response data.');
                 }

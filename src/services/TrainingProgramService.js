@@ -1,6 +1,11 @@
 export const getTrainingProgram = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch training program data');
         }
@@ -13,7 +18,12 @@ export const getTrainingProgram = async () => {
 
 export const getTrainingProgramById = async (programId) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${programId}`);
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${programId}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch training program data');
         }
@@ -26,7 +36,12 @@ export const getTrainingProgramById = async (programId) => {
 
 export const getTrainingProgramAdd = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-programs/classes');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-programs/classes', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch training program data');
         }
@@ -52,17 +67,13 @@ export const importTrainingProgram = async (file) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Import successful', data);
-            console.log(response.status);
-            return data;
+            return await response.status;
         } else {
-            console.error('Import failed');
-            throw new Error('Import failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error importing:', error);
-        throw error;
+        return 500;
     }
 };
 
@@ -79,65 +90,67 @@ export const createTrainingProgram = async (dto) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Create successful', data);
-            console.log(response.status);
-            return data;
+            return await response.status;
         } else {
-            console.error('Create failed');
-            throw new Error('Create failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error Create:', error);
-        throw error;
+        return 500;
     }
 };
 
 
 export const deleteTrainingProgram = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}`, {
             method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Delete successful', data);
-            return data;
+            return await response.status;
         } else {
-            console.error('Delete failed');
-            throw new Error('Delete failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error Delete training program:', error);
-        throw error;
+        return 500;
     }
 };
 
 export const deActiveTrainingProgram = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}/de-active`, {
             method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('De-active successful', data);
-            return data;
+            return await response.status;
         } else {
-            console.error('De-active failed');
-            throw new Error('De-active failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error De-active training program:', error);
-        throw error;
+        return 500;
     }
 };
 
 export const getByIdProgram = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}`, {
             method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {
@@ -149,7 +162,7 @@ export const getByIdProgram = async (itemId) => {
         }
     } catch (error) {
         console.error(error);
-        throw error;
+        return 500;
     }
 };
 
@@ -164,16 +177,13 @@ const duplicatedTrainingProgram = async (itemId) => {
         });
 
         if (response.ok) {
-            const data = await response;
-            console.log('Duplicated successful', data);
-            return data;
+            return await response.status;
         } else {
-            console.error('Duplicated failed');
-            throw new Error('Duplicated failed');
+            return await response.status;
         }
     } catch (error) {
         console.error('Error duplicating program:', error);
-        throw error;
+        return 500;
     }
 };
 
