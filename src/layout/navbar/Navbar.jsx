@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Image1 from "../../assets/cat.jpg";
 import { useHistory } from 'react-router-dom';
+import { getProfile } from "../../services/UserService";
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -24,6 +25,20 @@ function ResponsiveAppBar() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [user, setUser] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [profile, setProfile] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getProfile();
+                setProfile(data);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -44,6 +59,7 @@ function ResponsiveAppBar() {
         setUser(null);
         setLoggedIn(false);
         localStorage.removeItem("jwt")
+        localStorage.removeItem("role")
         history.push('/login');
     };
 
@@ -140,7 +156,7 @@ function ResponsiveAppBar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src={Image1} />
+                                <Avatar alt="Remy Sharp" src={profile && profile.avatar ? profile.avatar : Image1} />
                             </IconButton>
                         </Tooltip>
                         <Menu

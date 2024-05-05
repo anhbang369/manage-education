@@ -1,5 +1,6 @@
 export const getAttendLevel = async () => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch('http://localhost:8080/api/v1/auth/attend-levels');
         if (!response.ok) {
             throw new Error('Failed to fetch attendee data');

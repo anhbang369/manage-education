@@ -11,6 +11,19 @@ export const getUserData = async () => {
     }
 };
 
+export const getProfile = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/profile');
+        if (!response.ok) {
+            throw new Error('Failed to fetch profile user data');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching gender profile data:', error);
+        throw error;
+    }
+};
+
 export const getUserStatus = async () => {
     try {
         const response = await fetch('http://localhost:8080/api/v1/auth/customers/status');
