@@ -125,6 +125,7 @@ const View = () => {
 
     //notification
     const [openNo, setOpenNo] = useState(false);
+    const [severity, setSeverity] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
     const handleCloseNo = () => {
         setOpenNo(false);
@@ -135,8 +136,22 @@ const View = () => {
 
     const handleDropdownItemClick = (itemId) => {
         // setSelectedItemId(itemId);
-        duplicatedSyllabus(itemId);
-        setNotificationMessage('Import successful.');
+        const status = duplicatedSyllabus(itemId);
+        if (status === 200) {
+            setNotificationMessage('Duplicated successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error duplicated syllabus.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
@@ -144,8 +159,22 @@ const View = () => {
     //delete
     const handleDropdownItemDelete = (itemId) => {
         // setSelectedItemId(itemId);
-        deleteSyllabus(itemId);
-        setNotificationMessage('Delete successful.');
+        const status = deleteSyllabus(itemId);
+        if (status === 200) {
+            setNotificationMessage('Delete successful.');
+            setSeverity('success');
+
+        }
+        if (status === 403 || status === 401) {
+            setNotificationMessage('You do not have permission to perform this action.');
+            setSeverity('warning');
+
+        }
+        if (status === 500 || status === 400) {
+            setNotificationMessage('Error delete syllabus.');
+            setSeverity('error');
+
+        }
         setOpenNo(true);
     };
 
@@ -313,7 +342,7 @@ const View = () => {
                         <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                             <Alert
                                 onClose={handleCloseNo}
-                                severity="success"
+                                severity={severity}
                                 variant="filled"
                                 sx={{ width: '100%' }}
                             >

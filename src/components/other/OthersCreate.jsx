@@ -24,6 +24,7 @@ export const data = [
 const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
     const history = useHistory();
     const [openNo, setOpenNo] = useState(false);
+    const [severity, setSeverity] = useState('success');
     const [notificationMessage, setNotificationMessage] = useState('');
 
     const [scheme, setScheme] = useState({
@@ -89,16 +90,25 @@ const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
                 assessmentScheme: scheme,
                 deliveryPrinciple: principle
             };
-            const response = await createSyllabus(updatedRequestBodyy);
+            const status = await createSyllabus(updatedRequestBodyy);
 
-            if (response.ok) {
-                console.log('Create successful');
+            if (status === 200) {
                 setNotificationMessage('Create successful.');
-                setOpenNo(true);
+                setSeverity('success');
                 history.push('/syllabus');
-            } else {
-                console.error('Create failed');
+
             }
+            if (status === 403 || status === 401) {
+                setNotificationMessage('You do not have permission to perform this action.');
+                setSeverity('warning');
+
+            }
+            if (status === 500 || status === 400) {
+                setNotificationMessage('Error dcreate syllabus.');
+                setSeverity('error');
+
+            }
+            setOpenNo(true);
         } catch (error) {
             console.error('Error creating syllabus:', error);
         }
@@ -237,7 +247,7 @@ const OthersCreate = ({ updatedRequestBody, onPreviousClick }) => {
             <Snackbar open={openNo} autoHideDuration={6000} onClose={handleCloseNo}>
                 <Alert
                     onClose={handleCloseNo}
-                    severity="success"
+                    severity={severity}
                     variant="filled"
                     sx={{ width: '100%' }}
                 >
