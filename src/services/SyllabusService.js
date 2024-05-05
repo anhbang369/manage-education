@@ -1,6 +1,11 @@
 export const getSyllabusData = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/syllabus');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/syllabus', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch syllabus data');
         }
@@ -14,7 +19,12 @@ export const getSyllabusData = async () => {
 
 export const getSyllabusProgram = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/syllabuses/program-syllabus');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/syllabuses/program-syllabus', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch syllabus data');
         }
@@ -86,8 +96,12 @@ export const importSyllabus = async (file) => {
 
 export const deleteSyllabus = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/syllabus/${itemId}`, {
             method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {
@@ -107,8 +121,12 @@ export const deleteSyllabus = async (itemId) => {
 
 export const getByIdSyllabus = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/syllabus/${itemId}`, {
             method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {

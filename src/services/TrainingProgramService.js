@@ -1,6 +1,11 @@
 export const getTrainingProgram = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch training program data');
         }
@@ -13,7 +18,12 @@ export const getTrainingProgram = async () => {
 
 export const getTrainingProgramById = async (programId) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${programId}`);
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${programId}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch training program data');
         }
@@ -26,7 +36,12 @@ export const getTrainingProgramById = async (programId) => {
 
 export const getTrainingProgramAdd = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-programs/classes');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-programs/classes', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch training program data');
         }
@@ -96,8 +111,12 @@ export const createTrainingProgram = async (dto) => {
 
 export const deleteTrainingProgram = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}`, {
             method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {
@@ -116,8 +135,12 @@ export const deleteTrainingProgram = async (itemId) => {
 
 export const deActiveTrainingProgram = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}/de-active`, {
             method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {
@@ -136,8 +159,12 @@ export const deActiveTrainingProgram = async (itemId) => {
 
 export const getByIdProgram = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}`, {
             method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {

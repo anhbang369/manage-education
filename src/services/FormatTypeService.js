@@ -1,6 +1,11 @@
 export const getFormatTypes = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/format-types');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/format-types', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch format type data');
         }

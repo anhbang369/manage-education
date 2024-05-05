@@ -1,6 +1,11 @@
 export const getUserData = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customers');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch user data');
         }
@@ -26,7 +31,12 @@ export const getProfile = async () => {
 
 export const getUserStatus = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customers/status');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/status', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch status user data');
         }
@@ -39,7 +49,12 @@ export const getUserStatus = async () => {
 
 export const getUserRoles = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customers/roles');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/roles', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch role user data');
         }
@@ -52,7 +67,12 @@ export const getUserRoles = async () => {
 
 export const getUserLevels = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customers/levels');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/levels', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch level user data');
         }
@@ -65,7 +85,12 @@ export const getUserLevels = async () => {
 
 export const getUserGenders = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customers/genders');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/genders', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch gender user data');
         }
@@ -78,7 +103,12 @@ export const getUserGenders = async () => {
 
 export const getUserByRole = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customers/role?role=CLASS_ADMIN');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/role?role=CLASS_ADMIN', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch user data');
         }
@@ -91,7 +121,12 @@ export const getUserByRole = async () => {
 
 export const getUserByRoleStudent = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customers/role?role=STUDENT');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/role?role=STUDENT', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch user data');
         }
@@ -104,7 +139,12 @@ export const getUserByRoleStudent = async () => {
 
 export const getUserByRoleTrainer = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customers/role?role=TRAINER');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customers/role?role=TRAINER', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch user data');
         }
@@ -117,7 +157,12 @@ export const getUserByRoleTrainer = async () => {
 
 export const getUserById = async (itemId) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/${itemId}`);
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch(`http://localhost:8080/api/v1/auth/customer/${itemId}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch user data');
         }
@@ -212,10 +257,12 @@ export const deleteUser = async (itemId) => {
 
 export const createUser = async (userData) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch('http://localhost:8080/api/v1/auth/customer', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify(userData)
         });

@@ -1,6 +1,11 @@
 export const getTrainingProgram = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program/training-classes');
+        const accessToken = localStorage.getItem('jwt');
+        const response = await fetch('http://localhost:8080/api/v1/auth/customer/training-program/training-classes', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch syllabus data');
         }
@@ -13,8 +18,12 @@ export const getTrainingProgram = async () => {
 
 export const deleteTrainingClass = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/training-class/${itemId}`, {
             method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {
@@ -34,8 +43,12 @@ export const deleteTrainingClass = async (itemId) => {
 
 export const getByIdTrainingClass = async (itemId) => {
     try {
+        const accessToken = localStorage.getItem('jwt');
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/training-classes/${itemId}`, {
             method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
         });
 
         if (response.ok) {
@@ -55,10 +68,6 @@ export const getByIdTrainingClass = async (itemId) => {
 export const createClass = async (itemId, dto) => {
     try {
         const accessToken = localStorage.getItem('jwt');
-        console.log("loi string jdon: " + JSON.stringify(dto))
-        console.log("loi full jdon: " + JSON.stringify([dto]))
-        console.log("loi [] jdon: " + [dto])
-        console.log("loi chatGPT: " + JSON.stringify(dto[0]))
         const response = await fetch(`http://localhost:8080/api/v1/auth/customer/training-program/${itemId}/training-class`, {
             method: 'POST',
             body: JSON.stringify(dto[0]),
